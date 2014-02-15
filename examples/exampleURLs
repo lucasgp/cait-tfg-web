@@ -1,0 +1,3 @@
+{"name":"Nombre competicion","description":"Descripcion competicion","route":{},"trackingConfiguration":{"updateInterval":0,"updateDistance":0}}
+
+curl -v -X GET http://localhost:8080/api/

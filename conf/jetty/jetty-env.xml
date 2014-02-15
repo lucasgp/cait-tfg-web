@@ -1,0 +1,12 @@
+<?xml version="1.0"  encoding="ISO-8859-1"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+	
+	<New id="jndi" class="org.eclipse.jetty.plus.jndi.EnvEntry">
+		<Arg>jndi</Arg>
+		<Arg type="java.lang.String">Propiedad</Arg>
+		<Arg type="boolean">true</Arg>
+	</New>
+	
+</Configure>
