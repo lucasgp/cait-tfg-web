@@ -1,3 +1,9 @@
 {"name":"Nombre competicion","description":"Descripcion competicion","route":{},"trackingConfiguration":{"updateInterval":0,"updateDistance":0}}
 
-curl -v -X GET http://localhost:8080/api/
+curl -v -X GET http://localhost:8084/resources/competitions
+curl -v -X GET http://localhost:8084/resources/competitions/0/3
+curl -v -X GET http://localhost:8084/resources/competitions/0/3/name/ASC
+
+curl -X POST -H "Content-Type: application/json" http://localhost:8084/resources/competitions -d '{"name": "Prueba POST", "description": "It works!!!", "startDate": "2014-10-25", "finishDate": "2014-10-25"}'
+
+curl -X PUT -H "Content-Type: application/json" http://localhost:8084/resources/competitions -d '{"id":"5338861c0df4ac6f4c0d0dca","version":"0","name":"Prueba PUT","description":"PUT works!!!","typeId":null,"startDate":1414195200000,"finishDate":1414195200000,"route":null,"comments":null,"participants":null}'

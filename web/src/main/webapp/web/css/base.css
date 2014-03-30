@@ -1,0 +1,141 @@
+@CHARSET "utf-8";
+
+.competition {
+    position: relative;
+    display: inline-block;
+    margin: 1%;
+    width: 31%;
+    border: 1px solid #007B25;
+}
+
+.competition:hover {
+    outline: 0.2em solid #007536;
+    outline-offset: 0em;
+}
+
+.competition .title {
+    background: #a62500;
+    color: white;
+    width: 100%;
+}
+
+.competition .title .name {
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    padding: 0.5em;
+}
+
+.competition .description {
+    height: 10em;
+    padding: 0.5em;
+}
+
+.competition .description p {
+    margin: 0;
+}
+
+.competition .menu {
+    background: #bf5030;
+    height: 1.8em;
+}
+
+.competition .menu .destroy,.edit {
+    float: right;
+    display: inline-block;
+    width: 1.8em;
+    height: 1.8em;
+}
+
+.edit {
+    background: transparent url('../images/icons/edit9.png') no-repeat;
+    background-size: contain;
+}
+
+.destroy {
+    background: transparent url('../images/icons/trash9.png') no-repeat;
+    background-size: contain;
+}
+
+#competition-list {
+    width: 100%;
+    margin: 0 auto;
+    list-style: none;
+}
+
+#main {
+    width: 80%;
+}
+
+#menu {
+    width: 20%;
+    float: right;
+}
+
+#content {
+    margin: 0% 10%;
+    clear: both;
+    min-height: 40em;
+}
+
+#header {
+    background: transparent url('../images/grass.png') center no-repeat;
+    margin: 0;
+    text-shadow: 1px 1px 6px #ccc;
+}
+
+#header h1 {
+    margin: 1em;
+}
+
+#footer {
+    clear: both;
+    text-align: right;
+    margin-top: 1em;
+    position: relative;
+    bottom: 0;
+}
+
+#footer p {
+    padding: 1em;
+}
+
+#header,#footer {
+    color: #ccc;
+    border-top: 1px solid black;
+    width: 100%;
+}
+
+#app {
+    border: thin;
+    font-family: Helvetica, Arial, Verdana, Sans-serif;
+    min-height: 100%;
+    position: relative;
+}
+
+html,body {
+    margin: 0em;
+    padding: 0em;
+    height: 100%;
+}
+
+h1 {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+h2 {
+    font-size: 1.1em;
+    margin: 0;
+}
+
+p,label {
+    font-size: 0.875em;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
