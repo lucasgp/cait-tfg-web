@@ -37,6 +37,7 @@
         <!-- Spring -->
         <spring.version>4.0.2.RELEASE</spring.version>
         <spring-data-mongodb.version>1.4.0.RC1</spring-data-mongodb.version>
+        <spring-security.version>3.2.3.RELEASE</spring-security.version>
 
         <!-- Jackson -->
         <jackson.version>2.3.0</jackson.version>
@@ -55,6 +56,11 @@
 
     <repositories>
         <repository>
+            <id>central</id>
+            <name>Maven Central</name>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
             <url>http://repo.spring.io/milestone</url>
@@ -63,6 +69,18 @@
             </snapshots>
         </repository>
     </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>4.0.0.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
