@@ -1,10 +1,11 @@
 package es.lucasgp.cait.tfg.competition.conf;
 
-import org.springframework.context.annotation.ComponentScan;
+import es.lucasgp.cait.tfg.competition.service.conf.ServicesSpringConfig;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 @Configuration
-@ComponentScan(basePackages = "es.lucasgp.cait.tfg.competition")
+@Import(ServicesSpringConfig.class)
 public class AppConfig {
 
 }

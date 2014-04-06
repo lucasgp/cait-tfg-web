@@ -7,6 +7,6 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @ComponentScan({ "es.lucasgp.cait.tfg.competition.dao.impl", "es.lucasgp.cait.tfg.competition.dao.helper" })
 @Import(SpringDataMongoConfig.class)
-public class DaoConfig {
+public class DaosSpringConfig {
 
 }
