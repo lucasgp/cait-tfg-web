@@ -18,4 +18,5 @@ public class SpringWebAppInitializer extends AbstractAnnotationConfigDispatcherS
     protected String[] getServletMappings() {
         return new String[]{"/resources/*", "*.html"};
     }
+
 }
