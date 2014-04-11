@@ -44,6 +44,11 @@ public abstract class BaseDaoMongo<T> implements BaseDao<T, String> {
     }
 
     @Override
+    public void delete(String id) {
+        this.getHelper().delete(id, this.getEntityClass());
+    }
+
+    @Override
     public T findById(String id) {
         return this.getHelper().findById(id, this.getEntityClass());
     }

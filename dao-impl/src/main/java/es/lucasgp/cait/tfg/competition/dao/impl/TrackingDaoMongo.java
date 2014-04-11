@@ -1,16 +1,21 @@
 package es.lucasgp.cait.tfg.competition.dao.impl;
 
+import es.lucasgp.cait.tfg.competition.dao.api.TrackingDao;
+import es.lucasgp.cait.tfg.competition.model.Tracking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TrackingDaoMongo {
+public class TrackingDaoMongo extends BaseDaoMongo<Tracking> implements TrackingDao {
 
     private static final String GEOJSON_POINT = "{ \"type\": \"Feature\", \"geometry\": {\"type\": \"Point\", \"coordinates\": [%s, %s]}, \"properties\": {\"timestamp\": \"%s\"}},";
 
-    // private static final DateFormat dateFormatter = new ISO8601DateFormat();
+    public TrackingDaoMongo() {
+        super(Tracking.class);
+    }
 
+    // private static final DateFormat dateFormatter = new ISO8601DateFormat();
     @Autowired
     private MongoTemplate mongoOperations;
 
@@ -23,5 +28,4 @@ public class TrackingDaoMongo {
     // Tracking.class);
     //
     // }
-
 }

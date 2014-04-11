@@ -28,6 +28,10 @@ public class MongoDaoHelper {
         return entity;
     }
 
+    public <T> void delete(String id, final Class<T> entityClass) {
+        this.mongoTemplate.remove(findById(id, entityClass));
+    }
+
     public <T> T findById(String id, final Class<T> entityClass) {
         return this.mongoTemplate.findById(id, entityClass);
     }
