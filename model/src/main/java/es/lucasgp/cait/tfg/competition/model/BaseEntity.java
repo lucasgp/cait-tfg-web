@@ -11,7 +11,7 @@ public class BaseEntity {
     private String id;
 
     @Version
-    private String version;
+    private int version = 0;
 
     public String getId() {
         return this.id;
@@ -21,11 +21,11 @@ public class BaseEntity {
         this.id = id;
     }
 
-    public String getVersion() {
-        return this.version;
+    public int getVersion() {
+        return version;
     }
 
-    public void setVersion(final String version) {
+    public void setVersion(int version) {
         this.version = version;
     }
 

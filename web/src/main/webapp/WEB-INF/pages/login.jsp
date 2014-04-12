@@ -1,5 +1,5 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="taglibs.jsp" %>
 <!doctype html>
 <html lang="en">
     <head>
@@ -7,7 +7,7 @@
         <title>Login</title>
     </head>
     <body>
-        <c:url value="/login.html" var="loginUrl"/>
+        <c:url value="/web/login.html" var="loginUrl"/>
         <c:url value="/users" var="signUpUrl"/>
         <form name="loginForm" action="${loginUrl}" method="post">
             <c:if test="${param.error != null}">

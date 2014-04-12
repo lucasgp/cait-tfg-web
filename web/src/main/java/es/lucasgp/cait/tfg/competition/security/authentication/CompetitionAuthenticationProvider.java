@@ -27,7 +27,7 @@ public class CompetitionAuthenticationProvider implements AuthenticationProvider
 
         //TODO comprobar password de una manera decente
         if (user != null && user.getPassword().equals(authentication.getCredentials().toString())) {
-            token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), user.getAuthorities());
+            token = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
         }
 
         return token;

@@ -1,53 +1,35 @@
-var app = app || {};
+define([
+    'jquery-ui',
+    'page',
+    'collections/competitions',
+    'views/competitions/add',
+    'views/competitions/list'
+], function($, Page, CompetitionsCollection, AddCompetitionView, CompetitionsListView) {
+    var AppView = Backbone.View.extend({
+        competitions: null,
+        addCompetitionView: null,
+        competitionListView: null,
+        initialize: function() {
 
-app.AppView = Backbone.View.extend({
-    el: '#app',
-    initialize: function() {
-        this.$inputName = this.$('#new-competition-name'),
-                this.$inputDescription = this.$('#new-competition-description'),
-                this.$startDate = this.$('#new-competition-start-date'),
-                this.$finishDate = this.$('#new-competition-finish-date'),
-                this.$footer = this.$('#footer'),
-                this.$main = this.$('#main');
+            this.competitions = new CompetitionsCollection();
+            this.competitions.findMostRecent(new Page.Query({
+                page: 0,
+                size: 5,
+                sortProperty: 'startDate',
+                sortOrder: 'DESC'
+            }));
 
-        this.$startDate.datepicker({dateFormat: "yy-mm-dd"});
-        this.$finishDate.datepicker({dateFormat: "yy-mm-dd"});
-
-        this.listenTo(app.Competitions, 'add', this.addOne);
-        this.listenTo(app.Competitions, 'reset', this.addAll);
-        this.listenTo(app.Competitions, 'all', this.render);
-    },
-    events: {
-        'keypress #new-competition-name': 'createOnEnter',
-        'keypress #new-competition-description': 'createOnEnter'
-    },
-    render: function() {
-        if (app.Competitions.length) {
-            this.$main.show();
-            this.$footer.show();
+            this.addCompetitionView = new AddCompetitionView({competitions: this.competitions});
+            this.competitionListView = new CompetitionsListView({competitions: this.competitions});
+        },
+        events: {
+        },
+        render: function() {
+            $('#main').append(this.addCompetitionView.render().el);
+            $('#main').append(this.competitionListView.render().el);
+            return this;
         }
-    },
-    addOne: function(competition) {
-        var view = new app.CompetitionView({model: competition});
-        $('#competition-list').append(view.render().el);
-    },
-    addAll: function() {
-        this.$('competition-list').html('');
-        app.Competitions.each(this.addOne, this);
-    },
-    createOnEnter: function(event) {
-        if (event.which != 13) {
-            return;
-        }
-
-        app.Competitions.create({
-            name: this.$inputName.val().trim(),
-            description: this.$inputDescription.val().trim(),
-            startDate: this.$startDate.val().trim(),
-            finishDate: this.$finishDate.val().trim()
-        }, {wait: true});
-        this.$inputName.val('');
-        this.$inputDescription.val('');
-    }
-
+    });
+    return AppView;
 });
+
