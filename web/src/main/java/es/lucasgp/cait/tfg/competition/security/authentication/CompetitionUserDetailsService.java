@@ -38,11 +38,11 @@ public class CompetitionUserDetailsService implements UserDetailsService {
 
         CompetitionUserDetails userDetails = null;
 
-        List<User> users = this.userService.findByName(username);
+        List<User> users = this.userService.findByUsername(username);
 
         if (users.size() == 1) {
             User user = users.get(0);
-            userDetails = new CompetitionUserDetails(user.getName(), user.getPassword(), getUserAuthorities(user));
+            userDetails = new CompetitionUserDetails(user, getUserAuthorities(user));
         }
 
         return userDetails;

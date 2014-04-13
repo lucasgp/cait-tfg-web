@@ -21,11 +21,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .antMatchers("/web/**").permitAll().and()
+        http
+            .authorizeRequests().antMatchers("/web/**").permitAll().and()
             .authorizeRequests().and()
             .formLogin().loginPage("/web/login.html").permitAll().defaultSuccessUrl("/web/main.html").and()
-            .logout().permitAll();
+            .logout().logoutUrl("/web/logout").logoutSuccessUrl("/web/main.html").permitAll().and()
+            .csrf().disable();
     }
 
     @Autowired

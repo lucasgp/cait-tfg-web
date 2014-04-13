@@ -3,7 +3,6 @@ define([
 ], function(Backbone) {
 
     var CompetitionModel = Backbone.Model.extend({
-        // Model Constructor
         initialize: function() {
 
         },

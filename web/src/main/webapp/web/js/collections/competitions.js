@@ -9,7 +9,7 @@ define([
         parse: function(data) {
             return Page.parse(data);
         },
-        findMostRecent: function(query) {
+        findByQuery: function(query) {
 
             this.fetch({
                 url: this.url.concat("/").concat(query.page)

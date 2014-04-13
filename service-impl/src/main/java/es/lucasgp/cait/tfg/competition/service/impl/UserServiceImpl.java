@@ -37,8 +37,8 @@ public class UserServiceImpl extends BaseServiceImpl<User, String> implements Us
     }
 
     @Override
-    public List<User> findByName(final String name) {
-        return this.userDao.findByQuery(Query.getInstance().eq("name", name));
+    public List<User> findByUsername(final String name) {
+        return this.userDao.findByQuery(Query.getInstance().eq("username", name));
     }
 
     @Override

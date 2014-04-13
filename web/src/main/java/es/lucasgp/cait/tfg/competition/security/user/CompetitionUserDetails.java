@@ -6,8 +6,23 @@ import org.springframework.security.core.userdetails.User;
 
 public class CompetitionUserDetails extends User {
 
-    public CompetitionUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
+    private final es.lucasgp.cait.tfg.competition.model.User user;
+
+    public CompetitionUserDetails(final es.lucasgp.cait.tfg.competition.model.User user, Collection<? extends GrantedAuthority> authorities) {
+        super(user.getUsername(), user.getPassword(), authorities);
+        this.user = user;
+    }
+
+    public String getId() {
+        return user.getId();
+    }
+
+    public String getName() {
+        return user.getName();
+    }
+
+    public es.lucasgp.cait.tfg.competition.model.User getUser() {
+        return user;
     }
 
 }

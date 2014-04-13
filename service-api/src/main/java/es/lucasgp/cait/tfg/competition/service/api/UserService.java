@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface UserService extends BaseService<User, String> {
 
-    List<User> findByName(final String name);
+    List<User> findByUsername(final String name);
 }

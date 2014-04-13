@@ -5,3 +5,4 @@
 <input id="new-competition-description" placeholder="What's this competition about?">
 <input id="new-competition-start-date">
 <input id="new-competition-finish-date">
+<input id="submit-competition" type="button" value="Submit">

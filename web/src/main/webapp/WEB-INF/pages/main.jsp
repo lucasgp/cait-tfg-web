@@ -13,12 +13,21 @@
 
         <section id="app">
             <header id="header">
-                <h1>Competition Management</h1><h3><sec:authorize access="isAuthenticated()"><sec:authentication  property="principal.username" /></sec:authorize></h3>
+                <h1>Competition Management</h1>
             </header>
             <section id="content">
                 <section id="main">
                 </section>
-                <section id="menu"></section>
+                <section id="menu">
+                    <sec:authorize access="isAnonymous()">
+                        <div id="login-button"><a href="${loginUrl}">Login</a></div>
+                        <div id="signup-button"><a href="#signup">Sign up</a></div>
+                    </sec:authorize>
+                    <sec:authorize access="isAuthenticated()">
+                        <sec:authentication  property="principal.name" />
+                        <div id="logout-button"><a href="${logoutUrl}">Logout</a></div>
+                    </sec:authorize>
+                </section>
             </section>
             <footer id="footer">
                 <p>Developed by Lucas González Pascual - Trabajo de fin de grado del CAIT-ES. Universidad de A Coruña.</p>

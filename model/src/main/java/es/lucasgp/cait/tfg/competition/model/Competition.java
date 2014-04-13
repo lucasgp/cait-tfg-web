@@ -11,6 +11,11 @@ public class Competition extends BaseEntity {
     private String name;
     @Size(min = 1)
     private String description;
+
+    /**
+     * Usuario que creó la competición.
+     */
+    private String ownerId;
     /**
      * Carrera de montaña, maratón, 5k, 10k...
      */
@@ -33,66 +38,82 @@ public class Competition extends BaseEntity {
     private Participant[] participants;
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
-    public void setDescription(final String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getTypeId() {
-        return this.typeId;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setTypeId(final String typeId) {
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
         this.typeId = typeId;
     }
 
-    public Date getStartDate() {
-        return this.startDate;
+    public String getStateId() {
+        return stateId;
     }
 
-    public void setStartDate(final Date startDate) {
+    public void setStateId(String stateId) {
+        this.stateId = stateId;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
     public Date getFinishDate() {
-        return this.finishDate;
+        return finishDate;
     }
 
-    public void setFinishDate(final Date finishDate) {
+    public void setFinishDate(Date finishDate) {
         this.finishDate = finishDate;
     }
 
     public Route getRoute() {
-        return this.route;
+        return route;
     }
 
-    public void setRoute(final Route route) {
+    public void setRoute(Route route) {
         this.route = route;
     }
 
     public Comment[] getComments() {
-        return this.comments;
+        return comments;
     }
 
-    public void setComments(final Comment[] comments) {
+    public void setComments(Comment[] comments) {
         this.comments = comments;
     }
 
     public Participant[] getParticipants() {
-        return this.participants;
+        return participants;
     }
 
-    public void setParticipants(final Participant[] participants) {
+    public void setParticipants(Participant[] participants) {
         this.participants = participants;
     }
 
