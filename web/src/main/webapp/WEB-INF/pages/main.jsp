@@ -26,7 +26,9 @@
                     <sec:authorize access="isAuthenticated()">
                         <sec:authentication  property="principal.name" />
                         <div id="logout-button"><a href="${logoutUrl}">Logout</a></div>
+                        <div id="create-competition-button"><a href="#createCompetition">Create new competition</a></div>
                     </sec:authorize>
+                    <div id="signup-button"><a href="#showCompetitions">Show competitions</a></div>
                 </section>
             </section>
             <footer id="footer">

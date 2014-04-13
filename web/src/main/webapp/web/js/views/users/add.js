@@ -2,9 +2,10 @@ define([
     'jquery-ui',
     'underscore',
     'backbone',
+    'form',
     'models/users',
     'text!/web/templates/users/add.html'
-], function($, _, Backbone, UserModel, template) {
+], function($, _, Backbone, Form, UserModel, template) {
     var AddUserView = Backbone.View.extend({
         tagName: 'div',
         className: 'add-user',
@@ -20,18 +21,13 @@ define([
             return this;
         },
         create: function(event) {
-            var inputRegExp = /user-(\w+)/;
-            var value = {};
-            this.$(':input').each(function() {
-                var matches = inputRegExp.exec(this.id);
-                if (matches && matches.length > 0)
-                    value[matches[matches.length - 1]] = this.value;
-            });
+
+            var values = Form.toObject(this, 'user-');
             var userModel = new UserModel();
             userModel.on('invalid', function(model, error) {
                 alert(error);
             });
-            userModel.save(value, {
+            userModel.save(values, {
                 wait: true,
                 error: function() {
                     alert("Error saving user");

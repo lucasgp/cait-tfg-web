@@ -5,7 +5,10 @@ require.config({
         'jquery-ui': 'libs/jquery/jquery-ui',
         'underscore': 'libs/underscore/underscore',
         'backbone': 'libs/backbone/backbone',
-        'page': 'common/page'
+        'page': 'common/page',
+        'view-holder': 'common/view-holder',
+        'form': 'common/form',
+        'events': 'common/events'
     },
     shim: {
         'jquery-ui': {
@@ -32,8 +35,12 @@ require.config({
 });
 
 require([
-    'router'
-], function(Router) {
-    new Router();
+    'router',
+    'events'
+], function(Router, Channel) {
+    var router = new Router();
     Backbone.history.start();
+    Channel.on("competition:added", function() {
+        router.navigate("competitions", {trigger: true});
+    });
 });

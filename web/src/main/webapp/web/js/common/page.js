@@ -1,7 +1,7 @@
 define([
 ], function() {
 
-    Page = {
+    var Page = {
         parse: function(data) {
             var elements = data;
             if (data.elements)

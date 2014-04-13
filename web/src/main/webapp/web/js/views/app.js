@@ -1,43 +1,47 @@
 define([
     'jquery-ui',
-    'page',
+    'underscore',
+    'backbone',
+    'view-holder',
     'collections/competitions',
     'views/users/add',
     'views/competitions/add',
     'views/competitions/list'
-], function($, Page, CompetitionsCollection, AddUserView, AddCompetitionView, CompetitionsListView) {
+], function($, _, Backbone, ViewHolder, CompetitionsCollection, AddUserView, AddCompetitionView, CompetitionsListView) {
     var AppView = Backbone.View.extend({
+        el: '#main',
         competitions: null,
-        addCompetitionView: null,
-        competitionListView: null,
+        viewHolder: {},
         initialize: function() {
 
-            this.addUserView = new AddUserView();
+            this.viewHolder = new ViewHolder({parent: this});
 
             this.competitions = new CompetitionsCollection();
-            this.addCompetitionView = new AddCompetitionView({competitions: this.competitions});
-            this.competitionListView = new CompetitionsListView({competitions: this.competitions});
+
+            this.viewHolder.register('addUserView', new AddUserView());
+            this.viewHolder.register('addCompetitionView', new AddCompetitionView({competitions: this.competitions}));
+            this.viewHolder.register('competitionsListView', new CompetitionsListView({competitions: this.competitions}));
+
         },
         events: {
         },
         showCompetitions: function(query) {
+            this.viewHolder.hideAll();
             this.competitions.findByQuery(query);
+            this.viewHolder.show('competitionsListView');
+        },
+        showCreateCompetition: function() {
+            this.viewHolder.hideAll();
+            this.viewHolder.show('addCompetitionView');
         },
         showSignup: function() {
-            this.renderView(this.addUserView);
-            this.hideView(this.addCompetitionView);
-            this.hideView(this.competitionListView);
+            this.viewHolder.hideAll();
+            this.viewHolder.show('addUserView');
         },
         render: function() {
-            this.renderView(this.addCompetitionView);
-            this.renderView(this.competitionListView);
+            this.viewHolder.hideAll();
+            this.viewHolder.show('competitionsListView');
             return this;
-        },
-        renderView: function(view) {
-            $('#main').append(view.render().el);
-        },
-        hideView: function(view) {
-            $(view.el).hide();
         }
     });
     return AppView;

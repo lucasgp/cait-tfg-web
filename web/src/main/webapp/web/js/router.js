@@ -1,12 +1,14 @@
 define([
+    'page',
     'views/app'
-], function(AppView) {
+], function(Page, AppView) {
 
     var AppRouter = Backbone.Router.extend({
         view: null,
         routes: {
             '(/)': 'default',
             'competitions(/:page/:size)': 'showCompetitions',
+            'createCompetition': 'showCreateCompetition',
             'signup(/)': 'showSignup',
             '*path(/)': 'default'
         },
@@ -21,6 +23,9 @@ define([
                 sortOrder: 'DESC'
             });
             this.view.showCompetitions(query);
+        },
+        showCreateCompetition: function() {
+            this.view.showCreateCompetition();
         },
         showSignup: function() {
             this.view.showSignup();

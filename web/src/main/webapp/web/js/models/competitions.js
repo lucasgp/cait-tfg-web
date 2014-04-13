@@ -3,6 +3,7 @@ define([
 ], function(Backbone) {
 
     var CompetitionModel = Backbone.Model.extend({
+        url: '/resources/competitions',
         initialize: function() {
 
         },
