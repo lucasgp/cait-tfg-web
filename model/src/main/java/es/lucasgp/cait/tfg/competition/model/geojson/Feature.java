@@ -2,9 +2,17 @@ package es.lucasgp.cait.tfg.competition.model.geojson;
 
 public class Feature {
 
-    private final String type = "Feature";
+    private String type = "Feature";
     private Point geometry;
     private Properties properties = new Properties();
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Point getGeometry() {
         return geometry;

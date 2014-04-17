@@ -10,6 +10,8 @@ public interface BaseService<T, ID> {
 
     T update(T entity);
 
+    void delete(ID id);
+
     T findById(ID id);
 
     List<T> findAll();

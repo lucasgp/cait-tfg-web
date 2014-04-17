@@ -5,4 +5,9 @@
 <input id="competition-description" placeholder="What's this competition about?">
 <input id="competition-startDate">
 <input id="competition-finishDate">
+
+<a href="javascript:void(0);" id="show-map">Show map</a>
+
+<div id="map-wrapper"><!-- Map --></div>
+
 <input id="submit-competition" type="button" value="Submit">

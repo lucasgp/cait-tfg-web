@@ -30,6 +30,10 @@ public abstract class BaseController<T, ID, S extends BaseService<T, ID>> {
         return getService().update(entity);
     }
 
+    public void delete(ID id) {
+        getService().delete(id);
+    }
+
     public T findById(ID id) {
         return getService().findById(id);
     }

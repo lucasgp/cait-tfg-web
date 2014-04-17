@@ -41,6 +41,14 @@ public class CompetitionController extends BaseController<Competition, String, C
         return super.update(competition);
     }
 
+    // FIXME un fallo como una casa principal.id == #competition.ownerId
+    @PreAuthorize("isAuthenticated() and principal.id == #competition.ownerId")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @Override
+    public void delete(@PathVariable("id") final String id) {
+        super.delete(id);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @Override
     public Competition findById(@PathVariable("id") final String id) {

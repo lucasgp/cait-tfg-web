@@ -7,3 +7,14 @@ curl -v -X GET http://localhost:8084/resources/competitions/0/3/name/ASC
 curl -X POST -H "Content-Type: application/json" http://localhost:8084/resources/competitions -d '{"name": "Prueba POST", "description": "It works!!!", "startDate": "2014-10-25", "finishDate": "2014-10-25"}'
 
 curl -X PUT -H "Content-Type: application/json" http://localhost:8084/resources/competitions -d '{"id":"5338861c0df4ac6f4c0d0dca","version":"0","name":"Prueba PUT","description":"PUT works!!!","typeId":null,"startDate":1414195200000,"finishDate":1414195200000,"route":null,"comments":null,"participants":null}'
+
+
+{"id":null,
+"name":"Ruta definida",
+"description":"Definiendo una ruta para la competición","startDate":"2014-04-18","finishDate":"2014-04-18",
+"route":
+    {
+        "geoJson":
+            {"type":"FeatureCollection",
+            "features":[
+                {"type":"Feature","geometry":{"type":"Point","coordinates":[null,null]},"properties":{"order":0}},{"type":"Feature","geometry":{"type":"Point","coordinates":[null,null]},"properties":{"order":1}},{"type":"Feature","geometry":{"type":"Point","coordinates":[null,null]},"properties":{"order":2}},{"type":"Feature","geometry":{"type":"Point","coordinates":[null,null]},"properties":{"order":3}},{"type":"Feature","geometry":{"type":"Point","coordinates":[null,null]},"properties":{"order":4}},{"type":"Feature","geometry":{"type":"Point","coordinates":[null,null]},"properties":{"order":5}},{"type":"Feature","geometry":{"type":"Point","coordinates":[null,null]},"properties":{"order":6}}]}}}

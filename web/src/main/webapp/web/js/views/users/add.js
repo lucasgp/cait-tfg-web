@@ -9,7 +9,6 @@ define([
     var AddUserView = Backbone.View.extend({
         tagName: 'div',
         className: 'add-user',
-        competitions: null,
         initialize: function(options) {
             return this;
         },
@@ -21,7 +20,6 @@ define([
             return this;
         },
         create: function(event) {
-
             var values = Form.toObject(this, 'user-');
             var userModel = new UserModel();
             userModel.on('invalid', function(model, error) {

@@ -10,9 +10,6 @@ define([
         events: {
             'click .destroy': 'deleteCompetition'
         },
-        initialize: function() {
-            this.listenTo(this.model, 'destroy', this.remove);
-        },
         render: function() {
             var compiledTemplate = _.template(competitionTemplate, this.model.toJSON());
             this.$el.append(compiledTemplate);
@@ -20,6 +17,11 @@ define([
         },
         deleteCompetition: function(event) {
             this.model.destroy({wait: true});
+            this.close();
+        },
+        close: function() {
+            this.unbind();
+            this.remove();
         }
     });
 

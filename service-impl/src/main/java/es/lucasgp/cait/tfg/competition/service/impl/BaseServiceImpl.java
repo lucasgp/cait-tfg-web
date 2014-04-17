@@ -25,6 +25,11 @@ public abstract class BaseServiceImpl<T, ID> implements BaseService<T, ID> {
     }
 
     @Override
+    public void delete(ID id) {
+        baseDao.delete(id);
+    }
+
+    @Override
     public T findById(ID id) {
         return baseDao.findById(id);
     }

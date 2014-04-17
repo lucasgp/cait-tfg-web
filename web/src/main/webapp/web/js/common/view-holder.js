@@ -4,32 +4,26 @@ define([
 ], function($, _) {
 
     var ViewHolder = function(parameters) {
-        this.parent = parameters.parent;
         this.views = {};
     };
     ViewHolder.prototype = {
         register: function(name, view) {
             this.views[name] = view;
-            this.render(view);
         },
-        render: function(view) {
-            this.parent.$el.append(view.render().el);
-        },
-        get: function(name) {
-            return this.views[name];
-        },
-        show: function(view) {
-            var toShow = view;
-            if (typeof toShow === 'string') {
-                toShow = this.get(view);
+        get: function(view) {
+            var toReturn = view;
+            if (typeof toReturn === 'string') {
+                toReturn = this.views[view];
             }
-            $(toShow.el).show();
+            return toReturn;
         },
-        hide: function(view) {
-            $(view.el).hide();
+        close: function(view) {
+            var toClose = this.get(view);
+            if (toClose)
+                toClose.close();
         },
-        hideAll: function() {
-            _.each(this.views, this.hide);
+        closeAll: function() {
+            _.each(this.views, this.close, this);
         }
     };
     return ViewHolder;

@@ -5,6 +5,10 @@ require.config({
         'jquery-ui': 'libs/jquery/jquery-ui',
         'underscore': 'libs/underscore/underscore',
         'backbone': 'libs/backbone/backbone',
+        'polymaps': 'libs/polymaps/polymaps',
+        'd3': 'libs/d3/d3.v3',
+        'leaflet': 'libs/leaflet/leaflet-src',
+        'toGeoJson': 'libs/togeojson/togeojson',
         'page': 'common/page',
         'view-holder': 'common/view-holder',
         'form': 'common/form',
@@ -30,6 +34,18 @@ require.config({
         backbone: {
             exports: 'Backbone',
             deps: ['jquery', 'underscore']
+        },
+        d3: {
+            exports: 'd3'
+        },
+        polymaps: {
+            exports: 'org.polymaps'
+        },
+        toGeoJSON: {
+            exports: 'toGeoJSON'
+        },
+        leaflet: {
+            exports: 'L'
         }
     }
 });

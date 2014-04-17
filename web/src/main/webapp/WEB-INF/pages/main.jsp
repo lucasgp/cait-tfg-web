@@ -7,6 +7,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>Competitions manager</title>
         <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="js/libs/leaflet/leaflet.css">
+        <link rel="stylesheet" href="css/map.css">
         <script data-main="js/main" src="js/libs/require/require.js"></script>
     </head>
     <body>

@@ -7,7 +7,10 @@
 <div class="description">
     <p>{{- description }}&nbsp;</p>
 </div>
+
+<div id="map-wrapper"><!-- Map --></div>
+
 <div class="menu">
     <a href="#" class="destroy">&nbsp;</a>
-    <a href="#competition/{{- id}}" class="edit">&nbsp;</a>
+    <a href="#" class="edit">&nbsp;</a>
 </div>
