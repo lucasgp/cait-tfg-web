@@ -1,27 +1,39 @@
 define([
     'page',
+    'events',
+    'error-handler',
     'views/app'
-], function(Page, AppView) {
+], function(Page, Channel, ErrorHandler, AppView) {
 
     var AppRouter = Backbone.Router.extend({
-        view: null,
         routes: {
-            '(/)': 'default',
-            'competitions(/:page/:size)': 'showCompetitions',
+            '(/)': 'showCompetitions',
+            'competitions(/:page/:size/:sortProperty/:sortOrder)': 'showCompetitions',
             'competition/:id': 'showCompetitionDetail',
-            'createCompetition': 'showCreateCompetition',
+            'create-competition': 'showCreateCompetition',
             'signup(/)': 'showSignup',
             '*path(/)': 'default'
         },
-        default: function(path) {
-            this.showCompetitions();
+        initialize: function(options) {
+            this.view = new AppView().render();
+            Channel.on("competition:added", function() {
+                this.navigate("competitions", {trigger: true});
+            }, this);
+            Channel.on("competition:deleted", function() {
+                this.navigate("competitions", {trigger: true});
+            }, this);
+
         },
-        showCompetitions: function(page, size) {
+        default: function(path) {
+            ErrorHandler.onDefaultRoute();
+            this.navigate("competitions", {trigger: true});
+        },
+        showCompetitions: function(page, size, sortProperty, sortOrder) {
             var query = new Page.Query({
                 page: page ? page : 0,
                 size: size ? size : 20,
-                sortProperty: 'startDate',
-                sortOrder: 'DESC'
+                sortProperty: sortProperty ? sortProperty : 'startDate',
+                sortOrder: sortOrder ? sortOrder : 'DESC'
             });
             this.view.showCompetitions(query);
         },
@@ -33,9 +45,6 @@ define([
         },
         showSignup: function() {
             this.view.showSignup();
-        },
-        initialize: function(options) {
-            this.view = new AppView().render();
         }
     });
     return AppRouter;

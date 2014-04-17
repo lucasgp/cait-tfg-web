@@ -1,5 +1,5 @@
 define([
-    'jquery-ui',
+    'jquery',
     'underscore',
     'backbone',
     'text!/web/templates/competitions/view.html'

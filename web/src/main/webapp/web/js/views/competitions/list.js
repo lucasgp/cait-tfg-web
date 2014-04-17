@@ -1,11 +1,12 @@
 define([
-    'jquery-ui',
+    'jquery',
     'underscore',
     'backbone',
     'view-holder',
     'views/competitions/view',
-    'text!/web/templates/competitions/list.html'
-], function($, _, Backbone, ViewHolder, CompetitionView, competitionListTemplate) {
+    'text!/web/templates/competitions/list.html',
+    'text!/web/templates/empty.html'
+], function($, _, Backbone, ViewHolder, CompetitionView, competitionListTemplate, emptyListTemplate) {
     var CompetitionsListView = Backbone.View.extend({
         tagName: 'ul',
         id: 'competition-list',
@@ -15,9 +16,12 @@ define([
             this.listenTo(this.competitions, 'add', this.createCompetitionView);
         },
         render: function() {
-            var compiledTemplate = _.template(competitionListTemplate, {});
-            this.$el.append(compiledTemplate);
-            _.each(this.competitions, this.createCompetitionView, this);
+            if (this.competitions && this.competitions.length > 0) {
+                this.$el.append(_.template(competitionListTemplate, {}));
+                this.competitions.each(this.createCompetitionView, this);
+            } else {
+                this.$el.append(_.template(emptyListTemplate, {}));
+            }
             return this;
         },
         createCompetitionView: function(competition, index, list) {

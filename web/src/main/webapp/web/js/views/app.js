@@ -3,13 +3,14 @@ define([
     'underscore',
     'backbone',
     'view-holder',
+    'error-handler',
     'models/competitions',
     'collections/competitions',
     'views/users/add',
     'views/competitions/add',
     'views/competitions/detail',
     'views/competitions/list'
-], function($, _, Backbone, ViewHolder, CompetitionModel, CompetitionsCollection, AddUserView, AddCompetitionView, CompetitionDetailView, CompetitionsListView) {
+], function($, _, Backbone, ViewHolder, ErrorHandler, CompetitionModel, CompetitionsCollection, AddUserView, AddCompetitionView, CompetitionDetailView, CompetitionsListView) {
     var AppView = Backbone.View.extend({
         el: '#main',
         initialize: function() {
@@ -17,42 +18,37 @@ define([
             return this;
         },
         showCompetitions: function(query) {
-            this.viewHolder.closeAll();
             var competitions = new CompetitionsCollection();
+            this.listenTo(competitions, 'sync', function() {
+                this.switchToView('competitionsListView', new CompetitionsListView({competitions: competitions}));
+            });
             competitions.findByQuery(query);
-            var view = new CompetitionsListView({competitions: competitions});
-            this.viewHolder.register('competitionsListView', view);
-            this.$el.append(view.render().el);
-            return this;
+
         },
         showCreateCompetition: function() {
-            this.viewHolder.closeAll();
-            var view = new AddCompetitionView();
-            this.viewHolder.register('addCompetitionView', view);
-            this.$el.append(view.render().el);
-            return this;
+            this.switchToView('addCompetitionView', new AddCompetitionView());
         },
         showCompetitionDetail: function(id) {
-            this.viewHolder.closeAll();
             var model = new CompetitionModel({id: id});
             this.listenTo(model, 'change', function() {
                 var view = new CompetitionDetailView({model: model});
-                this.viewHolder.register('competitionDetailView', view);
-                this.$el.append(view.render().el);
+                this.switchToView('competitionDetailView', view);
                 view.renderMap();
             });
-            model.fetch();
-            return this;
+            model.fetch({
+                error: ErrorHandler.onModelFetchError
+            });
         },
         showSignup: function() {
-            this.viewHolder.closeAll();
-            var view = new AddUserView();
-            this.viewHolder.register('addUserView', view);
-            this.$el.append(view.render().el);
-            return this;
+            this.switchToView('addUserView', new AddUserView());
         },
         render: function() {
             return this;
+        },
+        switchToView: function(viewName, view) {
+            this.viewHolder.closeAll();
+            this.viewHolder.register(viewName, view);
+            this.$el.append(view.render().el);
         }
     });
     return AppView;

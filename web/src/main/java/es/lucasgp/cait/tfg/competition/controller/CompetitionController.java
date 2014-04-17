@@ -7,6 +7,7 @@ import es.lucasgp.cait.tfg.competition.service.api.CompetitionService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -43,6 +45,7 @@ public class CompetitionController extends BaseController<Competition, String, C
 
     // FIXME un fallo como una casa principal.id == #competition.ownerId
     @PreAuthorize("isAuthenticated() and principal.id == #competition.ownerId")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @Override
     public void delete(@PathVariable("id") final String id) {

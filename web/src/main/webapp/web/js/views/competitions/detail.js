@@ -1,11 +1,13 @@
 define([
-    'jquery-ui',
+    'jquery',
     'underscore',
     'backbone',
     'view-holder',
+    'error-handler',
+    'events',
     'views/map/map',
     'text!/web/templates/competitions/detail.html'
-], function($, _, Backbone, ViewHolder, MapView, competitionTemplate) {
+], function($, _, Backbone, ViewHolder, ErrorHandler, Channel, MapView, competitionTemplate) {
     var CompetitionDetailView = Backbone.View.extend({
         tagName: 'div',
         className: 'competition-detail',
@@ -29,7 +31,13 @@ define([
             mapView.renderMap();
         },
         deleteCompetition: function(event) {
-            this.model.destroy({wait: true});
+            this.model.destroy({
+                wait: true,
+                success: function() {
+                    Channel.trigger("competition:deleted");
+                },
+                error: ErrorHandler.onModelFetchError
+            });
             this.close();
         },
         close: function() {

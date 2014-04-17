@@ -7,6 +7,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>Competitions manager</title>
         <link rel="stylesheet" href="css/base.css">
+        <link rel="stylesheet" href="js/libs/jquery-ui/themes/base/jquery.ui.theme.min.css">
+        <link rel="stylesheet" href="js/libs/jquery-ui/themes/base/jquery.ui.datepicker.min.css">
         <link rel="stylesheet" href="js/libs/leaflet/leaflet.css">
         <link rel="stylesheet" href="css/map.css">
         <script data-main="js/main" src="js/libs/require/require.js"></script>
@@ -28,9 +30,9 @@
                     <sec:authorize access="isAuthenticated()">
                         <sec:authentication  property="principal.name" />
                         <div id="logout-button"><a href="${logoutUrl}">Logout</a></div>
-                        <div id="create-competition-button"><a href="#createCompetition">Create new competition</a></div>
+                        <div id="create-competition-button"><a href="#create-competition">Create new competition</a></div>
                     </sec:authorize>
-                    <div id="signup-button"><a href="#showCompetitions">Show competitions</a></div>
+                    <div id="signup-button"><a href="#competitions">Show competitions</a></div>
                 </section>
             </section>
             <footer id="footer">

@@ -1,9 +1,11 @@
 define([
-    'jquery-ui',
+    'jquery',
     'underscore',
     'backbone',
+    'error-handler',
+    'events',
     'text!/web/templates/competitions/view.html'
-], function($, _, Backbone, competitionTemplate) {
+], function($, _, Backbone, ErrorHandler, Channel, competitionTemplate) {
     var CompetitionView = Backbone.View.extend({
         tagName: 'li',
         className: 'competition',
@@ -14,10 +16,6 @@ define([
             var compiledTemplate = _.template(competitionTemplate, this.model.toJSON());
             this.$el.append(compiledTemplate);
             return this;
-        },
-        deleteCompetition: function(event) {
-            this.model.destroy({wait: true});
-            this.close();
         },
         close: function() {
             this.unbind();

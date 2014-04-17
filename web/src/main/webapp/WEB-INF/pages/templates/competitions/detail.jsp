@@ -10,7 +10,8 @@
 
 <div id="map-wrapper"><!-- Map --></div>
 
-<div class="menu">
-    <a href="#" class="destroy">&nbsp;</a>
-    <a href="#" class="edit">&nbsp;</a>
-</div>
+<sec:authorize access="isAuthenticated()">
+    <div class="menu">
+        <a class="destroy">&nbsp;</a>
+    </div>
+</sec:authorize>

@@ -1,14 +1,15 @@
 define([
-    'jquery-ui',
+    'jqueryui/datepicker',
     'underscore',
     'backbone',
     'form',
     'events',
     'view-holder',
+    'error-handler',
     'models/competitions',
     'views/map/map',
     'text!/web/templates/competitions/add.html'
-], function($, _, Backbone, Form, Channel, ViewHolder, CompetitionModel, MapView, template) {
+], function($, _, Backbone, Form, Channel, ViewHolder, ErrorHandler, CompetitionModel, MapView, template) {
     var AddCompetitionView = Backbone.View.extend({
         tagName: 'div',
         className: 'add-competition',
@@ -29,13 +30,6 @@ define([
             return this;
         },
         renderMap: function() {
-            var geoJsonData = null;
-            $.ajax({
-                url: this.dataUrl,
-                success: function(data) {
-                    geoJsonData = data;
-                }
-            });
             this.viewHolder.close('mapView');
             var mapView = new MapView();
             this.viewHolder.register('mapView', mapView);
@@ -45,8 +39,13 @@ define([
         create: function(event) {
             var values = Form.toObject(this, 'competition-');
             var comp = new CompetitionModel();
-            values['route'] = {geoJson: this.viewHolder.get('mapView').geoJson};
-            comp.save(values, {wait: true});
+            if (this.viewHolder.get('mapView')) {
+                values['route'] = {geoJson: this.viewHolder.get('mapView').geoJson};
+            }
+            comp.save(values, {
+                wait: true,
+                error: ErrorHandler.onModelFetchError
+            });
             Channel.trigger("competition:added", this.printPoint, this);
         },
         close: function() {

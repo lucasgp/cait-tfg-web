@@ -1,7 +1,8 @@
 define([
     'page',
+    'error-handler',
     'models/competitions'
-], function(Page, CompetitionModel) {
+], function(Page, ErrorHandler, CompetitionModel) {
 
     var CompetitionCollection = Backbone.Collection.extend({
         model: CompetitionModel,
@@ -15,7 +16,8 @@ define([
                 url: this.url.concat("/").concat(query.page)
                         .concat("/").concat(query.size)
                         .concat("/").concat(query.sortProperty)
-                        .concat("/").concat(query.sortOrder)
+                        .concat("/").concat(query.sortOrder),
+                error: ErrorHandler.onModelFetchError
             });
         }
     });
