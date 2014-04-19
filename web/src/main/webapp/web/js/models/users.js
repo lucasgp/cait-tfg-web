@@ -9,6 +9,7 @@ define([
         },
         defaults: {
             id: null,
+            version: null,
             username: '',
             password: '',
             name: '',

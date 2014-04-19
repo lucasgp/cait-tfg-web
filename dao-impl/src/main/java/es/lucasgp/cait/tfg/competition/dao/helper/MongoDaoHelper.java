@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import es.lucasgp.cait.tfg.competition.dto.PageRequest;
 import es.lucasgp.cait.tfg.competition.dto.PageResult;
 import es.lucasgp.cait.tfg.competition.dto.Sort.Order;
+import es.lucasgp.cait.tfg.competition.model.BaseEntity;
 
 @Component
 public class MongoDaoHelper {
@@ -18,14 +19,28 @@ public class MongoDaoHelper {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    public String getCollectionName(final Class<?> entityClass) {
+        return this.mongoTemplate.getCollectionName(entityClass);
+    }
+
     public <T> T create(T entity) {
         this.mongoTemplate.insert(entity);
         return entity;
     }
 
+    public <T extends BaseEntity> T create(T entity, final Class<T> entityClass) {
+        this.mongoTemplate.insert(entity, getCollectionName(entityClass));
+        return findById(entity.getId(), entityClass);
+    }
+
     public <T> T update(T entity) {
         this.mongoTemplate.save(entity);
         return entity;
+    }
+
+    public <T extends BaseEntity> T update(T entity, final Class<T> entityClass) {
+        this.mongoTemplate.save(entity, getCollectionName(entityClass));
+        return findById(entity.getId(), entityClass);
     }
 
     public <T> void delete(String id, final Class<T> entityClass) {
@@ -37,11 +52,15 @@ public class MongoDaoHelper {
     }
 
     public <T> List<T> findByQuery(final Query query, final Class<T> entityClass) {
-        return executeQuery(QueryConverter.toMongoQuery(query), entityClass);
+        return executeQuery(QueryConverter.toMongoQuery(query), entityClass, getCollectionName(entityClass));
+    }
+
+    public <T> List<T> findByQuery(final Query query, final Class<T> entityClass, final Class<?> collectionEntityClass) {
+        return executeQuery(QueryConverter.toMongoQuery(query), entityClass, getCollectionName(collectionEntityClass));
     }
 
     public <T> PageResult<T> findByQuery(final Query query, final Class<T> entityClass, final PageRequest pageRequest) {
-        return executeQuery(QueryConverter.toMongoQuery(query), entityClass, pageRequest);
+        return executeQuery(QueryConverter.toMongoQuery(query), entityClass, getCollectionName(entityClass), pageRequest);
     }
 
     public <T> List<T> findAll(final Class<T> entityClass) {
@@ -49,14 +68,14 @@ public class MongoDaoHelper {
     }
 
     public <T> PageResult<T> findAll(final Class<T> entityClass, final PageRequest pageRequest) {
-        return executeQuery(new org.springframework.data.mongodb.core.query.Query(), entityClass, pageRequest);
+        return executeQuery(new org.springframework.data.mongodb.core.query.Query(), entityClass, getCollectionName(entityClass), pageRequest);
     }
 
-    private <T> List<T> executeQuery(final org.springframework.data.mongodb.core.query.Query query, final Class<T> entityClass) {
-        return this.mongoTemplate.find(query, entityClass);
+    private <T> List<T> executeQuery(final org.springframework.data.mongodb.core.query.Query query, final Class<T> entityClass, final String collectionName) {
+        return this.mongoTemplate.find(query, entityClass, collectionName);
     }
 
-    private <T> PageResult<T> executeQuery(final org.springframework.data.mongodb.core.query.Query query, final Class<T> entityClass, final PageRequest pageRequest) {
+    private <T> PageResult<T> executeQuery(final org.springframework.data.mongodb.core.query.Query query, final Class<T> entityClass, final String collectionName, final PageRequest pageRequest) {
 
         int page = 0;
 
@@ -65,7 +84,7 @@ public class MongoDaoHelper {
             query.with(this.getPageable(pageRequest));
         }
 
-        List<T> elements = executeQuery(query, entityClass);
+        List<T> elements = executeQuery(query, entityClass, collectionName);
         long totalElements = this.mongoTemplate.count(query, entityClass);
 
         return new PageResult(elements, page, totalElements);

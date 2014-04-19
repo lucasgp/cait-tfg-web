@@ -10,17 +10,22 @@ define([
             '(/)': 'showCompetitions',
             'competitions(/:page/:size/:sortProperty/:sortOrder)': 'showCompetitions',
             'competition/:id': 'showCompetitionDetail',
+            'users(/:page/:size/:sortProperty/:sortOrder)': 'showUsers',
+            'user/:id': 'showUserDetail',
             'create-competition': 'showCreateCompetition',
             'signup(/)': 'showSignup',
             '*path(/)': 'default'
         },
         initialize: function(options) {
             this.view = new AppView().render();
-            Channel.on("competition:added", function() {
-                this.navigate("competitions", {trigger: true});
+            Channel.on("competition:added", function(args) {
+                this.navigate("competition/" + args.competitionId, {trigger: true});
             }, this);
             Channel.on("competition:deleted", function() {
                 this.navigate("competitions", {trigger: true});
+            }, this);
+            Channel.on("user:created", function(args) {
+                window.location = "/web/login.html";
             }, this);
 
         },
@@ -31,7 +36,7 @@ define([
         showCompetitions: function(page, size, sortProperty, sortOrder) {
             var query = new Page.Query({
                 page: page ? page : 0,
-                size: size ? size : 20,
+                size: size ? size : 6,
                 sortProperty: sortProperty ? sortProperty : 'startDate',
                 sortOrder: sortOrder ? sortOrder : 'DESC'
             });
@@ -42,6 +47,18 @@ define([
         },
         showCreateCompetition: function() {
             this.view.showCreateCompetition();
+        },
+        showUsers: function(page, size, sortProperty, sortOrder) {
+            var query = new Page.Query({
+                page: page ? page : 0,
+                size: size ? size : 6,
+                sortProperty: sortProperty ? sortProperty : 'username',
+                sortOrder: sortOrder ? sortOrder : 'DESC'
+            });
+            this.view.showUsers(query);
+        },
+        showUserDetail: function(id) {
+            this.view.showUserDetail(id);
         },
         showSignup: function() {
             this.view.showSignup();

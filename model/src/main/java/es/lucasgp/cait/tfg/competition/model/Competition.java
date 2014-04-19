@@ -1,5 +1,6 @@
 package es.lucasgp.cait.tfg.competition.model;
 
+import java.util.Collection;
 import java.util.Date;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
@@ -34,8 +35,8 @@ public class Competition extends BaseEntity {
 
     private Route route;
 
-    private Comment[] comments;
-    private Participant[] participants;
+    private Collection<Comment> comments;
+    private Collection<Participant> participants;
 
     public String getName() {
         return name;
@@ -101,19 +102,19 @@ public class Competition extends BaseEntity {
         this.route = route;
     }
 
-    public Comment[] getComments() {
+    public Collection<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Comment[] comments) {
+    public void setComments(Collection<Comment> comments) {
         this.comments = comments;
     }
 
-    public Participant[] getParticipants() {
+    public Collection<Participant> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(Participant[] participants) {
+    public void setParticipants(Collection<Participant> participants) {
         this.participants = participants;
     }
 

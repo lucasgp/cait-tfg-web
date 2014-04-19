@@ -44,9 +44,11 @@ define([
             }
             comp.save(values, {
                 wait: true,
+                success: function(model, response, options) {
+                    Channel.trigger("competition:added", {competitionId: model.id});
+                },
                 error: ErrorHandler.onModelFetchError
             });
-            Channel.trigger("competition:added", this.printPoint, this);
         },
         close: function() {
             this.viewHolder.closeAll();

@@ -20,30 +20,4 @@ public class CompetitionTypeServiceImpl extends BaseServiceImpl<CompetitionType,
         this.competitionTypeDao = competitionTypeDao;
     }
 
-    @Override
-    public CompetitionType create(final CompetitionType competitionType) {
-        return super.create(competitionType);
-    }
-
-    @Override
-    public CompetitionType update(final CompetitionType competitionType) {
-        return super.update(competitionType);
-    }
-
-    @Override
-    public CompetitionType findById(final String id) {
-        return super.findById(id);
-    }
-
-    @Override
-    public List<CompetitionType> findAll() {
-        return super.findAll();
-
-    }
-
-    @Override
-    public PageResult<CompetitionType> findAll(PageRequest pageRequest) {
-        return super.findAll(pageRequest);
-    }
-
 }

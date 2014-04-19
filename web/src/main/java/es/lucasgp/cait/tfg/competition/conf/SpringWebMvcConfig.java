@@ -32,11 +32,17 @@ public class SpringWebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/web/templates/empty.html").setViewName("templates/empty");
         registry.addViewController("/web/templates/competitions/add.html").setViewName("templates/competitions/add");
         registry.addViewController("/web/templates/competitions/view.html").setViewName("templates/competitions/view");
+        registry.addViewController("/web/templates/competitions/view_simple.html").setViewName("templates/competitions/view_simple");
         registry.addViewController("/web/templates/competitions/list.html").setViewName("templates/competitions/list");
         registry.addViewController("/web/templates/competitions/detail.html").setViewName("templates/competitions/detail");
         registry.addViewController("/web/templates/users/add.html").setViewName("templates/users/add");
         registry.addViewController("/web/templates/users/view.html").setViewName("templates/users/view");
         registry.addViewController("/web/templates/users/list.html").setViewName("templates/users/list");
+        registry.addViewController("/web/templates/users/detail.html").setViewName("templates/users/detail");
+        registry.addViewController("/web/templates/participants/view.html").setViewName("templates/participants/view");
+        registry.addViewController("/web/templates/participants/list.html").setViewName("templates/participants/list");
+        registry.addViewController("/web/templates/comments/view.html").setViewName("templates/comments/view");
+        registry.addViewController("/web/templates/comments/list.html").setViewName("templates/comments/list");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 }

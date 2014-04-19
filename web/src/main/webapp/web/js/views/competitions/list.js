@@ -13,7 +13,10 @@ define([
         initialize: function(options) {
             this.viewHolder = new ViewHolder();
             this.competitions = options.competitions;
-            this.listenTo(this.competitions, 'add', this.createCompetitionView);
+            if (options.simple) {
+                this.simple = true;
+            }
+
         },
         render: function() {
             if (this.competitions && this.competitions.length > 0) {
@@ -25,7 +28,7 @@ define([
             return this;
         },
         createCompetitionView: function(competition, index, list) {
-            var view = new CompetitionView({model: competition});
+            var view = new CompetitionView({simple: this.simple, model: competition});
             this.viewHolder.register('compView' + index, view);
             this.$el.append(view.render().el);
         },

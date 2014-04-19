@@ -20,30 +20,4 @@ public class RoleTypeServiceImpl extends BaseServiceImpl<RoleType, String> imple
         this.roleTypeDao = roleTypeDao;
     }
 
-    @Override
-    public RoleType create(final RoleType roleType) {
-        return super.create(roleType);
-    }
-
-    @Override
-    public RoleType update(final RoleType roleType) {
-        return super.update(roleType);
-    }
-
-    @Override
-    public RoleType findById(final String id) {
-        return super.findById(id);
-    }
-
-    @Override
-    public List<RoleType> findAll() {
-        return super.findAll();
-
-    }
-
-    @Override
-    public PageResult<RoleType> findAll(PageRequest pageRequest) {
-        return super.findAll(pageRequest);
-    }
-
 }

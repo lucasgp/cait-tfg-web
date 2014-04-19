@@ -6,7 +6,7 @@
 <input id="competition-startDate">
 <input id="competition-finishDate">
 
-<a href="javascript:void(0);" id="show-map">Show map</a>
+<a id="show-map">Show map</a>
 
 <div id="map-wrapper"><!-- Map --></div>
 

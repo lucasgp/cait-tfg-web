@@ -17,6 +17,7 @@ define([
             this.size = params.size;
             this.sortProperty = params.sortProperty;
             this.sortOrder = params.sortOrder;
+            this.params = params.params;
         }
     };
     return Page;

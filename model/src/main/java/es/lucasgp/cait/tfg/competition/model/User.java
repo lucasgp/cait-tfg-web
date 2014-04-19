@@ -3,7 +3,6 @@ package es.lucasgp.cait.tfg.competition.model;
 public class User extends BaseEntity {
 
     private String username;
-    private String password;
 
     private String name;
     private String surname;
@@ -19,14 +18,6 @@ public class User extends BaseEntity {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getName() {

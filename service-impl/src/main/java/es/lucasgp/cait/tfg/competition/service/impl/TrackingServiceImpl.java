@@ -20,30 +20,4 @@ public class TrackingServiceImpl extends BaseServiceImpl<Tracking, String> imple
         this.trackingDao = trackingDao;
     }
 
-    @Override
-    public Tracking create(final Tracking tracking) {
-        return super.create(tracking);
-    }
-
-    @Override
-    public Tracking update(final Tracking tracking) {
-        return super.update(tracking);
-    }
-
-    @Override
-    public Tracking findById(final String id) {
-        return super.findById(id);
-    }
-
-    @Override
-    public List<Tracking> findAll() {
-        return super.findAll();
-
-    }
-
-    @Override
-    public PageResult<Tracking> findAll(PageRequest pageRequest) {
-        return super.findAll(pageRequest);
-    }
-
 }

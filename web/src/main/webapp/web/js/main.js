@@ -3,8 +3,12 @@ require.config({
     paths: {
         'jquery': 'libs/jquery/jquery',
         'jqueryui/core': 'libs/jquery-ui/jquery.ui.core',
+        'jqueryui/widget': 'libs/jquery-ui/jquery.ui.widget',
+        'jqueryui/position': 'libs/jquery-ui/jquery.ui.position',
+        'jqueryui/button': 'libs/jquery-ui/jquery.ui.button',
         'jqueryui/effect': 'libs/jquery-ui/jquery.ui.effect',
         'jqueryui/datepicker': 'libs/jquery-ui/jquery.ui.datepicker',
+        'jqueryui/dialog': 'libs/jquery-ui/jquery.ui.dialog',
         'noty': 'libs/noty/jquery.noty.packaged',
         'underscore': 'libs/underscore/underscore',
         'backbone': 'libs/backbone/backbone',
@@ -20,13 +24,29 @@ require.config({
             exports: 'jQuery',
             deps: ['jquery']
         },
+        'jqueryui/widget': {
+            exports: 'jQuery',
+            deps: ['jquery']
+        },
+        'jqueryui/position': {
+            exports: 'jQuery',
+            deps: ['jquery']
+        },
         'jqueryui/effect': {
             exports: 'jQuery',
-            deps: ['jquery', 'libs/jquery-ui/jquery.ui.core']
+            deps: ['jquery', 'jqueryui/core']
         },
         'jqueryui/datepicker': {
             exports: 'jQuery',
-            deps: ['jquery', 'libs/jquery-ui/jquery.ui.core', 'libs/jquery-ui/jquery.ui.effect']
+            deps: ['jquery', 'jqueryui/core', 'jqueryui/effect']
+        },
+        'jqueryui/button': {
+            exports: 'jQuery',
+            deps: ['jquery', 'jqueryui/core', 'jqueryui/widget']
+        },
+        'jqueryui/dialog': {
+            exports: 'jQuery',
+            deps: ['jquery', 'jqueryui/core', 'jqueryui/effect', 'jqueryui/position', 'jqueryui/button', 'jqueryui/widget']
         },
         'noty': {
             exports: 'noty',
@@ -37,7 +57,7 @@ require.config({
             init: function() {
                 this._.extend(this._.templateSettings, {
                     // Underscore configuration: change to a JSP friendly sintax.
-                    interpolate: /\{\{(.+?)\}\}/gim,
+                    interpolate: /\{\{=(.+?)\}\}/gim,
                     evaluate: /\{\{(.+?)\}\}/gim,
                     escape: /\{\{\-(.+?)\}\}/gim
                 });

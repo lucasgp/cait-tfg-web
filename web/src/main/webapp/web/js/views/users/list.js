@@ -2,28 +2,38 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'views/competitions/view',
-    'text!/web/templates/competitions/list.html'
-], function($, _, Backbone, CompetitionView, competitionListTemplate) {
-    var CompetitionsListView = Backbone.View.extend({
+    'view-holder',
+    'views/users/view',
+    'text!/web/templates/users/list.html',
+    'text!/web/templates/empty.html'
+], function($, _, Backbone, ViewHolder, UserView, listTemplate, emptyTemplate) {
+    var UsersListView = Backbone.View.extend({
         tagName: 'ul',
-        id: 'competition-list',
-        competitions: null,
+        id: 'users-list',
         initialize: function(options) {
-            this.competitions = options.competitions;
-            this.listenTo(this.competitions, 'add', this.createCompetitionView);
+            this.viewHolder = new ViewHolder();
+            this.users = options.users;
         },
         render: function() {
-            var compiledTemplate = _.template(competitionListTemplate, {});
-            this.$el.append(compiledTemplate);
-            this.competitions.each(this.createCompetitionView, this);
+            if (this.users && this.users.length > 0) {
+                this.$el.append(_.template(listTemplate, {}));
+                this.users.each(this.createUserView, this);
+            } else {
+                this.$el.append(_.template(emptyTemplate, {}));
+            }
             return this;
         },
-        createCompetitionView: function(competition) {
-            var view = new CompetitionView({model: competition});
+        createUserView: function(user, index, list) {
+            var view = new UserView({model: user});
+            this.viewHolder.register('userView' + index, view);
             this.$el.append(view.render().el);
+        },
+        close: function() {
+            this.viewHolder.closeAll();
+            this.unbind();
+            this.remove();
         }
     });
-    return CompetitionsListView;
+    return UsersListView;
 });
 

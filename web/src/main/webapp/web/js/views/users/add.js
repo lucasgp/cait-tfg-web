@@ -3,9 +3,11 @@ define([
     'underscore',
     'backbone',
     'form',
+    'events',
+    'error-handler',
     'models/users',
     'text!/web/templates/users/add.html'
-], function($, _, Backbone, Form, UserModel, template) {
+], function($, _, Backbone, Form, Channel, ErrorHandler, UserModel, template) {
     var AddUserView = Backbone.View.extend({
         tagName: 'div',
         className: 'add-user',
@@ -27,9 +29,10 @@ define([
             });
             userModel.save(values, {
                 wait: true,
-                error: function() {
-                    alert("Error saving user");
-                }
+                success: function() {
+                    Channel.trigger("user:created");
+                },
+                error: ErrorHandler.onModelFetchError
             });
         }
     });

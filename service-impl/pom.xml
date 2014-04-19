@@ -35,9 +35,8 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
         </dependency>
-
+        
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>

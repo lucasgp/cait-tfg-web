@@ -1,10 +1,13 @@
 package es.lucasgp.cait.tfg.competition.service.impl;
 
 import es.lucasgp.cait.tfg.competition.dao.api.BaseDao;
+import es.lucasgp.cait.tfg.competition.dao.api.query.Query;
 import es.lucasgp.cait.tfg.competition.dto.PageRequest;
 import es.lucasgp.cait.tfg.competition.dto.PageResult;
 import es.lucasgp.cait.tfg.competition.service.api.BaseService;
 import java.util.List;
+import java.util.Map;
+import javax.validation.constraints.NotNull;
 
 public abstract class BaseServiceImpl<T, ID> implements BaseService<T, ID> {
 
@@ -25,12 +28,12 @@ public abstract class BaseServiceImpl<T, ID> implements BaseService<T, ID> {
     }
 
     @Override
-    public void delete(ID id) {
+    public void delete(@NotNull ID id) {
         baseDao.delete(id);
     }
 
     @Override
-    public T findById(ID id) {
+    public T findById(@NotNull ID id) {
         return baseDao.findById(id);
     }
 
@@ -41,8 +44,25 @@ public abstract class BaseServiceImpl<T, ID> implements BaseService<T, ID> {
     }
 
     @Override
+    public List<T> findAll(Map<String, String> parameters) {
+        return this.baseDao.findByQuery(getQuery(parameters));
+
+    }
+
+    @Override
     public PageResult<T> findAll(PageRequest pageRequest) {
         return this.baseDao.findAll(pageRequest);
+    }
+
+    @Override
+    public PageResult<T> findAll(PageRequest pageRequest, Map<String, String> parameters) {
+        return this.baseDao.findByQuery(getQuery(parameters), pageRequest);
+    }
+
+    private Query getQuery(Map<String, String> parameters) {
+        Query query = Query.getInstance();
+        parameters.entrySet().forEach(entry -> query.eq(entry.getKey(), entry.getValue()));
+        return query;
     }
 
 }

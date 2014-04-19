@@ -6,10 +6,12 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>Competitions manager</title>
-        <link rel="stylesheet" href="css/base.css">
         <link rel="stylesheet" href="js/libs/jquery-ui/themes/base/jquery.ui.theme.min.css">
         <link rel="stylesheet" href="js/libs/jquery-ui/themes/base/jquery.ui.datepicker.min.css">
+        <link rel="stylesheet" href="js/libs/jquery-ui/themes/base/jquery.ui.dialog.min.css">
         <link rel="stylesheet" href="js/libs/leaflet/leaflet.css">
+        <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/base.css">
         <link rel="stylesheet" href="css/map.css">
         <script data-main="js/main" src="js/libs/require/require.js"></script>
     </head>
@@ -28,11 +30,16 @@
                         <div id="signup-button"><a href="#signup">Sign up</a></div>
                     </sec:authorize>
                     <sec:authorize access="isAuthenticated()">
+                        <div><span>${user.username}-${user.name}${user.surname}</span></div>
                         <sec:authentication  property="principal.name" />
                         <div id="logout-button"><a href="${logoutUrl}">Logout</a></div>
                         <div id="create-competition-button"><a href="#create-competition">Create new competition</a></div>
                     </sec:authorize>
-                    <div id="signup-button"><a href="#competitions">Show competitions</a></div>
+                    <div id="show-competitions-button"><a href="#competitions">Show competitions</a></div>
+                    <div id="admin-users"><a href="#users">Users</a></div>
+                    <sec:authorize access="hasRole('ADMIN')">
+                        <div id="admin-competition-types"><a href="#competition-types">Competition types</a></div>
+                    </sec:authorize>
                 </section>
             </section>
             <footer id="footer">

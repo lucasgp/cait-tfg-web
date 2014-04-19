@@ -1,9 +1,12 @@
 package es.lucasgp.cait.tfg.competition.model;
 
+import javax.validation.constraints.Size;
+
 public class Participant {
 
     private int score;
 
+    @Size(min = 1)
     private String userId;
     private String trackingId;
 

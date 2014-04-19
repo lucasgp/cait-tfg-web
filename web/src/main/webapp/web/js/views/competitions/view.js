@@ -2,19 +2,19 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'error-handler',
-    'events',
-    'text!/web/templates/competitions/view.html'
-], function($, _, Backbone, ErrorHandler, Channel, competitionTemplate) {
+    'text!/web/templates/competitions/view.html',
+    'text!/web/templates/competitions/view_simple.html'
+], function($, _, Backbone, competitionTemplate, competitionSimpleTemplate) {
     var CompetitionView = Backbone.View.extend({
         tagName: 'li',
         className: 'competition',
-        events: {
-            'click .destroy': 'deleteCompetition'
+        initialize: function(options) {
+            if (options && options.simple)
+                this.simple = true;
         },
         render: function() {
-            var compiledTemplate = _.template(competitionTemplate, this.model.toJSON());
-            this.$el.append(compiledTemplate);
+            var template = this.simple ? competitionSimpleTemplate : competitionTemplate;
+            this.$el.append(_.template(template, this.model.toJSON()));
             return this;
         },
         close: function() {
@@ -22,6 +22,5 @@ define([
             this.remove();
         }
     });
-
     return CompetitionView;
 });

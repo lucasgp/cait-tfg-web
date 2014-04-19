@@ -1,5 +1,5 @@
 define([
-    'jquery',
+    'jqueryui/dialog',
     'underscore',
     'backbone',
     'events',
@@ -10,6 +10,8 @@ define([
         id: 'competition-map',
         initialize: function(options) {
             this.defaults();
+            if (options && options.suffix)
+                this.el.id = this.id + '-' + options.suffix;
             if (options && options.geoJson)
                 this.geoJson = options.geoJson;
         },
@@ -27,7 +29,7 @@ define([
             return this;
         },
         renderMap: function() {
-            this.map = L.map('competition-map');
+            this.map = L.map(this.el.id);
             L.tileLayer(this.tilesUrl, {
                 subdomains: this.tilesUrlHosts,
                 reuseTiles: true

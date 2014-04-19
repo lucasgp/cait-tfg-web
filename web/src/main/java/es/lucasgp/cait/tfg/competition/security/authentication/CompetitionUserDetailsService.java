@@ -1,5 +1,6 @@
 package es.lucasgp.cait.tfg.competition.security.authentication;
 
+import es.lucasgp.cait.tfg.competition.model.SecurityUser;
 import es.lucasgp.cait.tfg.competition.model.User;
 import es.lucasgp.cait.tfg.competition.model.UserRole;
 import es.lucasgp.cait.tfg.competition.security.user.CompetitionUserDetails;
@@ -38,10 +39,10 @@ public class CompetitionUserDetailsService implements UserDetailsService {
 
         CompetitionUserDetails userDetails = null;
 
-        List<User> users = this.userService.findByUsername(username);
+        List<SecurityUser> users = this.userService.findSecurityUserByUsername(username);
 
         if (users.size() == 1) {
-            User user = users.get(0);
+            SecurityUser user = users.get(0);
             userDetails = new CompetitionUserDetails(user, getUserAuthorities(user));
         }
 

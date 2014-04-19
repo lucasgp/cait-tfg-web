@@ -7,13 +7,6 @@ define([
         initialize: function() {
 
         },
-        defaults: {
-            id: null,
-            name: '',
-            description: '',
-            startDate: new Date(),
-            finishDate: new Date()
-        },
         validate: function(attrs) {
 
         }

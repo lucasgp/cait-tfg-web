@@ -5,6 +5,9 @@ import es.lucasgp.cait.tfg.competition.dto.PageResult;
 import es.lucasgp.cait.tfg.competition.dto.Sort;
 import es.lucasgp.cait.tfg.competition.service.api.BaseService;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.util.MultiValueMap;
 
 public abstract class BaseController<T, ID, S extends BaseService<T, ID>> {
 
@@ -42,19 +45,23 @@ public abstract class BaseController<T, ID, S extends BaseService<T, ID>> {
         return getService().findAll();
     }
 
-    public PageResult<T> findAll(int page, int size) {
-        return findAll(page, size, null);
+    public List<T> findAll(MultiValueMap parameters) {
+        return getService().findAll(extractParameters(parameters));
     }
 
-    public PageResult<T> findAll(int page, int size, String sortProperty) {
-        return findAll(page, size, sortProperty, (String) null);
+    public PageResult<T> findAll(int page, int size, MultiValueMap parameters) {
+        return findAll(page, size, null, parameters);
     }
 
-    public PageResult<T> findAll(int page, int size, String sortProperty, String sortOrder) {
-        return findAll(page, size, sortProperty, sortOrder != null ? Sort.Order.valueOf(sortOrder) : null);
+    public PageResult<T> findAll(int page, int size, String sortProperty, MultiValueMap parameters) {
+        return findAll(page, size, sortProperty, (String) null, parameters);
     }
 
-    public PageResult<T> findAll(int page, int size, String sortProperty, Sort.Order sortOrder) {
+    public PageResult<T> findAll(int page, int size, String sortProperty, String sortOrder, MultiValueMap parameters) {
+        return findAll(page, size, sortProperty, sortOrder != null ? Sort.Order.valueOf(sortOrder) : null, parameters);
+    }
+
+    public PageResult<T> findAll(int page, int size, String sortProperty, Sort.Order sortOrder, MultiValueMap parameters) {
 
         PageRequest pageRequest = new PageRequest(page, size);
 
@@ -69,7 +76,11 @@ public abstract class BaseController<T, ID, S extends BaseService<T, ID>> {
             pageRequest.getSorting().add(sort);
         }
 
-        return getService().findAll(pageRequest);
+        return getService().findAll(pageRequest, extractParameters(parameters));
+    }
+
+    private Map<String, String> extractParameters(MultiValueMap<String, String> parameters) {
+        return parameters.entrySet().stream().collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue().get(0)));
     }
 
 }

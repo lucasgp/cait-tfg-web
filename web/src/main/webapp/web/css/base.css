@@ -77,6 +77,13 @@ a {
     min-height: 40em;
 }
 
+.destroy, .edit, .join, .goto {
+    display: inline-block;
+    cursor: pointer;
+    margin: 2px;
+}
+
+
 #competition-list {
     width: 100%;
     margin: 0 auto;
@@ -126,20 +133,13 @@ a {
     height: 1.8em;
 }
 
-.competition .menu .destroy,.edit {
+#participants-list {
+    float: left;
+    width: 25%;
+    list-style: none;
+}
+
+#map-wrapper {
     float: right;
-    display: inline-block;
-    width: 1.8em;
-    height: 1.8em;
-    cursor: hand;
-}
-
-.edit {
-    background: transparent url('../images/icons/edit9.png') no-repeat;
-    background-size: contain;
-}
-
-.destroy {
-    background: transparent url('../images/icons/trash9.png') no-repeat;
-    background-size: contain;
+    width: 65%;
 }
