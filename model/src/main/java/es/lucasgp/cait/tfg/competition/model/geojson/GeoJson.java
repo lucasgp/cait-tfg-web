@@ -1,10 +1,12 @@
 package es.lucasgp.cait.tfg.competition.model.geojson;
 
+import java.util.List;
+
 public class GeoJson {
 
     private String type = "FeatureCollection";
 
-    private Feature[] features = new Feature[0];
+    private List<Feature> features;
 
     public String getType() {
         return type;
@@ -14,11 +16,11 @@ public class GeoJson {
         this.type = type;
     }
 
-    public Feature[] getFeatures() {
+    public List<Feature> getFeatures() {
         return features;
     }
 
-    public void setFeatures(Feature[] features) {
+    public void setFeatures(List<Feature> features) {
         this.features = features;
     }
 

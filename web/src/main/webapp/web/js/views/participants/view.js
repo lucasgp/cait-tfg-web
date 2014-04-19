@@ -21,7 +21,7 @@ define([
                     viewHolder: this.viewHolder
                 }, this.renderMap);
                 var view = new MapView({
-                    geoJson: this.model.get('tracking').geoJson,
+                    geoJson: this.model.get('tracking').get('geoJson'),
                     suffix: this.model.get('tracking').id,
                     className: 'tracking-map'
                 });

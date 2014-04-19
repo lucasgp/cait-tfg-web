@@ -4,7 +4,7 @@ import es.lucasgp.cait.tfg.competition.model.geojson.GeoJson;
 
 public class Tracking extends BaseEntity {
 
-    private GeoJson geoJson = new GeoJson();
+    private GeoJson geoJson;
 
     public GeoJson getGeoJson() {
         return this.geoJson;
