@@ -8,11 +8,12 @@ define([
     var AppRouter = Backbone.Router.extend({
         routes: {
             '(/)': 'showCompetitions',
-            'competitions(/:page/:size/:sortProperty/:sortOrder)': 'showCompetitions',
-            'competition/:id': 'showCompetitionDetail',
-            'users(/:page/:size/:sortProperty/:sortOrder)': 'showUsers',
-            'user/:id': 'showUserDetail',
-            'create-competition': 'showCreateCompetition',
+            'competitions(/:page/:size/:sortProperty/:sortOrder)(/)': 'showCompetitions',
+            'competition/:id(/)': 'showCompetitionDetail',
+            'create-competition(/)': 'showCreateCompetition',
+            'edit-competition/:id(/)': 'showEditCompetition',
+            'users(/:page/:size/:sortProperty/:sortOrder)(/)': 'showUsers',
+            'user/:id(/)': 'showUserDetail',
             'signup(/)': 'showSignup',
             '*path(/)': 'default'
         },
@@ -47,6 +48,9 @@ define([
         },
         showCreateCompetition: function() {
             this.view.showCreateCompetition();
+        },
+        showEditCompetition: function(id) {
+            this.view.showEditCompetition(id);
         },
         showUsers: function(page, size, sortProperty, sortOrder) {
             var query = new Page.Query({

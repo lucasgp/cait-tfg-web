@@ -4,38 +4,52 @@ define([
     'backbone',
     'view-holder',
     'error-handler',
+    'form',
+    'events',
     'models/comments',
     'models/users',
     'views/comments/view',
     'text!/web/templates/comments/list.html'
-], function($, _, Backbone, ViewHolder, ErrorHandler, CommentModel, UserModel, CommentView, listTemplate) {
+], function($, _, Backbone, ViewHolder, ErrorHandler, Form, Channel, CommentModel, UserModel, CommentView, listTemplate) {
     var CommentsListView = Backbone.View.extend({
-        tagName: 'ul',
-        id: 'comments-list',
+        events: {
+            'click #submit-comment': 'addComment'
+        },
         initialize: function(options) {
             this.viewHolder = new ViewHolder();
             this.comments = options.comments;
+            this.competitionId = options.competitionId;
         },
         render: function() {
-            if (this.comments && this.comments.length > 0) {
-                this.$el.append(_.template(listTemplate, {}));
-                _.each(_.sortBy(this.comments, 'commentDate', this), this.createCommentView, this);
-            } else {
-                this.$el.append("No comments in this competition yet! Do you have something to share?");
-            }
+            this.$el.append(_.template(listTemplate, {comments: this.comments}));
+            _.each(_.sortBy(this.comments, 'commentDate', this), this.createCommentView, this);
             return this;
         },
         createCommentView: function(comment, index, list) {
             var commentModel = new CommentModel(comment);
             var userModel = new UserModel({id: comment.userId});
             var viewHolder = this.viewHolder;
-            var $el = this.$el;
             userModel.fetch({
                 success: function() {
                     commentModel.set('user', userModel);
                     var view = new CommentView({model: commentModel});
                     viewHolder.register('commentView' + index, view);
-                    $el.append(view.render().el);
+                    $("#comments-list").append(view.render().el);
+                },
+                error: ErrorHandler.onModelFetchError
+            });
+        },
+        addComment: function(event) {
+            var values = Form.toObject(this, 'comment-');
+            var comment = new CommentModel({competitionId: this.competitionId});
+            var competitionId = this.competitionId;
+            comment.on('invalid', function(model, error) {
+                alert(error);
+            });
+            comment.save(values, {
+                wait: true,
+                success: function() {
+                    Channel.trigger("comment:added", {competitionId: competitionId});
                 },
                 error: ErrorHandler.onModelFetchError
             });

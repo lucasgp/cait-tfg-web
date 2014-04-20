@@ -2,10 +2,12 @@ package es.lucasgp.cait.tfg.competition.model;
 
 import java.util.Date;
 import javax.validation.constraints.Size;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 public class Comment {
 
     @Size(min = 1)
+    @Indexed
     private String userId;
     @Size(min = 1)
     private String title;

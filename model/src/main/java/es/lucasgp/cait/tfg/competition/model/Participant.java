@@ -1,12 +1,14 @@
 package es.lucasgp.cait.tfg.competition.model;
 
 import javax.validation.constraints.Size;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 public class Participant {
 
     private int score;
 
     @Size(min = 1)
+    @Indexed
     private String userId;
     private String trackingId;
 

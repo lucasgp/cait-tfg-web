@@ -1,6 +1,8 @@
 package es.lucasgp.cait.tfg.competition.controller;
 
 import es.lucasgp.cait.tfg.competition.dto.PageResult;
+import es.lucasgp.cait.tfg.competition.exceptions.NotOwnerException;
+import es.lucasgp.cait.tfg.competition.exceptions.WrongIdException;
 import es.lucasgp.cait.tfg.competition.model.Comment;
 import es.lucasgp.cait.tfg.competition.model.Competition;
 import es.lucasgp.cait.tfg.competition.model.Participant;
@@ -32,7 +34,7 @@ public class CompetitionController extends BaseController<Competition, String, C
         super(competitionService);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isFullyAuthenticated()")
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public Competition create(@RequestBody @Valid final Competition competition) {
@@ -40,20 +42,23 @@ public class CompetitionController extends BaseController<Competition, String, C
         return super.create(competition);
     }
 
-    // FIXME un fallo como una casa principal.id == #competition.ownerId
-    @PreAuthorize("isAuthenticated() and principal.id == #competition.ownerId")
-    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("isFullyAuthenticated()")
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
-    public Competition update(@RequestBody @Valid final Competition competition) {
-        return super.update(competition);
+    public Competition update(@PathVariable("id") @Size(min = 1) final String id, @RequestBody @Valid final Competition competition) {
+        if (!id.equalsIgnoreCase(competition.getId())) {
+            throw new WrongIdException();
+        }
+        validateOwner(id);
+        return super.update(id, competition);
     }
 
-    // FIXME un fallo como una casa principal.id == #competition.ownerId
-    @PreAuthorize("isAuthenticated() and principal.id == #competition.ownerId")
+    @PreAuthorize("isFullyAuthenticated()")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @Override
     public void delete(@PathVariable("id") @Size(min = 1) final String id) {
+        validateOwner(id);
         super.delete(id);
     }
 
@@ -90,7 +95,7 @@ public class CompetitionController extends BaseController<Competition, String, C
         return super.findAll(page, size, sortProperty, sortOrder, parameters);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isFullyAuthenticated()")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}/participants", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addParticipant(
@@ -100,12 +105,19 @@ public class CompetitionController extends BaseController<Competition, String, C
         getService().addParticipant(competitionId, participant);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isFullyAuthenticated()")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addComments(
         @PathVariable("id") @Size(min = 1) String competitionId, @RequestBody @Valid final Comment comment) {
         comment.setUserId(CompetitionUserDetails.class.cast(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
         getService().addComment(competitionId, comment);
+    }
+
+    private void validateOwner(final String id) throws NotOwnerException {
+        String userId = CompetitionUserDetails.class.cast(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        if (!this.findById(id).getOwnerId().equalsIgnoreCase(userId)) {
+            throw new NotOwnerException();
+        }
     }
 }

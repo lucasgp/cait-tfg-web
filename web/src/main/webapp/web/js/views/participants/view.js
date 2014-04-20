@@ -1,5 +1,5 @@
 define([
-    'jquery',
+    'jqueryui',
     'underscore',
     'backbone',
     'view-holder',
@@ -13,25 +13,40 @@ define([
             this.viewHolder = new ViewHolder();
         },
         render: function() {
-            this.$el.append(_.template(template, this.model.toJSON()));
+
             this.viewHolder.close('mapView');
+            this.$el.append(_.template(template, this.model.toJSON()));
+            var $mapElement = this.$("#map-wrapper-" + this.model.get('tracking').id);
+            $mapElement.hide();
             if (this.model.get('tracking') && this.model.get('tracking').get('geoJson')
                     && this.model.get('tracking').get('geoJson').features.length > 0) {
+
                 this.$el.on("click", "#participant-tracking-" + this.model.get('tracking').id, {
-                    viewHolder: this.viewHolder
-                }, this.renderMap);
-                var view = new MapView({
-                    geoJson: this.model.get('tracking').get('geoJson'),
-                    suffix: this.model.get('tracking').id,
-                    className: 'tracking-map'
-                });
-                this.viewHolder.register('mapView', view);
-                this.$("#map-wrapper-" + this.model.get('tracking').id).append(view.render().el);
+                    this: this,
+                    $mapElement: $mapElement
+                }, this.renderMap, this);
+
             }
+
             return this;
         },
         renderMap: function(event) {
-            event.data.viewHolder.get('mapView').renderMap();
+            var $mapElement = event.data.$mapElement;
+            event.data.this.viewHolder.close('mapView');
+            var view = new MapView({
+                geoJson: event.data.this.model.get('tracking').get('geoJson'),
+                suffix: event.data.this.model.get('tracking').id,
+                className: 'tracking-map'
+            });
+            event.data.this.viewHolder.register('mapView', view);
+            $mapElement.append(view.render().el);
+
+            $mapElement.dialog({
+                width: $(window).width() * 0.5,
+                height: $(window).width() * 0.3,
+                title: event.data.this.model.get("user").get("username") + " competition tracking"
+            });
+            event.data.this.viewHolder.get('mapView').renderMap();
         },
         close: function() {
             this.viewHolder.closeAll();

@@ -5,10 +5,12 @@ import java.util.Date;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 public class Competition extends BaseEntity {
 
     @Size(min = 1)
+    @Indexed
     private String name;
     @Size(min = 1)
     private String description;
@@ -16,6 +18,7 @@ public class Competition extends BaseEntity {
     /**
      * Usuario que creó la competición.
      */
+    @Indexed
     private String ownerId;
     /**
      * Carrera de montaña, maratón, 5k, 10k...
@@ -28,9 +31,11 @@ public class Competition extends BaseEntity {
 
     @NotNull
     @Future
+    @Indexed
     private Date startDate;
     @NotNull
     @Future
+    @Indexed
     private Date finishDate;
 
     private Route route;

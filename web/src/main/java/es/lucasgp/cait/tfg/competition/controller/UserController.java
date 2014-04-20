@@ -1,8 +1,11 @@
 package es.lucasgp.cait.tfg.competition.controller;
 
 import es.lucasgp.cait.tfg.competition.dto.PageResult;
+import es.lucasgp.cait.tfg.competition.exceptions.NotOwnerException;
+import es.lucasgp.cait.tfg.competition.exceptions.WrongIdException;
 import es.lucasgp.cait.tfg.competition.model.SecurityUser;
 import es.lucasgp.cait.tfg.competition.model.User;
+import es.lucasgp.cait.tfg.competition.security.user.CompetitionUserDetails;
 import es.lucasgp.cait.tfg.competition.service.api.UserService;
 import java.util.List;
 import javax.validation.Valid;
@@ -10,6 +13,7 @@ import javax.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,11 +36,15 @@ public class UserController extends BaseController<User, String, UserService> {
         return getService().create(user);
     }
 
-    @PreAuthorize("#user.username == principal.username or hasRole('ROLE_ADMIN')")
-    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("isFullyAuthenticated()")
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
-    public User update(@RequestBody @Valid final User user) {
-        return super.update(user);
+    public User update(@PathVariable("id") @Size(min = 1) final String id, @RequestBody @Valid final User user) {
+        if (!id.equalsIgnoreCase(user.getId())) {
+            throw new WrongIdException();
+        }
+        validateOwner(id);
+        return super.update(id, user);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -70,5 +78,12 @@ public class UserController extends BaseController<User, String, UserService> {
         @RequestParam MultiValueMap parameters
     ) {
         return super.findAll(page, size, sortProperty, sortOrder, parameters);
+    }
+
+    private void validateOwner(final String id) throws NotOwnerException {
+        String userId = CompetitionUserDetails.class.cast(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        if (!this.findById(id).getId().equalsIgnoreCase(userId)) {
+            throw new NotOwnerException();
+        }
     }
 }

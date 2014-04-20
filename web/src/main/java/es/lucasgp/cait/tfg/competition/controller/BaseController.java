@@ -29,7 +29,7 @@ public abstract class BaseController<T, ID, S extends BaseService<T, ID>> {
         return getService().create(entity);
     }
 
-    public T update(T entity) {
+    public T update(ID id, T entity) {
         return getService().update(entity);
     }
 

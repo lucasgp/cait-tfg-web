@@ -6,7 +6,7 @@ define([
     'text!/web/templates/competitions/view_simple.html'
 ], function($, _, Backbone, competitionTemplate, competitionSimpleTemplate) {
     var CompetitionView = Backbone.View.extend({
-        tagName: 'li',
+        tagName: 'div',
         className: 'competition',
         initialize: function(options) {
             if (options && options.simple)

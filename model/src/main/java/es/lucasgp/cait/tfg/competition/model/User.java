@@ -1,7 +1,10 @@
 package es.lucasgp.cait.tfg.competition.model;
 
+import org.springframework.data.mongodb.core.index.Indexed;
+
 public class User extends BaseEntity {
 
+    @Indexed
     private String username;
 
     private String name;

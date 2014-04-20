@@ -8,7 +8,7 @@ define([
     'text!/web/templates/empty.html'
 ], function($, _, Backbone, ViewHolder, CompetitionView, competitionListTemplate, emptyListTemplate) {
     var CompetitionsListView = Backbone.View.extend({
-        tagName: 'ul',
+        tagName: 'div',
         id: 'competition-list',
         initialize: function(options) {
             this.viewHolder = new ViewHolder();

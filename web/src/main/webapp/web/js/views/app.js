@@ -38,6 +38,17 @@ define([
         showCreateCompetition: function() {
             this.switchToView('addCompetitionView', new AddCompetitionView());
         },
+        showEditCompetition: function(id) {
+            var model = new CompetitionModel({id: id});
+            this.listenTo(model, 'change', function() {
+                var view = new AddCompetitionView({model: model});
+                this.switchToView('editCompetitionView', view);
+                view.renderMap();
+            });
+            model.fetch({
+                error: ErrorHandler.onModelFetchError
+            });
+        },
         showCompetitionDetail: function(id) {
             var model = new CompetitionModel({id: id});
             this.listenTo(model, 'change', function() {

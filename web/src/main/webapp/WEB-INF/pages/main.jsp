@@ -6,14 +6,22 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>Competitions manager</title>
-        <link rel="stylesheet" href="js/libs/jquery-ui/themes/base/jquery.ui.theme.min.css">
-        <link rel="stylesheet" href="js/libs/jquery-ui/themes/base/jquery.ui.datepicker.min.css">
-        <link rel="stylesheet" href="js/libs/jquery-ui/themes/base/jquery.ui.dialog.min.css">
+        <link rel="stylesheet" href="js/libs/jquery-ui/themes/smoothness/jquery-ui.custom.min.css">
         <link rel="stylesheet" href="js/libs/leaflet/leaflet.css">
         <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/base.css">
         <link rel="stylesheet" href="css/map.css">
         <script data-main="js/main" src="js/libs/require/require.js"></script>
+        <sec:authorize access="isAuthenticated()">
+            <sec:authentication  property="principal.user" var="user" />
+            <script>
+                user = {
+                    id: "${user.id}",
+                    name: "${user.name}",
+                    username: "${user.username}"
+                };
+            </script>
+        </sec:authorize>
     </head>
     <body>
 

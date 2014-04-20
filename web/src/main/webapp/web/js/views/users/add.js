@@ -12,6 +12,10 @@ define([
         tagName: 'div',
         className: 'add-user',
         initialize: function(options) {
+            if (!this.model) {
+                this.model = new UserModel();
+            }
+            this.model.on('invalid', ErrorHandler.onModelValidationError);
             return this;
         },
         events: {
@@ -23,11 +27,8 @@ define([
         },
         create: function(event) {
             var values = Form.toObject(this, 'user-');
-            var userModel = new UserModel();
-            userModel.on('invalid', function(model, error) {
-                alert(error);
-            });
-            userModel.save(values, {
+            ;
+            this.model.save(values, {
                 wait: true,
                 success: function() {
                     Channel.trigger("user:created");

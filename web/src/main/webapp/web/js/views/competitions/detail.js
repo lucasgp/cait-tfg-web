@@ -18,8 +18,7 @@ define([
         className: 'competition-detail',
         events: {
             'click .join': 'joinCompetition',
-            'click .destroy': 'deleteCompetition',
-            'click #submit-comment': 'addComment'
+            'click .destroy': 'deleteCompetition'
         },
         initialize: function() {
             this.viewHolder = new ViewHolder();
@@ -37,7 +36,10 @@ define([
             this.$el.append(view.render().el);
         },
         renderComments: function() {
-            var view = new CommentsListView({comments: this.model.get('comments')});
+            var view = new CommentsListView({
+                comments: this.model.get('comments'),
+                competitionId: this.model.id
+            });
             this.viewHolder.register('commentsView', view);
             this.$el.append(view.render().el);
         },
@@ -57,21 +59,6 @@ define([
                 wait: true,
                 success: function() {
                     Channel.trigger("participant:added", {competitionId: competition.id});
-                },
-                error: ErrorHandler.onModelFetchError
-            });
-        },
-        addComment: function(event) {
-            var values = Form.toObject(this, 'comment-');
-            var comment = new CommentModel({competitionId: this.model.id});
-            var competition = this.model;
-            comment.on('invalid', function(model, error) {
-                alert(error);
-            });
-            comment.save(values, {
-                wait: true,
-                success: function() {
-                    Channel.trigger("comment:added", {competitionId: competition.id});
                 },
                 error: ErrorHandler.onModelFetchError
             });

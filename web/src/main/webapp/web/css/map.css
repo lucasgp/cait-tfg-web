@@ -1,9 +1,31 @@
-#competition-map {
-    width: 500px;
+#map-wrapper {
+    width: 100%;
     height: 350px;
 }
 
+#competition-map {
+    height: 100%;
+}
+
+.tracking-map-wrapper {
+    width: 100%;
+    height: 250px;
+}
+
 .tracking-map {
-    width: 300px;
-    height: 175px;
+    height: 100%;
+}
+
+.map {
+    outline: 0.1em solid #b4bab1;
+    outline-offset: 0em;
+}
+
+/*
+Override Leaflet styles
+*/
+.leaflet-control-attribution {
+    z-index: 0;
+    width: 0px;
+    height: 0px;
 }

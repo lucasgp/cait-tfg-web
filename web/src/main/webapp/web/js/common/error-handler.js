@@ -17,6 +17,21 @@ define([
                 timeout: 0
             });
         },
+        onModelValidationError: function(model, error) {
+            noty({
+                layout: 'top',
+                type: 'warning',
+                text: error,
+                dismissQueue: true,
+                animation: {
+                    open: {height: 'toggle'},
+                    close: {height: 'toggle'},
+                    easing: 'swing',
+                    speed: 500
+                },
+                timeout: 0
+            });
+        },
         onDefaultRoute: function() {
             noty({
                 layout: 'top',

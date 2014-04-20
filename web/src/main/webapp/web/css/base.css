@@ -4,6 +4,9 @@ html,body {
     margin: 0em;
     padding: 0em;
     height: 100%;
+    background-color: #dad7d0;
+    font-family: Helvetica, Arial, Verdana, Sans-serif;
+    font-size: 1em;
 }
 
 h1 {
@@ -16,36 +19,56 @@ h2 {
     margin: 0;
 }
 
-p,label {
+label {
     font-size: 0.875em;
     margin: 0;
 }
 
+p {
+    font-size: 0.875em;
+    margin: 1% 0;
+}
+
 a {
     text-decoration: none;
+    color: #6f8a42;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+i {
+    margin-right: 0.5em;
+    color: #303d65;
 }
 
 #app {
     border: thin;
-    font-family: Helvetica, Arial, Verdana, Sans-serif;
     min-height: 100%;
     position: relative;
 }
 
 #header,#footer {
-    color: #ccc;
-    border-top: 1px solid black;
+    color: #303d65;
     width: 100%;
 }
 
 #header {
-    background: transparent url('../images/grass.png') center no-repeat;
     margin: 0;
-    text-shadow: 1px 1px 6px #ccc;
+    text-shadow: 2px 1px 2px #303d65;
+    color: #e8e5dd;
+    border-bottom: 0.3em solid #e8e5dd;
 }
 
 #header h1 {
     margin: 1em;
+    font-weight: 900;
+    /*opacity: 0.5;*/
 }
 
 #footer {
@@ -54,15 +77,18 @@ a {
     margin-top: 1em;
     position: relative;
     bottom: 0;
+    border-top: 0.3em solid #e8e5dd;
 }
 
 #footer p {
     padding: 1em;
 }
 
-#main {
-    width: 80%;
-    float: left;
+#content {
+    margin: 0% 5%;
+    clear: both;
+    min-height: 40em;
+    /*    outline: 0.2em solid #e8e5dd;*/
 }
 
 #menu {
@@ -71,10 +97,9 @@ a {
     margin: 1%;
 }
 
-#content {
-    margin: 0% 5%;
-    clear: both;
-    min-height: 40em;
+#main {
+    width: 80%;
+    float: left;
 }
 
 .destroy, .edit, .join, .goto {
@@ -83,30 +108,29 @@ a {
     margin: 2px;
 }
 
-
-#competition-list {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0;
-    list-style: none;
+.border {
+    outline: 0.2em solid #b4bab1;
+    outline-offset: 0em;
+    margin-bottom: 1em;
 }
 
 .competition {
     position: relative;
     display: inline-block;
-    margin: 1%;
-    width: 31%;
-    border: 1px solid #007B25;
+    padding: 0.5%;
+    margin: 0.5%;
+    width: 30%;
+    background-color: #e8e5dd;
 }
 
 .competition:hover {
-    outline: 0.2em solid #007536;
+    outline: 0.2em solid #b4bab1;
     outline-offset: 0em;
 }
 
 .competition .title {
-    background: #a62500;
-    color: white;
+    background: #6f8a42;
+    color: #f2efe9;
     width: 100%;
 }
 
@@ -119,27 +143,102 @@ a {
     padding: 0.5em;
 }
 
+.competition .dates {
+    width: 100%;
+}
+
+.competition .dates p {
+    padding: 0.5em;
+}
+
 .competition .description {
     height: 10em;
-    padding: 0.5em;
+    width: 100%;
 }
 
 .competition .description p {
     margin: 0;
+    padding: 0.5em;
 }
 
-.competition .menu {
-    background: #bf5030;
-    height: 1.8em;
+.competition-detail {
+    width: 100%;
+    margin-top: 1%;
 }
 
 #participants-list {
-    float: left;
-    width: 25%;
-    list-style: none;
+    width: 100%;
+    border-bottom: 0.3em solid #e8e5dd;
+    padding-bottom: 1%;
 }
 
-#map-wrapper {
-    float: right;
-    width: 65%;
+.participant {
+    display: inline-block;
+    width: 24%;
+    margin: 0.5%;
+}
+
+#comments-list {
+    clear: both;
+    width: 100%;
+}
+
+.comment {
+    display: inline-block;
+    width: 49%;
+    margin: 0.5%;
+}
+
+#comment-form {
+    display: block;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1em;
+}
+
+/*
+Override Jquery styles
+*/
+.ui-widget {
+    font-family: Helvetica, Arial, Verdana, Sans-serif;
+    font-size: 1em;
+}
+
+.ui-widget-header {
+    font-weight: normal;
+    border: none;
+}
+
+.ui-widget-content {
+    padding: 0;
+}
+
+.ui-datepicker table {
+    margin: 0;
+}
+
+.ui-datepicker th {
+    font-weight: normal;
+    padding: 0;
+}
+
+.ui-datepicker.ui-corner-all,
+.ui-datepicker-header.ui-corner-all,
+.ui-datepicker-next.ui-corner-all,
+.ui-datepicker-prev.ui-corner-all {
+    border-radius: 0;
+}
+
+.ui-dialog.ui-corner-all,
+.ui-dialog-titlebar.ui-corner-all {
+    border-radius: 0;
+}
+
+.ui-dialog {
+    padding: 0;
+}
+
+.ui-dialog .ui-dialog-content {
+    padding: 0;
 }

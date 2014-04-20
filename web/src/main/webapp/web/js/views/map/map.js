@@ -1,5 +1,5 @@
 define([
-    'jqueryui/dialog',
+    'jqueryui',
     'underscore',
     'backbone',
     'events',
@@ -10,10 +10,14 @@ define([
         id: 'competition-map',
         initialize: function(options) {
             this.defaults();
-            if (options && options.suffix)
-                this.el.id = this.id + '-' + options.suffix;
-            if (options && options.geoJson)
-                this.geoJson = options.geoJson;
+            if (options) {
+                if (options.suffix)
+                    this.el.id = this.id + '-' + options.suffix;
+                if (options.geoJson)
+                    this.geoJson = options.geoJson;
+                if (options.editable)
+                    this.editable = true;
+            }
         },
         defaults: function() {
             this.center = [43.361881, -8.416068];
@@ -47,7 +51,9 @@ define([
                 this.map.setZoom(this.zoom);
                 this.map.setView(this.center);
             }
-            this.map.on('click', this.setMapPoint, this);
+            if (this.editable) {
+                this.map.on('click', this.setMapPoint, this);
+            }
             return this;
         },
         setGeoJsonPoint: function(feature, latlng) {
@@ -74,8 +80,6 @@ define([
             this.setGeoJsonPoint(feature, e.latlng).addTo(this.map);
         },
         close: function() {
-//            if (this.map)
-//                this.map.remove();
             this.unbind();
             this.remove();
         }
