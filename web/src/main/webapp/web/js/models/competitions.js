@@ -1,6 +1,7 @@
 define([
-    'backbone'
-], function(Backbone) {
+    'backbone',
+    'date'
+], function(Backbone, DateUtils) {
 
     var CompetitionModel = Backbone.Model.extend({
         urlRoot: '/resources/competitions',
@@ -10,10 +11,10 @@ define([
         defaults: {
             name: "",
             description: "",
-            startDate: new Date() + 1,
-            finishDate: new Date() + 1,
+            startDate: DateUtils.getTomorrow(),
+            finishDate: DateUtils.getTomorrow(),
             typeId: "",
-            stateId: "",
+            stateId: ""
         },
         validate: function(attrs) {
             if (!attrs.name) {

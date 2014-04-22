@@ -11,7 +11,9 @@ require.config({
         'view-holder': 'common/view-holder',
         'form': 'common/form',
         'events': 'common/events',
-        'error-handler': 'common/error-handler'
+        'error-handler': 'common/error-handler',
+        'date': 'common/date-utils',
+        'loading': 'common/loading'
     },
     shim: {
         'jqueryui': {

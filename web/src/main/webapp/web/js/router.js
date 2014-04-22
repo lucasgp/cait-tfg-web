@@ -2,17 +2,18 @@ define([
     'page',
     'events',
     'error-handler',
-    'views/app'
+    'views/app',
+    'loading'
 ], function(Page, Channel, ErrorHandler, AppView) {
 
     var AppRouter = Backbone.Router.extend({
         routes: {
             '(/)': 'showCompetitions',
-            'competitions(/:page/:size/:sortProperty/:sortOrder)(/)': 'showCompetitions',
+            'competitions(/:page/:size/:sortProperty/:sortOrder)(/:paramName/:paramValue)(/)': 'showCompetitions',
             'competition/:id(/)': 'showCompetitionDetail',
             'create-competition(/)': 'showCreateCompetition',
             'edit-competition/:id(/)': 'showEditCompetition',
-            'users(/:page/:size/:sortProperty/:sortOrder)(/)': 'showUsers',
+            'users(/:page/:size/:sortProperty/:sortOrder)(/:paramName/:paramValue)(/)': 'showUsers',
             'user/:id(/)': 'showUserDetail',
             'signup(/)': 'showSignup',
             '*path(/)': 'default'
@@ -34,13 +35,17 @@ define([
             ErrorHandler.onDefaultRoute();
             this.navigate("competitions", {trigger: true});
         },
-        showCompetitions: function(page, size, sortProperty, sortOrder) {
+        showCompetitions: function(page, size, sortProperty, sortOrder, paramName, paramValue) {
             var query = new Page.Query({
                 page: page ? page : 0,
                 size: size ? size : 6,
                 sortProperty: sortProperty ? sortProperty : 'startDate',
-                sortOrder: sortOrder ? sortOrder : 'DESC'
+                sortOrder: sortOrder ? sortOrder : 'DESC',
+                params: {}
             });
+            if (paramName && paramValue) {
+                query.params[paramName] = paramValue;
+            }
             this.view.showCompetitions(query);
         },
         showCompetitionDetail: function(id) {
@@ -52,12 +57,13 @@ define([
         showEditCompetition: function(id) {
             this.view.showEditCompetition(id);
         },
-        showUsers: function(page, size, sortProperty, sortOrder) {
+        showUsers: function(page, size, sortProperty, sortOrder, params) {
             var query = new Page.Query({
                 page: page ? page : 0,
                 size: size ? size : 6,
                 sortProperty: sortProperty ? sortProperty : 'username',
-                sortOrder: sortOrder ? sortOrder : 'DESC'
+                sortOrder: sortOrder ? sortOrder : 'DESC',
+                params: params
             });
             this.view.showUsers(query);
         },

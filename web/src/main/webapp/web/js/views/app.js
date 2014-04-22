@@ -31,7 +31,7 @@ define([
         showCompetitions: function(query) {
             var competitions = new CompetitionsCollection();
             this.listenTo(competitions, 'sync', function() {
-                this.switchToView('competitionsListView', new CompetitionsListView({competitions: competitions}));
+                this.switchToView('competitionsListView', new CompetitionsListView({query: query, competitions: competitions}));
             });
             competitions.findByQuery(query);
         },

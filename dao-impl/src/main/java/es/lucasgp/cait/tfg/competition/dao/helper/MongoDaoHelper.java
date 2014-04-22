@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import es.lucasgp.cait.tfg.competition.dto.PageRequest;
 import es.lucasgp.cait.tfg.competition.dto.PageResult;
 import es.lucasgp.cait.tfg.competition.dto.Sort.Order;
 import es.lucasgp.cait.tfg.competition.model.BaseEntity;
+import org.springframework.data.mongodb.core.MongoOperations;
 
 @Component
 public class MongoDaoHelper {
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private MongoOperations mongoTemplate;
 
     public String getCollectionName(final Class<?> entityClass) {
         return this.mongoTemplate.getCollectionName(entityClass);

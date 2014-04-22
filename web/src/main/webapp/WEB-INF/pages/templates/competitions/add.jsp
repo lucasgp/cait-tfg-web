@@ -3,8 +3,8 @@
 
 <input id="competition-name" placeholder="New competition?" autofocus value="{{-name}}">
 <textarea id="competition-description" cols="50" rows="5" placeholder="What's this competition about?" >{{-description}}</textarea>
-<input id="competition-startDate" value="{{-startDate}}">
-<input id="competition-finishDate" value="{{-finishDate}}">
+<input id="competition-startDate">
+<input id="competition-finishDate">
 <input id="competition-typeId" value="1">
 <input id="competition-stateId" value="1">
 

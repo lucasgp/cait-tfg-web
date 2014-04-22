@@ -8,7 +8,7 @@ define([
         model: UserModel,
         url: '/resources/users',
         parse: function(data) {
-            return Page.parse(data);
+            return Page.parse(data, this);
         },
         findByQuery: function(query) {
 

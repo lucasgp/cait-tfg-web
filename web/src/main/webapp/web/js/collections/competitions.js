@@ -11,7 +11,7 @@ define([
         model: CompetitionModel,
         url: '/resources/competitions',
         parse: function(data) {
-            return Page.parse(data);
+            return Page.parse(data, this);
         },
         findByQuery: function(query) {
 

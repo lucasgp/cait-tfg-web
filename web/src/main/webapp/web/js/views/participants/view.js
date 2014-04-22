@@ -25,7 +25,6 @@ define([
                     this: this,
                     $mapElement: $mapElement
                 }, this.renderMap, this);
-
             }
 
             return this;
@@ -40,11 +39,16 @@ define([
             });
             event.data.this.viewHolder.register('mapView', view);
             $mapElement.append(view.render().el);
-
             $mapElement.dialog({
                 width: $(window).width() * 0.5,
                 height: $(window).width() * 0.3,
-                title: event.data.this.model.get("user").get("username") + " competition tracking"
+                title: event.data.this.model.get("user").get("username") + " competition tracking",
+                open: function() {
+                    $("#overlay").show();
+                },
+                close: function() {
+                    $("#overlay").hide();
+                }
             });
             event.data.this.viewHolder.get('mapView').renderMap();
         },
@@ -54,6 +58,5 @@ define([
             this.remove();
         }
     });
-
     return ParticipantView;
 });

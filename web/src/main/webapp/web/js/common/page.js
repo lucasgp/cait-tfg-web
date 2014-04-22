@@ -2,14 +2,14 @@ define([
 ], function() {
 
     var Page = {
-        parse: function(data) {
+        parse: function(data, collection) {
             var elements = data;
             if (data.elements)
                 elements = data.elements;
             if (data.page !== null)
-                elements.page = data.page;
+                collection.page = data.page;
             if (data.totalElements !== null)
-                elements.totalElements = data.totalElements;
+                collection.totalElements = data.totalElements;
             return elements;
         },
         Query: function(params) {
