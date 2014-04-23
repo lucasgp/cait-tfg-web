@@ -1,7 +1,7 @@
 package es.lucasgp.cait.tfg.competition.service.impl;
 
 import es.lucasgp.cait.tfg.competition.dao.api.BaseDao;
-import es.lucasgp.cait.tfg.competition.dao.api.query.Query;
+import es.lucasgp.cait.tfg.competition.service.helper.QueryHelper;
 import es.lucasgp.cait.tfg.competition.dto.PageRequest;
 import es.lucasgp.cait.tfg.competition.dto.PageResult;
 import es.lucasgp.cait.tfg.competition.service.api.BaseService;
@@ -45,7 +45,7 @@ public abstract class BaseServiceImpl<T, ID> implements BaseService<T, ID> {
 
     @Override
     public List<T> findAll(Map<String, String> parameters) {
-        return this.baseDao.findByQuery(getQuery(parameters));
+        return this.baseDao.findByQuery(QueryHelper.getInstance().toQuery(parameters));
 
     }
 
@@ -56,13 +56,7 @@ public abstract class BaseServiceImpl<T, ID> implements BaseService<T, ID> {
 
     @Override
     public PageResult<T> findAll(PageRequest pageRequest, Map<String, String> parameters) {
-        return this.baseDao.findByQuery(getQuery(parameters), pageRequest);
-    }
-
-    private Query getQuery(Map<String, String> parameters) {
-        Query query = Query.getInstance();
-        parameters.entrySet().forEach(entry -> query.eq(entry.getKey(), entry.getValue()));
-        return query;
+        return this.baseDao.findByQuery(QueryHelper.getInstance().toQuery(parameters), pageRequest);
     }
 
 }

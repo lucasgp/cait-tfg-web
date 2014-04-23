@@ -2,9 +2,9 @@
 <%@ include file="/WEB-INF/pages/taglibs.jsp" %>
 
 <div id="competition-search">
-    <input id="competition-search-name" type="text" placeholder="Competition name..." value="{{-query.params.name}}">
-    <input id="competition-search-from" type="text" >
-    <input id="competition-search-to" type="text" >
+    <input id="competition-search-name-like" type="text" placeholder="Competition name..." value="{{-query.params['name-like']}}">
+    <input id="competition-search-startDate-gte" type="text" value="{{- query.params['startDate-gte'] != null ? $.datepicker.formatDate('yy-mm-dd', new Date(query.params['startDate-gte'])) : '' }}">
+    <input id="competition-search-startDate-lte" type="text" value="{{- query.params['startDate-lte'] != null ? $.datepicker.formatDate('yy-mm-dd', new Date(query.params['startDate-lte'])) : '' }}">
     <%-- <input id="competition-search-owned" type="checkbox" name="owned" value="true">Only own competitions --%>
     <input id="submit-search" type="button" value="Submit">
     <input id="clear-search" type="button" value="Clear">

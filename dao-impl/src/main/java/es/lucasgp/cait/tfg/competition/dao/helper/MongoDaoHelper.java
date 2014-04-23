@@ -52,15 +52,15 @@ public class MongoDaoHelper {
     }
 
     public <T> List<T> findByQuery(final Query query, final Class<T> entityClass) {
-        return executeQuery(QueryConverter.toMongoQuery(query), entityClass, getCollectionName(entityClass));
+        return executeQuery(QueryConverter.getInstance(entityClass).toMongoQuery(query), entityClass, getCollectionName(entityClass));
     }
 
     public <T> List<T> findByQuery(final Query query, final Class<T> entityClass, final Class<?> collectionEntityClass) {
-        return executeQuery(QueryConverter.toMongoQuery(query), entityClass, getCollectionName(collectionEntityClass));
+        return executeQuery(QueryConverter.getInstance(entityClass).toMongoQuery(query), entityClass, getCollectionName(collectionEntityClass));
     }
 
     public <T> PageResult<T> findByQuery(final Query query, final Class<T> entityClass, final PageRequest pageRequest) {
-        return executeQuery(QueryConverter.toMongoQuery(query), entityClass, getCollectionName(entityClass), pageRequest);
+        return executeQuery(QueryConverter.getInstance(entityClass).toMongoQuery(query), entityClass, getCollectionName(entityClass), pageRequest);
     }
 
     public <T> List<T> findAll(final Class<T> entityClass) {

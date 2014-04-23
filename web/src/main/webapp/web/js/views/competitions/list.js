@@ -29,6 +29,10 @@ define([
             this.viewHolder.closeAll();
             this.$el.html(_.template(competitionListTemplate, {query: this.query, competitions: this.competitions}));
             this.competitions.each(this.createCompetitionView, this);
+
+            this.$("#competition-search-startDate-gte").datepicker({dateFormat: "yy-mm-dd"});
+            this.$("#competition-search-startDate-lte").datepicker({dateFormat: "yy-mm-dd"});
+
             return this;
         },
         createCompetitionView: function(competition, index, list) {
