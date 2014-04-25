@@ -40,6 +40,7 @@ define([
             competitions.findByQuery(query);
         },
         close: function() {
+            this.viewHolder.closeAll();
             this.unbind();
             this.remove();
         }

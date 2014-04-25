@@ -3,6 +3,6 @@
 <div>
     <a href="#user/{{- user.id }}" class="comment-user"><i class="fa fa-user"></i><span class="name">{{- user.get('username') }}</span></a>
     <span>&nbsp;{{-title}}</span>
-    <span>&nbsp;{{- commentDate != null ? $.datepicker.formatDate('yy-mm-dd', new Date(commentDate)) : '' }}</span>
+    <span>&nbsp;{{- commentDate != null ? $.datepicker.formatDate( $.t("i18n." + $.i18n.options.lng + ".dateformat") , new Date(commentDate)) : '' }}</span>
     <p>{{-content}}</p>
 </div>

@@ -1,0 +1,73 @@
+{
+    "app": {
+        "title": "Competition Management",
+        "footer": "Developed by Lucas González Pascual - CAIT-ES degree project. University of A Coruña."
+    },
+    "login": {
+        "title": "Login",
+        "error": "Invalid username and password.",
+        "logout": "You have been logged out.",
+        "form": {
+            "username": "Username",
+            "password": "Password",
+            "submit": "Login"
+        }
+    },
+    "signup": {
+        "title": "Sign up"
+    },
+    "menu": {
+        "login": "Login",
+        "signup": "Sign up",
+        "logout": "Logout",
+        "create-competitions": "New competition",
+        "list-competitions": "Find competitions",
+        "list-users": "Find users",
+        "list-competition-types": "Competition types (admin)"
+    },
+    "i18n": {
+        "en": {
+            "name": "English",
+            "dateformat": "mm-dd-yy"
+        },
+        "es": {
+            "name": "Español",
+            "dateformat": "dd-mm-yy"
+        }
+    },
+    "competition": {
+        "name": "Name",
+        "description": "Description",
+        "start-date": "Start date",
+        "finish-date": "Finish date",
+        "list-empty": "No competitions found...",
+        "form": {
+            "name-placeholder": "What's the competition name?",
+            "description-placeholder": "What's this competition about?",
+            "type": "Type",
+            "state": "State"
+        }
+    },
+    "comment": {
+        "list-empty": "No comments in this competition yet! Do you have something to share?",
+        "form": {
+            "title-placeholder": "What are you going to write about?",
+            "content-placeholder": "Write it!",
+            "submit": "Comment!"
+        }
+    },
+    "participant": {
+        "list-empty": "No participants in this competition yet! Wan't to join?"
+    },
+    "form": {
+        "submit": "Submit",
+        "save": "Save",
+        "search": "Search",
+        "clear": "Clear",
+        "reset": "Reset",
+        "from": "From",
+        "to": "To",
+        "previous": "Previous",
+        "next": "Next"
+    }
+}

@@ -27,8 +27,8 @@ define([
         },
         render: function() {
             this.$el.append(_.template(template, this.model.toJSON()));
-            this.$('#competition-startDate').datepicker({dateFormat: "yy-mm-dd"}).datepicker('setDate', new Date(this.model.get('startDate')));
-            this.$('#competition-finishDate').datepicker({dateFormat: "yy-mm-dd"}).datepicker('setDate', new Date(this.model.get('finishDate')));
+            this.$('#competition-startDate').datepicker({dateFormat: $.t('i18n.' + $.i18n.options.lng + '.dateformat')}).datepicker('setDate', new Date(this.model.get('startDate')));
+            this.$('#competition-finishDate').datepicker({dateFormat: $.t('i18n.' + $.i18n.options.lng + '.dateformat')}).datepicker('setDate', new Date(this.model.get('finishDate')));
             this.$('#map-wrapper').hide();
             return this;
         },

@@ -4,17 +4,16 @@
 {{ if(comments && comments.length > 0) {}}
 <ul id="comments-list"><!-- Comments --></ul>
 {{ } else {}}
-<p>No comments in this competition yet! Do you have something to share?</p>
+<p>{{- $.t("comment.list-empty") }}</p>
 {{}}}
 
 <sec:authorize access="isAuthenticated()">
     <div id="comment-form">
         <div>
-            <input id="comment-title" size="50" placeholder="What are you going to write about?" autofocus>
-            <input id="submit-comment" type="button" value="Comment">
+            <input id="comment-title" size="50" placeholder="{{- $.t('comment.form.title-placeholder') }}" autofocus>
+            <input id="submit-comment" type="button" value="{{- $.t('comment.form.submit') }}">
         </div>
-        <%-- <input id="comment-content" type="text" placeholder="Content?"> --%>
-        <div><textarea id="comment-content" cols="50" rows="5" placeholder="Write about it!"></textarea></div>
+        <div><textarea id="comment-content" cols="50" rows="5" placeholder="{{- $.t('comment.form.content-placeholder') }}"></textarea></div>
 
     </div>
 </sec:authorize>

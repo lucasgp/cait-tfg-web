@@ -5,7 +5,6 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Competitions manager</title>
         <link rel="stylesheet" href="js/libs/jquery-ui/themes/smoothness/jquery-ui.custom.min.css">
         <link rel="stylesheet" href="js/libs/leaflet/leaflet.css">
         <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
@@ -28,31 +27,13 @@
 
         <section id="app">
             <header id="header">
-                <h1>Competition Management</h1>
+                <h1 id="header-title" data-i18n="app.title"></h1>
             </header>
             <section id="content">
-                <section id="main">
-                </section>
-                <section id="menu">
-                    <sec:authorize access="isAnonymous()">
-                        <div id="login-button"><a href="${loginUrl}">Login</a></div>
-                        <div id="signup-button"><a href="#signup">Sign up</a></div>
-                    </sec:authorize>
-                    <sec:authorize access="isAuthenticated()">
-                        <div><span>${user.username}-${user.name}${user.surname}</span></div>
-                        <sec:authentication  property="principal.name" />
-                        <div id="logout-button"><a href="${logoutUrl}">Logout</a></div>
-                        <div id="create-competition-button"><a href="#create-competition">Create new competition</a></div>
-                    </sec:authorize>
-                    <div id="show-competitions-button"><a href="#competitions">Show competitions</a></div>
-                    <div id="admin-users"><a href="#users">Users</a></div>
-                    <sec:authorize access="hasRole('ADMIN')">
-                        <div id="admin-competition-types"><a href="#competition-types">Competition types</a></div>
-                    </sec:authorize>
-                </section>
+                <!-- Page content -->
             </section>
             <footer id="footer">
-                <p>Developed by Lucas González Pascual - Trabajo de fin de grado del CAIT-ES. Universidad de A Coruña.</p>
+                <p id="footer-content" data-i18n="app.footer"></p>
             </footer>
         </section>
         <div id="facebookG">

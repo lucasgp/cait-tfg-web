@@ -9,6 +9,7 @@ define([
     var AppRouter = Backbone.Router.extend({
         routes: {
             '(/)': 'showCompetitions',
+            'lang/:locale(/)': 'setLocale',
             'competitions(/:page/:size/:sortProperty/:sortOrder)(/:paramName/:paramValue)(/)': 'showCompetitions',
             'competition/:id(/)': 'showCompetitionDetail',
             'create-competition(/)': 'showCreateCompetition',
@@ -19,7 +20,8 @@ define([
             '*path(/)': 'default'
         },
         initialize: function(options) {
-            this.view = new AppView().render();
+            this.view = new AppView();
+            $("#content").html(this.view.render().el);
             Channel.on("competition:added", function(args) {
                 this.navigate("competition/" + args.competitionId, {trigger: true});
             }, this);
@@ -33,6 +35,11 @@ define([
         },
         default: function(path) {
             ErrorHandler.onDefaultRoute();
+            this.navigate("competitions", {trigger: true});
+        },
+        setLocale: function(locale) {
+            $.i18n.setLng(locale, function() {
+            });
             this.navigate("competitions", {trigger: true});
         },
         showCompetitions: function(page, size, sortProperty, sortOrder, paramName, paramValue) {

@@ -1,8 +1,12 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/pages/taglibs.jsp" %>
 <div class="title">
-    <span class="name">{{- name }}&nbsp;</span><i class="fa fa-calendar"></i><span>From&nbsp;{{- startDate != null ? $.datepicker.formatDate('yy-mm-dd', new Date(startDate)) : '' }}</span><span>To&nbsp;{{- finishDate != null ? $.datepicker.formatDate('yy-mm-dd', new Date(finishDate)) : '' }}</span>
-        <sec:authorize access="isAuthenticated()">
+    <span class="name">{{- name }}&nbsp;</span><i class="fa fa-calendar"></i>
+    <span>{{- $.t("competition.start-date") }}&nbsp;{{- startDate != null ? $.datepicker.formatDate($.t("i18n." + $.i18n.options.lng + ".dateformat"), new Date(startDate)) : '' }}</span>
+    {{ if(startDate !== finishDate) { }}
+    &nbsp;-&nbsp;<span>{{- $.t("competition.finish-date") }}&nbsp;{{- finishDate != null ? $.datepicker.formatDate($.t("i18n." + $.i18n.options.lng + ".dateformat"), new Date(finishDate)) : '' }}</span>
+    {{ } }}
+    <sec:authorize access="isAuthenticated()">
         <span>
             <a class="join"><i class="fa fa-calendar"></i></a>
             {{ if( user.id === ownerId ) { }}

@@ -30,15 +30,15 @@ define([
             this.$el.html(_.template(competitionListTemplate, {query: this.query, competitions: this.competitions}));
             this.competitions.each(this.createCompetitionView, this);
 
-            this.$("#competition-search-startDate-gte").datepicker({dateFormat: "yy-mm-dd"});
-            this.$("#competition-search-startDate-lte").datepicker({dateFormat: "yy-mm-dd"});
+            this.$("#competition-search-startDate-gte").datepicker({dateFormat: $.t('i18n.' + $.i18n.options.lng + '.dateformat')});
+            this.$("#competition-search-startDate-lte").datepicker({dateFormat: $.t('i18n.' + $.i18n.options.lng + '.dateformat')});
 
             return this;
         },
         createCompetitionView: function(competition, index, list) {
             var view = new CompetitionView({simple: this.simple, model: competition});
             this.viewHolder.register('compView' + index, view);
-            this.$el.append(view.render().el);
+            this.$("#competition-list").append(view.render().el);
         },
         findPrevCompetitions: function() {
             if (this.query.page > 0) {

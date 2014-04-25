@@ -1,0 +1,13 @@
+{
+    "competition": {
+        "name": "Nombre",
+        "description": "Descripción",
+        "form": {
+            "name-placeholder": "Nombre de la competición..."
+        }
+    },
+    "form": {
+        "submit": "Enviar"
+    }
+
+}

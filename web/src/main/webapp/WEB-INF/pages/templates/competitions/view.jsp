@@ -3,7 +3,13 @@
 <div class="title">
     <span class="name"><a href="#competition/{{- id}}" ><i class="fa fa-chevron-right"></i></a>{{- name }}</span>
 </div>
-<div class="dates"><p><i class="fa fa-calendar"></i><span>From&nbsp;{{- startDate != null ? $.datepicker.formatDate('yy-mm-dd', new Date(startDate)) : '' }}</span>&nbsp;To&nbsp;{{- finishDate != null ? $.datepicker.formatDate('yy-mm-dd', new Date(finishDate)) : '' }}</p></div>
+<div class="dates">
+    <i class="fa fa-calendar"></i>
+    <span>{{- startDate != null ? $.datepicker.formatDate($.t("i18n." + $.i18n.options.lng + ".dateformat"), new Date(startDate)) : '' }}</span>
+    {{ if(startDate !== finishDate) { }}
+    &nbsp;-&nbsp;<span>{{- finishDate != null ? $.datepicker.formatDate($.t("i18n." + $.i18n.options.lng + ".dateformat"), new Date(finishDate)) : '' }}</span>
+    {{ } }}
+</div>
 <div class="description">
     <p>{{- description }}</p>
 </div>

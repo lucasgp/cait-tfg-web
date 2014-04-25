@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/pages/taglibs.jsp" %>
 
 {{ if(participants && participants.length > 0) { }}
-<ul id="participants-list"></ul>
+<ul id="participants-list"><!-- Participants --></ul>
 {{ } else { }}
-<p>No participants in this competition yet! Wan't to join?</p>
+<p>{{- $.t("participant.list-empty") }}</p>
 {{ } }}

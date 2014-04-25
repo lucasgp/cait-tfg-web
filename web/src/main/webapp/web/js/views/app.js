@@ -14,10 +14,10 @@ define([
     'views/users/list',
     'views/competitions/add',
     'views/competitions/detail',
-    'views/competitions/list'
-], function($, _, Backbone, ViewHolder, ErrorHandler, Channel, CompetitionModel, UserModel, CompetitionsCollection, UsersCollection, AddUserView, UserDetailView, UsersListView, AddCompetitionView, CompetitionDetailView, CompetitionsListView) {
+    'views/competitions/list',
+    'text!/web/templates/app.html'
+], function($, _, Backbone, ViewHolder, ErrorHandler, Channel, CompetitionModel, UserModel, CompetitionsCollection, UsersCollection, AddUserView, UserDetailView, UsersListView, AddCompetitionView, CompetitionDetailView, CompetitionsListView, template) {
     var AppView = Backbone.View.extend({
-        el: '#main',
         initialize: function() {
             this.viewHolder = new ViewHolder();
             Channel.on("participant:added", function(args) {
@@ -66,7 +66,6 @@ define([
                 this.switchToView('usersListView', new UsersListView({users: users}));
             });
             users.findByQuery(query);
-
         },
         showUserDetail: function(id) {
             var model = new UserModel({id: id});
@@ -82,12 +81,13 @@ define([
             this.switchToView('addUserView', new AddUserView());
         },
         render: function() {
+            this.$el.html(_.template(template));
             return this;
         },
         switchToView: function(viewName, view) {
             this.viewHolder.closeAll();
             this.viewHolder.register(viewName, view);
-            this.$el.append(view.render().el);
+            $("#main").append(view.render().el);
         }
     });
     return AppView;

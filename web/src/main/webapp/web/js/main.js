@@ -7,6 +7,7 @@ require.config({
         'underscore': 'libs/underscore/underscore',
         'backbone': 'libs/backbone/backbone',
         'leaflet': 'libs/leaflet/leaflet',
+        'i18n': 'libs/i18next/i18next.amd.withJQuery',
         'page': 'common/page',
         'view-holder': 'common/view-holder',
         'form': 'common/form',
@@ -50,8 +51,19 @@ require.config({
     }
 });
 require([
-    'router',
-], function(Router, Channel) {
-    var router = new Router();
-    Backbone.history.start();
+    'backbone',
+    'i18n',
+    'router'
+], function(Backbone, i18n, Router) {
+    i18n.init({
+        lng: navigator.language || navigator.userLanguage,
+        resGetPath: 'js/i18n/__ns__.__lng__.json',
+        fallbackLng: 'en'
+    }, function() {
+        document.title = $.t("app.title");
+        $("#header-title").i18n();
+        $("#footer-content").i18n();
+        var router = new Router();
+        Backbone.history.start();
+    });
 });

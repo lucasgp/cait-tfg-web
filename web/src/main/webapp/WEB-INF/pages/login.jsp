@@ -4,30 +4,30 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login</title>
+        <title>{{- $.t("app.title") }} &nbsp;{{- $.t("login.title") }}</title>
     </head>
     <body>
         <form name="loginForm" action="${loginUrl}" method="post">
             <c:if test="${param.error != null}">
                 <p>
-                    Invalid username and password. ${param.error}
+                    {{- $.t("login.error") }}:&nbsp;${param.error}
                 </p>
             </c:if>
             <c:if test="${param.logout != null}">
                 <p>
-                    You have been logged out. ${param.logout}
+                    {{- $.t("login.logout") }}:&nbsp;${param.logout}
                 </p>
             </c:if>
             <p>
-                <label for="username">Username</label>
+                <label for="username">{{- $.t("login.form.username") }}</label>
                 <input type="text" id="username" name="username"/>
             </p>
             <p>
-                <label for="password">Password</label>
+                <label for="password">{{- $.t("login.form.password") }}</label>
                 <input type="password" id="password" name="password"/>
             </p>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button type="submit" class="btn">Log in</button>
+            <input type="button" value="{{- $.t('login.form.submit') }}">
         </form>
 
     </body>
