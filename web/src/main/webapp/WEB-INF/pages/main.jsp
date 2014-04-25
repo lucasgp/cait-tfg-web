@@ -5,6 +5,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
         <link rel="stylesheet" href="js/libs/jquery-ui/themes/smoothness/jquery-ui.custom.min.css">
         <link rel="stylesheet" href="js/libs/leaflet/leaflet.css">
         <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
@@ -18,6 +19,7 @@
                 user = {
                     id: "${user.id}",
                     name: "${user.name}",
+                    surname: "${user.surname}",
                     username: "${user.username}"
                 };
             </script>

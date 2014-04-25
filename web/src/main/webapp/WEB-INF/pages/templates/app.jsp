@@ -13,8 +13,7 @@
         <div id="signup-button"><a href="#signup">{{- $.t("menu.signup") }}</a></div>
     </sec:authorize>
     <sec:authorize access="isAuthenticated()">
-        <div><span>${user.username}-${user.name}${user.surname}</span></div>
-        <sec:authentication  property="principal.name" />
+        <div><span>{{-user.name}}&nbsp;{{-user.surname}}&nbsp;({{-user.username}})</span></div>
         <div id="logout-button"><a href="${logoutUrl}">{{- $.t("menu.logout") }}</a></div>
         <div id="create-competition-button"><a href="#create-competition">{{- $.t("menu.create-competitions") }}</a></div>
     </sec:authorize>

@@ -4,30 +4,31 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>{{- $.t("app.title") }} &nbsp;{{- $.t("login.title") }}</title>
+        <title></title>
+        <script data-main="js/login" src="js/libs/require/require.js"></script>
     </head>
     <body>
         <form name="loginForm" action="${loginUrl}" method="post">
             <c:if test="${param.error != null}">
                 <p>
-                    {{- $.t("login.error") }}:&nbsp;${param.error}
+                    <span id="login-error" data-i18n="login.error"></span>
                 </p>
             </c:if>
             <c:if test="${param.logout != null}">
                 <p>
-                    {{- $.t("login.logout") }}:&nbsp;${param.logout}
+                    <span id="login-logout" data-i18n="login.logout"></span>
                 </p>
             </c:if>
             <p>
-                <label for="username">{{- $.t("login.form.username") }}</label>
+                <label id="username-label" for="username" data-i18n="login.form.username"></label>
                 <input type="text" id="username" name="username"/>
             </p>
             <p>
-                <label for="password">{{- $.t("login.form.password") }}</label>
+                <label id="password-label" for="password" data-i18n="login.form.password"></label>
                 <input type="password" id="password" name="password"/>
             </p>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <input type="button" value="{{- $.t('login.form.submit') }}">
+            <button id="submit-button" data-i18n="form.submit"></button>
         </form>
 
     </body>
