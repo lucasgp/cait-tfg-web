@@ -10,14 +10,10 @@ define([
 ], function($, _, Backbone, ViewHolder, Form, Page, CompetitionView, competitionListTemplate) {
     var CompetitionsListView = Backbone.View.extend({
         initialize: function(options) {
-
             this.viewHolder = new ViewHolder();
             this.competitions = options.competitions;
             this.query = options.query;
-
-            if (options.simple) {
-                this.simple = true;
-            }
+            this.simple = options.simple;
         },
         events: {
             'click #submit-search': 'findCompetitions',
@@ -27,7 +23,7 @@ define([
         },
         render: function() {
             this.viewHolder.closeAll();
-            this.$el.html(_.template(competitionListTemplate, {query: this.query, competitions: this.competitions}));
+            this.$el.html(_.template(competitionListTemplate, {query: this.query, simple: this.simple, competitions: this.competitions}));
             this.competitions.each(this.createCompetitionView, this);
 
             this.$("#competition-search-startDate-gte").datepicker({dateFormat: $.t('i18n.' + $.i18n.options.lng + '.dateformat')});

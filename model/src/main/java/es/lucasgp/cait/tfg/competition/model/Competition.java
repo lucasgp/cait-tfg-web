@@ -2,12 +2,13 @@ package es.lucasgp.cait.tfg.competition.model;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-public class Competition extends BaseEntity {
+public final class Competition extends BaseEntity {
 
     @Size(min = 1)
     @Indexed
@@ -40,8 +41,8 @@ public class Competition extends BaseEntity {
 
     private Route route;
 
-    private Collection<Comment> comments;
-    private Collection<Participant> participants;
+    private List<Comment> comments;
+    private List<Participant> participants;
 
     public String getName() {
         return name;
@@ -107,19 +108,19 @@ public class Competition extends BaseEntity {
         this.route = route;
     }
 
-    public Collection<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Collection<Comment> comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 
-    public Collection<Participant> getParticipants() {
+    public List<Participant> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(Collection<Participant> participants) {
+    public void setParticipants(List<Participant> participants) {
         this.participants = participants;
     }
 

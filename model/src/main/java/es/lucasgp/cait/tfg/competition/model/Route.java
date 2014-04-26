@@ -2,7 +2,7 @@ package es.lucasgp.cait.tfg.competition.model;
 
 import es.lucasgp.cait.tfg.competition.model.geojson.GeoJson;
 
-public class Route {
+public final class Route {
 
     private GeoJson geoJson = new GeoJson();
 

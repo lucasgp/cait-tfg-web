@@ -1,6 +1,6 @@
 package es.lucasgp.cait.tfg.competition.model;
 
-public class SecurityUser extends User {
+public final class SecurityUser extends User {
 
     private String password;
 

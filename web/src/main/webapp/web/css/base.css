@@ -34,6 +34,10 @@ a {
     color: #6f8a42;
 }
 
+a:hover {
+    background-color: #e8e5dd;
+}
+
 ul {
     padding: 0;
 }
@@ -102,6 +106,35 @@ i {
     float: left;
 }
 
+#loading{
+    display:block;
+    width: 100%;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 10000;
+}
+
+.search-nav {
+    margin: 1%;
+    width: 100%;
+    height: 2em;
+    cursor: pointer;
+}
+
+.search-nav:hover {
+    outline: 0.2em solid #b4bab1;
+    outline-offset: 0em;
+}
+
+.search-nav i {
+    display: block;
+    margin: 0 auto;
+    width: 48px;
+    height: 48px;
+}
+
 .destroy, .edit, .join, .goto {
     display: inline-block;
     cursor: pointer;
@@ -114,12 +147,22 @@ i {
     margin-bottom: 1em;
 }
 
+#competition-search {
+    width: 100%;
+    margin-top: 1%;
+}
+
+#competition-list {
+    display: block;
+    margin: 1% auto;
+}
+
 .competition {
     position: relative;
     display: inline-block;
     padding: 0.5%;
     margin: 0.5%;
-    width: 30%;
+    width: 31.3%;
     background-color: #e8e5dd;
 }
 
@@ -187,6 +230,11 @@ i {
     display: inline-block;
     width: 49%;
     margin: 0.5%;
+}
+
+.user-detail {
+    width: 100%;
+    margin-top: 1%;
 }
 
 #comment-form {

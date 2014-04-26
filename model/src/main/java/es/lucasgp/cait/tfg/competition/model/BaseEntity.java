@@ -1,11 +1,12 @@
 package es.lucasgp.cait.tfg.competition.model;
 
+import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class BaseEntity {
+public class BaseEntity implements Serializable {
 
     @Id
     private String id;

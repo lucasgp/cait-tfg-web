@@ -1,6 +1,6 @@
 package es.lucasgp.cait.tfg.competition.dto;
 
-public class Sort {
+public final class Sort {
 
     public enum Order {
 

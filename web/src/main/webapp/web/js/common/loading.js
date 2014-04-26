@@ -4,10 +4,10 @@ define([
 
     $(document).ajaxStart(function() {
         $("#overlay").css("display", "block");
-        $("#facebookG").css("display", "block");
+        $("#loading").css("display", "block");
     });
     $(document).ajaxComplete(function() {
-        $("#facebookG").css("display", "none");
+        $("#loading").css("display", "none");
         $("#overlay").css("display", "none");
     });
 }

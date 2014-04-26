@@ -4,7 +4,7 @@ import java.util.Date;
 import javax.validation.constraints.Size;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-public class Comment {
+public final class Comment {
 
     @Size(min = 1)
     @Indexed

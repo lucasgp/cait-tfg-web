@@ -17,9 +17,31 @@ define([
         render: function() {
             this.$el.append(_.template(template, this.model.toJSON()));
             this.renderCompetitions();
+            this.renderParticipations();
+            this.renderComments();
             return this;
         },
         renderCompetitions: function() {
+            var competitions = new CompetitionsCollection();
+            var query = new Page.Query({
+                page: 0,
+                size: 5,
+                sortProperty: 'startDate',
+                sortOrder: 'DESC',
+                params: {
+                    'ownerId': this.model.id
+                }
+            });
+            var viewHolder = this.viewHolder;
+            var $appendTo = this.$('#user-competitions');
+            this.listenTo(competitions, 'sync', function() {
+                var view = new CompetitionListView({query: query, simple: true, competitions: competitions});
+                viewHolder.register('userCompetitionsView', view);
+                $appendTo.html(view.render().el);
+            });
+            competitions.findByQuery(query);
+        },
+        renderParticipations: function() {
             var competitions = new CompetitionsCollection();
             var query = new Page.Query({
                 page: 0,
@@ -31,13 +53,16 @@ define([
                 }
             });
             var viewHolder = this.viewHolder;
-            var $el = this.$el;
+            var $appendTo = this.$('#user-participations');
             this.listenTo(competitions, 'sync', function() {
-                var view = new CompetitionListView({simple: true, competitions: competitions});
-                viewHolder.register('userCompetitionsView', view);
-                $el.append(view.render().el);
+                var view = new CompetitionListView({query: query, simple: true, competitions: competitions});
+                viewHolder.register('userParticipationsView', view);
+                $appendTo.html(view.render().el);
             });
             competitions.findByQuery(query);
+        },
+        renderComments: function() {
+
         },
         close: function() {
             this.viewHolder.closeAll();

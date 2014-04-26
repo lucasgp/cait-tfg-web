@@ -3,7 +3,7 @@ package es.lucasgp.cait.tfg.competition.model;
 import javax.validation.constraints.Size;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-public class Participant {
+public final class Participant {
 
     private int score;
 

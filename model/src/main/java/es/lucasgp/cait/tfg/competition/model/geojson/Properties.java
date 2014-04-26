@@ -2,7 +2,7 @@ package es.lucasgp.cait.tfg.competition.model.geojson;
 
 import java.util.Date;
 
-public class Properties {
+public final class Properties {
 
     private Date timestamp = new Date();
     private Integer order;

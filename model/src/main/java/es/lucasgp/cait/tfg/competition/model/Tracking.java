@@ -2,7 +2,7 @@ package es.lucasgp.cait.tfg.competition.model;
 
 import es.lucasgp.cait.tfg.competition.model.geojson.GeoJson;
 
-public class Tracking extends BaseEntity {
+public final class Tracking extends BaseEntity {
 
     private GeoJson geoJson;
 

@@ -63,7 +63,7 @@ define([
         showUsers: function(query) {
             var users = new UsersCollection();
             this.listenTo(users, 'sync', function() {
-                this.switchToView('usersListView', new UsersListView({users: users}));
+                this.switchToView('usersListView', new UsersListView({query: query, users: users}));
             });
             users.findByQuery(query);
         },

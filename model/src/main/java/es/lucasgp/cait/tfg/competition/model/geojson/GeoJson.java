@@ -2,7 +2,7 @@ package es.lucasgp.cait.tfg.competition.model.geojson;
 
 import java.util.List;
 
-public class GeoJson {
+public final class GeoJson {
 
     private String type = "FeatureCollection";
 

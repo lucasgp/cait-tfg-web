@@ -1,10 +1,15 @@
 package es.lucasgp.cait.tfg.competition.conf;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -19,6 +24,14 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Import(SpringSecurityConfig.class)
 public class SpringWebMvcConfig extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        ObjectMapper mapper = converter.getObjectMapper();
+        mapper.registerModule(new AfterburnerModule());
+        converters.add(0, converter);
+    }
 
     @Bean
     public ViewResolver viewResolver() {
@@ -49,4 +62,5 @@ public class SpringWebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/web/templates/comments/list.html").setViewName("templates/comments/list");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
+
 }

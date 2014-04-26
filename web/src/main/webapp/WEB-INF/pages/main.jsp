@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/base.css">
         <link rel="stylesheet" href="css/map.css">
-        <link rel="stylesheet" href="css/loading.css">
+        <%--<link rel="stylesheet" href="css/loading.css">--%>
         <script data-main="js/main" src="js/libs/require/require.js"></script>
         <sec:authorize access="isAuthenticated()">
             <sec:authentication  property="principal.user" var="user" />
@@ -38,14 +38,9 @@
                 <p id="footer-content" data-i18n="app.footer"></p>
             </footer>
         </section>
-        <div id="facebookG">
+        <div id="loading" >
             <!-- Loading animation -->
-            <div id="blockG_1" class="facebook_blockG">
-            </div>
-            <div id="blockG_2" class="facebook_blockG">
-            </div>
-            <div id="blockG_3" class="facebook_blockG">
-            </div>
+            <i class="fa fa-cog fa-5x fa-spin"></i>
         </div>
         <div id="overlay"><!-- Overlay --></div>
     </body>

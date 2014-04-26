@@ -1,6 +1,6 @@
 package es.lucasgp.cait.tfg.competition.model;
 
-public class CompetitionType extends BaseEntity {
+public final class CompetitionType extends BaseEntity {
 
     private String name;
     private String description;

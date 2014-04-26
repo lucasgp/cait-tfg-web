@@ -70,7 +70,7 @@ define([
                 size: size ? size : 6,
                 sortProperty: sortProperty ? sortProperty : 'username',
                 sortOrder: sortOrder ? sortOrder : 'DESC',
-                params: params
+                params: {}
             });
             this.view.showUsers(query);
         },

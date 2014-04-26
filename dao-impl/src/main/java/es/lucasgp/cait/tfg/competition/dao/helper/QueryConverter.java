@@ -3,14 +3,12 @@ package es.lucasgp.cait.tfg.competition.dao.helper;
 import es.lucasgp.cait.tfg.competition.dao.api.query.Condition;
 import es.lucasgp.cait.tfg.competition.dao.api.query.Query;
 import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -90,16 +88,24 @@ public class QueryConverter {
         return criteria;
     }
 
-    private Object getValue(String field, Object value, Class<?> entityClass) {
+    private Object getValue(String field, Object value, Type entityClass) {
+
         Object convertedValue = value;
 
         try {
-            Method method = this.entityClass.getDeclaredMethod("get" + field.substring(0, 1).toUpperCase() + field.substring(1), (Class[]) null);
-            Class<?> returnType = method.getReturnType();
 
-            if (returnType == Date.class && value instanceof String) {
-                LocalDate dateValue = DateTimeFormatter.ofPattern("yyyy-MM-dd").parse(String.class.cast(value), LocalDate::from);
-                convertedValue = Date.from(dateValue.atStartOfDay().toInstant(ZoneOffset.UTC));
+            int childFieldSeparatorIndex = field.indexOf(".");
+
+            if (childFieldSeparatorIndex != -1) {
+                return getValue(field.substring(childFieldSeparatorIndex + 1), value, getType(field.substring(0, childFieldSeparatorIndex), entityClass));
+            } else {
+
+                Type returnType = getType(field, entityClass);
+
+                if (returnType == Date.class && value instanceof String) {
+                    LocalDate dateValue = DateTimeFormatter.ofPattern("yyyy-M-d").parse(String.class.cast(value), LocalDate::from);
+                    convertedValue = Date.from(dateValue.atStartOfDay().toInstant(ZoneOffset.UTC));
+                }
             }
 
         } catch (NoSuchMethodException ex) {
@@ -111,5 +117,21 @@ public class QueryConverter {
         }
 
         return convertedValue;
+    }
+
+    private Type getType(String field, Type type) throws SecurityException, NoSuchMethodException {
+
+        Type returnType = null;
+
+        if (type instanceof Class) {
+            Method method = Class.class.cast(type).getDeclaredMethod("get" + field.substring(0, 1).toUpperCase() + field.substring(1), (Class[]) null);
+            returnType = method.getGenericReturnType();
+
+            if (returnType instanceof ParameterizedType) {
+                returnType = Class.class.cast(ParameterizedType.class.cast(returnType).getActualTypeArguments()[0]);
+            }
+        }
+
+        return returnType;
     }
 }

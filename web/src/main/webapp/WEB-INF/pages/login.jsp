@@ -30,6 +30,7 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <button id="submit-button" data-i18n="form.submit"></button>
         </form>
+        <div><a id="goto-main" href="main.html" data-i18n="login.goto-main"></a></div>
 
     </body>
 </html>

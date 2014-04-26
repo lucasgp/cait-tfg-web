@@ -1,6 +1,6 @@
 package es.lucasgp.cait.tfg.competition.model.geojson;
 
-public class Feature {
+public final class Feature {
 
     private String type = "Feature";
     private Point geometry;

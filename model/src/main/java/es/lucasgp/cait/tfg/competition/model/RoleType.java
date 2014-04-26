@@ -1,6 +1,6 @@
 package es.lucasgp.cait.tfg.competition.model;
 
-public class RoleType extends BaseEntity {
+public final class RoleType extends BaseEntity {
 
     private String name;
     private String description;

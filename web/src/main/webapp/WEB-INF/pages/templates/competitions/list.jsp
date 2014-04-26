@@ -1,6 +1,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/pages/taglibs.jsp" %>
 
+{{ if(!simple) { }}
 <div id="competition-search">
     <input id="competition-search-name-like" type="text" placeholder="{{- $.t('competition.form.name-placeholder') }}" value="{{-query.params['name-like']}}">
     <label>{{-$.t('form.from')}}</label><input id="competition-search-startDate-gte" type="text" value="{{- query.params['startDate-gte'] != null ? $.datepicker.formatDate($.t('i18n.' + $.i18n.options.lng + '.dateformat'), new Date(query.params['startDate-gte'])) : '' }}">
@@ -9,17 +10,18 @@
     <input id="submit-search" type="button" value="{{- $.t('form.search') }}">
     <input id="clear-search" type="button" value="{{- $.t('form.clear') }}">
 </div>
+{{ } }}
 
 {{ if(competitions && competitions.length > 0) {}}
 
 {{ if(query.page > 0) { }}
-<input id="submit-prev" type="button" value="{{- $.t('form.previous') }}">
+<div id="submit-prev" class="search-nav"><i class="fa fa-chevron-left fa-3x fa-rotate-90"></i></div>
 {{ } }}
 
 <ul id="competition-list"><!-- Competitions --></ul>
 
 {{ if(((query.page + 1) * query.size) < competitions.totalElements ) { }}
-<input id="submit-next" type="button" value="{{- $.t('form.next') }}">
+<div id="submit-next" class="search-nav"><i class="fa fa-chevron-right fa-3x fa-rotate-90"></i></div>
 {{ } }}
 
 {{ } else {}}

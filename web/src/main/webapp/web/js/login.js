@@ -21,5 +21,6 @@ require([
         $("#username-label").i18n();
         $("#password-label").i18n();
         $("#submit-button").i18n();
+        $("#goto-main").i18n();
     });
 });

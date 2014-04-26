@@ -3,7 +3,7 @@ package es.lucasgp.cait.tfg.competition.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PageRequest {
+public final class PageRequest {
 
     private int page;
     private int size;

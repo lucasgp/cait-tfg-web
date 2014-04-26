@@ -1,6 +1,6 @@
 package es.lucasgp.cait.tfg.competition.model.geojson;
 
-public class Point {
+public final class Point {
 
     private String type = "Point";
     private double[] coordinates;

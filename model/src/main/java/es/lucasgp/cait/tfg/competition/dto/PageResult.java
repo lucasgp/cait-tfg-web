@@ -2,7 +2,7 @@ package es.lucasgp.cait.tfg.competition.dto;
 
 import java.util.List;
 
-public class PageResult<T> {
+public final class PageResult<T> {
 
     private int page;
     private long totalElements;

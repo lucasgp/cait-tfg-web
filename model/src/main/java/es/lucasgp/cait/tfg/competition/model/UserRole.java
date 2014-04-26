@@ -1,6 +1,6 @@
 package es.lucasgp.cait.tfg.competition.model;
 
-public class UserRole extends BaseEntity {
+public final class UserRole extends BaseEntity {
 
     private String userId;
     private String roleTypeId;

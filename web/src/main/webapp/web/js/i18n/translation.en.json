@@ -7,6 +7,7 @@
         "title": "Login",
         "error": "Invalid username and password.",
         "logout": "You have been logged out.",
+        "goto-main": "Changed your mind? Go to the main page.",
         "form": {
             "username": "Username",
             "password": "Password",
@@ -48,8 +49,26 @@
             "state": "State"
         }
     },
+    "user": {
+        "user-competitions": "Created...",
+        "user-participations": "Competition participant in...",
+        "user-comments": "Commented...",
+        "list-empty": "No users found...",
+        "form": {
+            "name-placeholder": "What's your name?",
+            "surname-placeholder": "What's your surname?",
+            "username-placeholder": "What user name you like?",
+            "password-placeholder": "Introduce your password. Don't be lazy!",
+            "phone-placeholder": "What's your phone number?",
+            "email-placeholder": "your@email.com",
+            "submit": "Sign up"
+        },
+        "search": {
+            "username-placeholder": "Who are you looking for?"
+        }
+    },
     "comment": {
-        "list-empty": "No comments in this competition yet! Do you have something to share?",
+        "list-empty": "No comments yet. Do you have something to share?",
         "form": {
             "title-placeholder": "What are you going to write about?",
             "content-placeholder": "Write it!",
@@ -57,7 +76,7 @@
         }
     },
     "participant": {
-        "list-empty": "No participants in this competition yet! Wan't to join?"
+        "list-empty": "No participants yet. Care to join?"
     },
     "form": {
         "submit": "Submit",
