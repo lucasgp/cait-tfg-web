@@ -21,7 +21,6 @@ h2 {
 
 label {
     font-size: 0.875em;
-    margin: 0;
 }
 
 p {
@@ -49,6 +48,82 @@ li {
 i {
     /*margin-right: 0.5em;*/
     color: #303d65;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.w75 {
+    width: 75%;
+}
+
+.w50 {
+    width: 50%;
+}
+
+.w45 {
+    width: 45%;
+}
+
+.w25 {
+    width: 25%;
+}
+
+.mr05 {
+    margin-right: 0.5em;
+}
+
+.mt05 {
+    margin-top: 0.5em;
+}
+
+.mtLabel {
+    margin-top: 1.480em;
+}
+
+.center {
+    display: block;
+    margin: 0 auto;
+}
+
+select {
+    margin: 0;
+    padding: 0;
+}
+
+input {
+    margin: 0;
+    padding: 0;
+}
+
+input[type="button"] {
+    width: 7em;
+}
+
+.field {
+    display: inline-block;
+}
+
+.column1{
+    float: left;
+}
+
+.column2{
+    float: right;
+}
+
+.clear {
+    clear: both;
+}
+
+label, input {
+    display: block;
+}
+
+textarea {
+    width: 100%;
+    height: 10em;
 }
 
 #app {
@@ -96,11 +171,14 @@ i {
 }
 
 #menu {
-    width: 18%;
+    width: 19%;
     float: right;
-    margin: 1%;
+    margin: 1% 0 0 1%;
 }
 
+#menu div {
+    margin-top: 0.5em;
+}
 #main {
     width: 80%;
     float: left;

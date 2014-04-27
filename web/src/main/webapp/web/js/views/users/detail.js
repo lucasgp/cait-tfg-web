@@ -77,7 +77,7 @@ define([
             var viewHolder = this.viewHolder;
             var $appendTo = this.$('#user-trackings');
             this.listenTo(trackings, 'sync', function() {
-                var view = new TrackingsListView({query: query, trackings: trackings});
+                var view = new TrackingsListView({query: query, collection: trackings});
                 viewHolder.register('userTrackingsView', view);
                 $appendTo.html(view.render().el);
             });

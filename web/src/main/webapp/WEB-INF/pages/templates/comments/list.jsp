@@ -8,12 +8,17 @@
 {{}}}
 
 <sec:authorize access="isAuthenticated()">
-    <div id="comment-form">
-        <div>
-            <input id="comment-title" size="50" placeholder="{{- $.t('comment.form.title-placeholder') }}" autofocus>
-            <input id="submit-comment" type="button" value="{{- $.t('comment.form.submit') }}">
+    <div class="mtLabel">
+        <div class="w25 center">
+            <div class="w100">
+                <input class="w100" id="comment-title" placeholder="{{- $.t('comment.form.title-placeholder') }}" autofocus>
+            </div>
+            <div class="w100 mt05">
+                <textarea class="w100" id="comment-content" cols="50" rows="5" placeholder="{{- $.t('comment.form.content-placeholder') }}"></textarea>
+            </div>
+            <div class="field">
+                <input id="submit-comment" type="button" value="{{- $.t('comment.form.submit') }}">
+            </div>
         </div>
-        <div><textarea id="comment-content" cols="50" rows="5" placeholder="{{- $.t('comment.form.content-placeholder') }}"></textarea></div>
-
     </div>
 </sec:authorize>

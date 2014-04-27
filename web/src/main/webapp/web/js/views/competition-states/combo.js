@@ -10,7 +10,7 @@ define([
             this.selectedId = options.selectedId ? options.selectedId : -1;
         },
         render: function() {
-            this.$el.html(_.template(template, {formPrefix: this.formPrefix, selectedId: this.selectedId, competitionStates: this.collection}));
+            this.el = _.template(template, {formPrefix: this.formPrefix, selectedId: this.selectedId, competitionStates: this.collection});
             return this;
         },
         close: function() {
