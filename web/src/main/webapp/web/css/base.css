@@ -47,7 +47,7 @@ li {
 }
 
 i {
-    margin-right: 0.5em;
+    /*margin-right: 0.5em;*/
     color: #303d65;
 }
 
@@ -117,7 +117,6 @@ i {
 }
 
 .search-nav {
-    margin: 1%;
     width: 100%;
     height: 2em;
     cursor: pointer;
@@ -147,6 +146,31 @@ i {
     margin-bottom: 1em;
 }
 
+.title {
+    background: #6f8a42;
+    color: #f2efe9;
+    width: 100%;
+}
+
+.title .name {
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    padding: 0.5em;
+}
+
+.description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dates {
+    width: 90%;
+    padding: 0.5em;
+}
+
 #competition-search {
     width: 100%;
     margin-top: 1%;
@@ -169,21 +193,6 @@ i {
 .competition:hover {
     outline: 0.2em solid #b4bab1;
     outline-offset: 0em;
-}
-
-.competition .title {
-    background: #6f8a42;
-    color: #f2efe9;
-    width: 100%;
-}
-
-.competition .title .name {
-    text-transform: uppercase;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: block;
-    padding: 0.5em;
 }
 
 .competition .dates {
@@ -232,17 +241,31 @@ i {
     margin: 0.5%;
 }
 
-.user-detail {
-    width: 100%;
-    margin-top: 1%;
-}
-
 #comment-form {
     display: block;
     width: 50%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1em;
+}
+
+#user-list {
+    display: block;
+    margin: 1% auto;
+}
+
+.user {
+    position: relative;
+    display: inline-block;
+    padding: 0.5%;
+    margin: 0.5%;
+    width: 31.3%;
+    background-color: #e8e5dd;
+}
+
+.user-detail {
+    width: 100%;
+    margin-top: 1%;
 }
 
 #overlay{

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/pages/taglibs.jsp" %>
-<div class="title">
-    <h2 class="name">
+<div >
+    <h2 >
         {{- name }}
         <sec:authorize access="isAuthenticated()">
             &nbsp;<a class="join"><i class="fa fa-sign-in" title="{{-$.t('competition.join')}}"></i></a>

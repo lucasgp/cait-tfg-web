@@ -1,6 +1,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/pages/taglibs.jsp" %>
-<div class="title">
+<div >
     <h2>{{- name }}&nbsp;{{- surname }}&nbsp;-&nbsp;{{- username }}</h2>
 </div>
 

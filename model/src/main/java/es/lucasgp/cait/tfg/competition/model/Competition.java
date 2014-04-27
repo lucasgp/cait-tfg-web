@@ -31,11 +31,10 @@ public final class Competition extends BaseEntity {
     private String stateId;
 
     @NotNull
-    @Future
     @Indexed
     private Date startDate;
+
     @NotNull
-    @Future
     @Indexed
     private Date finishDate;
 

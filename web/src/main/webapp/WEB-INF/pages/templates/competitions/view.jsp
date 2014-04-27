@@ -1,7 +1,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/pages/taglibs.jsp" %>
 <div class="title">
-    <span class="name"><a href="#competition/{{- id}}" ><i class="fa fa-chevron-right"></i></a>{{- name }}</span>
+    <span class="name"><a href="#competition/{{- id}}" ><i class="fa fa-trophy"></i></a>&nbsp;{{- name }}</span>
 </div>
 <div class="dates">
     <i class="fa fa-calendar"></i>
