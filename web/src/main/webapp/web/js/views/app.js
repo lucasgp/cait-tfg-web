@@ -43,7 +43,7 @@ define([
             this.listenTo(model, 'change', function() {
                 var view = new AddCompetitionView({model: model});
                 this.switchToView('editCompetitionView', view);
-                view.renderMap();
+//                view.renderMap();
             });
             model.fetch({
                 error: ErrorHandler.onModelFetchError
@@ -54,7 +54,7 @@ define([
             this.listenTo(model, 'change', function() {
                 var view = new CompetitionDetailView({model: model});
                 this.switchToView('competitionDetailView', view);
-                view.renderMap();
+//                view.renderMap();
             });
             model.fetch({
                 error: ErrorHandler.onModelFetchError

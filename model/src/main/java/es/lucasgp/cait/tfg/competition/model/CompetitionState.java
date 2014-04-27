@@ -3,7 +3,7 @@ package es.lucasgp.cait.tfg.competition.model;
 import javax.validation.constraints.Size;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-public final class CompetitionType extends BaseEntity {
+public final class CompetitionState extends BaseEntity {
 
     @Size(min = 1)
     @Indexed

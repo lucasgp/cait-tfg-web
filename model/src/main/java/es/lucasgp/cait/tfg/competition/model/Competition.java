@@ -1,9 +1,7 @@
 package es.lucasgp.cait.tfg.competition.model;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -16,18 +14,16 @@ public final class Competition extends BaseEntity {
     @Size(min = 1)
     private String description;
 
-    /**
-     * Usuario que creó la competición.
-     */
+    @Size(min = 1)
     @Indexed
     private String ownerId;
-    /**
-     * Carrera de montaña, maratón, 5k, 10k...
-     */
+
+    @Size(min = 1)
+    @Indexed
     private String typeId;
-    /**
-     * Inscripción abierta, inscripción cerrada, en curso, terminada.
-     */
+
+    @Size(min = 1)
+    @Indexed
     private String stateId;
 
     @NotNull

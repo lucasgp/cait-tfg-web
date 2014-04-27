@@ -5,14 +5,14 @@ define([
     'view-holder',
     'error-handler',
     'events',
-    'form',
     'models/participants',
-    'models/comments',
+    'collections/competition-states',
+    'collections/competition-types',
     'views/map/map',
     'views/participants/list',
     'views/comments/list',
     'text!/web/templates/competitions/detail.html'
-], function($, _, Backbone, ViewHolder, ErrorHandler, Channel, Form, ParticipantModel, CommentModel, MapView, ParticipantsListView, CommentsListView, competitionTemplate) {
+], function($, _, Backbone, ViewHolder, ErrorHandler, Channel, ParticipantModel, CompetitionStateCollection, CompetitionTypeCollection, MapView, ParticipantsListView, CommentsListView, template) {
     var CompetitionDetailView = Backbone.View.extend({
         tagName: 'div',
         className: 'competition-detail',
@@ -25,9 +25,25 @@ define([
             return this;
         },
         render: function() {
-            this.$el.append(_.template(competitionTemplate, this.model.toJSON()));
-            this.renderParticipants();
-            this.renderComments();
+            var states = new CompetitionStateCollection();
+            var types = new CompetitionTypeCollection();
+            var that = this;
+            $.when(
+                    states.fetch({
+                        error: ErrorHandler.onModelFetchError
+                    }),
+                    types.fetch({
+                        error: ErrorHandler.onModelFetchError
+                    })
+                    ).done(function() {
+                var params = that.model.toJSON();
+                params['competitionStates'] = states;
+                params['competitionTypes'] = types;
+                that.$el.append(_.template(template, params));
+                that.renderParticipants();
+                that.renderComments();
+                that.renderMap();
+            });
             return this;
         },
         renderParticipants: function() {
@@ -45,7 +61,7 @@ define([
         },
         renderMap: function() {
             this.viewHolder.close('mapView');
-            if (this.model.get('route')) {
+            if (this.model.get('route') && this.model.get('route').geoJson.features && this.model.get('route').geoJson.features.length > 0) {
                 var view = new MapView({geoJson: this.model.get('route').geoJson});
                 this.viewHolder.register('mapView', view);
                 $('#map-wrapper').append(view.render().el);
