@@ -60,6 +60,8 @@ public class SpringWebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/web/templates/participants/list.html").setViewName("templates/participants/list");
         registry.addViewController("/web/templates/comments/view.html").setViewName("templates/comments/view");
         registry.addViewController("/web/templates/comments/list.html").setViewName("templates/comments/list");
+        registry.addViewController("/web/templates/trackings/view.html").setViewName("templates/trackings/view");
+        registry.addViewController("/web/templates/trackings/list.html").setViewName("templates/trackings/list");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 

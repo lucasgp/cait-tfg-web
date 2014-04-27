@@ -42,6 +42,9 @@
         "start-date": "Start date",
         "finish-date": "Finish date",
         "list-empty": "No competitions found...",
+        "join": "Join competition",
+        "edit": "Edit competition",
+        "delete": "Delete competition",
         "form": {
             "name-placeholder": "What's the competition name?",
             "description-placeholder": "What's this competition about?",
@@ -50,9 +53,9 @@
         }
     },
     "user": {
-        "user-competitions": "Created...",
-        "user-participations": "Competition participant in...",
-        "user-comments": "Commented...",
+        "user-competitions": "Competitions",
+        "user-participations": "Participations",
+        "user-trackings": "Trackings",
         "list-empty": "No users found...",
         "form": {
             "name-placeholder": "What's your name?",
@@ -77,6 +80,9 @@
     },
     "participant": {
         "list-empty": "No participants yet. Care to join?"
+    },
+    "tracking": {
+        "list-empty": "No trackings yet..."
     },
     "form": {
         "submit": "Submit",

@@ -5,9 +5,11 @@ define([
     'page',
     'view-holder',
     'collections/competitions',
+    'collections/trackings',
     'views/competitions/list',
+    'views/trackings/list',
     'text!/web/templates/users/detail.html'
-], function($, _, Backbone, Page, ViewHolder, CompetitionsCollection, CompetitionListView, template) {
+], function($, _, Backbone, Page, ViewHolder, CompetitionCollection, TrackingCollection, CompetitionListView, TrackingsListView, template) {
     var UserDetailView = Backbone.View.extend({
         tagName: 'div',
         className: 'user-detail',
@@ -18,11 +20,11 @@ define([
             this.$el.append(_.template(template, this.model.toJSON()));
             this.renderCompetitions();
             this.renderParticipations();
-            this.renderComments();
+            this.renderTrackings();
             return this;
         },
         renderCompetitions: function() {
-            var competitions = new CompetitionsCollection();
+            var competitions = new CompetitionCollection();
             var query = new Page.Query({
                 page: 0,
                 size: 5,
@@ -42,7 +44,7 @@ define([
             competitions.findByQuery(query);
         },
         renderParticipations: function() {
-            var competitions = new CompetitionsCollection();
+            var competitions = new CompetitionCollection();
             var query = new Page.Query({
                 page: 0,
                 size: 5,
@@ -61,7 +63,25 @@ define([
             });
             competitions.findByQuery(query);
         },
-        renderComments: function() {
+        renderTrackings: function() {
+            var trackings = new TrackingCollection();
+            var query = new Page.Query({
+                page: 0,
+                size: 5,
+                sortProperty: 'startDate',
+                sortOrder: 'DESC',
+                params: {
+                    'userId': this.model.id
+                }
+            });
+            var viewHolder = this.viewHolder;
+            var $appendTo = this.$('#user-trackings');
+            this.listenTo(trackings, 'sync', function() {
+                var view = new TrackingsListView({query: query, trackings: trackings});
+                viewHolder.register('userTrackingsView', view);
+                $appendTo.html(view.render().el);
+            });
+            trackings.findByQuery(query);
 
         },
         close: function() {

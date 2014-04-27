@@ -38,7 +38,9 @@ public class CompetitionServiceImpl extends BaseServiceImpl<Competition, String>
             throw new IllegalArgumentException();
         }
 
-        participant.setTrackingId(this.trackingService.create(new Tracking()).getId());
+        Tracking tracking = new Tracking();
+        tracking.setUserId(participant.getUserId());
+        participant.setTrackingId(this.trackingService.create(tracking).getId());
 
         Competition comp = findById(id);
 

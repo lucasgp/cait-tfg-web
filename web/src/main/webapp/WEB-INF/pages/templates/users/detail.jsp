@@ -14,7 +14,7 @@
 
 </div>
 
-<h3>{{- $.t("user.user-comments") }}</h3>
-<div id="user-comments">
+<h3>{{- $.t("user.user-trackings") }}</h3>
+<div id="user-trackings">
 
 </div>

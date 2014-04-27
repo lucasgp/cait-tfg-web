@@ -9,6 +9,7 @@ define([
         },
         defaults: {
             id: null,
+            userId: null,
             version: null,
             geoJson: null
         }
