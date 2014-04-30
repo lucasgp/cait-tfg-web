@@ -4,10 +4,10 @@ define([
     'backbone',
     'view-holder',
     'form',
-    'page',
+    'date',
     'views/competitions/view',
     'text!/web/templates/competitions/list.html'
-], function($, _, Backbone, ViewHolder, Form, Page, CompetitionView, competitionListTemplate) {
+], function($, _, Backbone, ViewHolder, Form, DateUtils, CompetitionView, competitionListTemplate) {
     var CompetitionsListView = Backbone.View.extend({
         initialize: function(options) {
             this.viewHolder = new ViewHolder();
@@ -19,15 +19,15 @@ define([
             'click #submit-search': 'findCompetitions',
             'click #clear-search': 'clearQueryParams',
             'click #submit-prev': 'findPrevCompetitions',
-            'click #submit-next': 'findNextCompetitions',
+            'click #submit-next': 'findNextCompetitions'
         },
         render: function() {
             this.viewHolder.closeAll();
-            this.$el.html(_.template(competitionListTemplate, {query: this.query, simple: this.simple, competitions: this.competitions}));
+            this.$el.html(_.template(competitionListTemplate, {DateUtils: DateUtils, query: this.query, simple: this.simple, competitions: this.competitions}));
             this.competitions.each(this.createCompetitionView, this);
 
-            this.$("#competition-search-startDate-gte").datepicker({dateFormat: $.t('i18n.' + $.i18n.options.lng + '.dateformat')});
-            this.$("#competition-search-startDate-lte").datepicker({dateFormat: $.t('i18n.' + $.i18n.options.lng + '.dateformat')});
+            this.$("#competition-search-startDate-gte").datepicker({dateFormat: DateUtils.getFormat()});
+            this.$("#competition-search-startDate-lte").datepicker({dateFormat: DateUtils.getFormat()});
 
             return this;
         },

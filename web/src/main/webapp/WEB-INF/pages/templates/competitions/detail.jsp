@@ -8,9 +8,9 @@
             </sec:authorize>
     </h2>
     <div class="info">
-        <span><i class="fa fa-calendar"></i>{{- $.t("competition.start-date") }}&nbsp;{{- startDate != null ? $.datepicker.formatDate($.t("i18n." + $.i18n.options.lng + ".dateformat"), new Date(startDate)) : '' }}</span>
+        <span><i class="fa fa-calendar"></i>{{- $.t("competition.start-date") }}&nbsp;{{- startDate != null ? $.datepicker.formatDate(DateUtils.getFormat()), new Date(startDate)) : '' }}</span>
         {{ if(startDate !== finishDate) { }}
-        &nbsp;-&nbsp;<span>{{- $.t("competition.finish-date") }}&nbsp;{{- finishDate != null ? $.datepicker.formatDate($.t("i18n." + $.i18n.options.lng + ".dateformat"), new Date(finishDate)) : '' }}</span>
+        &nbsp;-&nbsp;<span>{{- $.t("competition.finish-date") }}&nbsp;{{- finishDate != null ? $.datepicker.formatDate(DateUtils.getFormat()), new Date(finishDate)) : '' }}</span>
         {{ } }}
         <span>{{- competitionStates.get(stateId).get('name') }}</span>
         <span>{{- competitionTypes.get(typeId).get('name') }}</span>

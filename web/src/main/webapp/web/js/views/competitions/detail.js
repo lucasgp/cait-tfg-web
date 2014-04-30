@@ -5,6 +5,7 @@ define([
     'view-holder',
     'error-handler',
     'events',
+    'date',
     'models/participants',
     'collections/competition-states',
     'collections/competition-types',
@@ -12,7 +13,7 @@ define([
     'views/participants/list',
     'views/comments/list',
     'text!/web/templates/competitions/detail.html'
-], function($, _, Backbone, ViewHolder, ErrorHandler, Channel, ParticipantModel, CompetitionStateCollection, CompetitionTypeCollection, MapView, ParticipantsListView, CommentsListView, template) {
+], function($, _, Backbone, ViewHolder, ErrorHandler, Channel, DateUtils, ParticipantModel, CompetitionStateCollection, CompetitionTypeCollection, MapView, ParticipantsListView, CommentsListView, template) {
     var CompetitionDetailView = Backbone.View.extend({
         tagName: 'div',
         className: 'competition-detail',
@@ -39,6 +40,7 @@ define([
                 var params = that.model.toJSON();
                 params['competitionStates'] = states;
                 params['competitionTypes'] = types;
+                params['DateUtils'] = DateUtils;
                 that.$el.append(_.template(template, params));
                 that.renderParticipants();
                 that.renderComments();

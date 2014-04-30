@@ -8,10 +8,10 @@
     </div>
     <div class="field mt05">
         <label>{{-$.t('form.from')}}</label>
-        <input id="competition-search-startDate-gte" type="text" value="{{- query.params['startDate-gte'] != null ? $.datepicker.formatDate($.t('i18n.' + $.i18n.options.lng + '.dateformat'), new Date(query.params['startDate-gte'])) : '' }}">
+        <input id="competition-search-startDate-gte" type="text" value="{{- query.params['startDate-gte'] != null ? $.datepicker.formatDate(DateUtils.getFormat()), new Date(query.params['startDate-gte'])) : '' }}">
     </div>
     <div class="field mt05">
-        <label>{{-$.t('form.to')}}</label><input id="competition-search-startDate-lte" type="text" value="{{- query.params['startDate-lte'] != null ? $.datepicker.formatDate($.t('i18n.' + $.i18n.options.lng + '.dateformat'), new Date(query.params['startDate-lte'])) : '' }}">
+        <label>{{-$.t('form.to')}}</label><input id="competition-search-startDate-lte" type="text" value="{{- query.params['startDate-lte'] != null ? $.datepicker.formatDate(DateUtils.getFormat()), new Date(query.params['startDate-lte'])) : '' }}">
     </div>
     <div class="field">
         <input id="submit-search" type="button" value="{{- $.t('form.search') }}">

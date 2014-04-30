@@ -4,6 +4,7 @@ define([
     'backbone',
     'form',
     'events',
+    'date',
     'view-holder',
     'error-handler',
     'models/competitions',
@@ -13,7 +14,7 @@ define([
     'views/competition-states/combo',
     'views/map/map',
     'text!/web/templates/competitions/add.html'
-], function($, _, Backbone, Form, Channel, ViewHolder, ErrorHandler, CompetitionModel, CompetitionTypeCollection, CompetitionStateCollection, CompetitionTypeComboView, CompetitionStateComboView, MapView, template) {
+], function($, _, Backbone, Form, Channel, DateUtils, ViewHolder, ErrorHandler, CompetitionModel, CompetitionTypeCollection, CompetitionStateCollection, CompetitionTypeComboView, CompetitionStateComboView, MapView, template) {
     var AddCompetitionView = Backbone.View.extend({
         tagName: 'div',
         className: 'add-competition',
@@ -32,8 +33,8 @@ define([
         },
         render: function() {
             this.$el.append(_.template(template, this.model.toJSON()));
-            this.$('#' + this.formPrefix + 'startDate').datepicker({dateFormat: $.t('i18n.' + $.i18n.options.lng + '.dateformat')}).datepicker('setDate', new Date(this.model.get('startDate')));
-            this.$('#' + this.formPrefix + 'finishDate').datepicker({dateFormat: $.t('i18n.' + $.i18n.options.lng + '.dateformat')}).datepicker('setDate', new Date(this.model.get('finishDate')));
+            this.$('#' + this.formPrefix + 'startDate').datepicker({dateFormat: DateUtils.getFormat()}).datepicker('setDate', new Date(this.model.get('startDate')));
+            this.$('#' + this.formPrefix + 'finishDate').datepicker({dateFormat: DateUtils.getFormat()}).datepicker('setDate', new Date(this.model.get('finishDate')));
             this.$('#map-wrapper').hide();
             this.renderTypesCombo();
             this.renderStatesCombo();

@@ -10,7 +10,9 @@ define([
         initialize: function() {
         },
         render: function() {
-            this.$el.append(_.template(template, this.model.toJSON()));
+            var params = this.model.toJSON();
+            params['DateUtils'] = DateUtils;
+            this.$el.append(_.template(template, params));
             return this;
         },
         close: function() {
