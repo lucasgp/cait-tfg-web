@@ -63,6 +63,22 @@ public class CompetitionServiceImpl extends BaseServiceImpl<Competition, String>
     }
 
     @Override
+    public void updateParticipant(String id, Participant participant) {
+
+        Competition comp = findById(id);
+
+        if (comp.getParticipants() != null) {
+            comp.getParticipants().forEach(p -> {
+                if (p.getTrackingId().equalsIgnoreCase(participant.getTrackingId()) && p.getUserId().equalsIgnoreCase(participant.getUserId())) {
+                    p.setScore(participant.getScore());
+                }
+            });
+
+            this.update(comp);
+        }
+    }
+
+    @Override
     public Competition addComment(final String id, final Comment comment) {
 
         if (this.userService.findById(comment.getUserId()) == null) {
@@ -82,5 +98,4 @@ public class CompetitionServiceImpl extends BaseServiceImpl<Competition, String>
 
         return this.update(comp);
     }
-
 }

@@ -8,5 +8,8 @@ public interface CompetitionService extends BaseService<Competition, String> {
 
     Competition addParticipant(final String id, final Participant participant);
 
+    void updateParticipant(final String id, final Participant participant);
+
     Competition addComment(final String id, final Comment comment);
+
 }

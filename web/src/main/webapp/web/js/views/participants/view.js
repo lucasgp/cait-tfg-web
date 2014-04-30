@@ -27,6 +27,16 @@ define([
                 }, this.renderMap, this);
             }
 
+            var participantScoreElementId = "#participant-score-" + this.model.get('user').id;
+            var participantScoreFormElementId = "#participant-update-score-" + this.model.get('user').id;
+            if (this.$(participantScoreFormElementId).length > 0) {
+                this.$(participantScoreFormElementId).hide();
+                this.$el.on("click", participantScoreElementId, {
+                    this: this,
+                    formElementId: participantScoreFormElementId
+                }, this.renderUpdateScore, this);
+            }
+
             return this;
         },
         renderMap: function(event) {
@@ -51,6 +61,16 @@ define([
                 }
             });
             event.data.this.viewHolder.get('mapView').renderMap();
+        },
+        renderUpdateScore: function(event) {
+            event.data.this.$(event.data.formElementId).show();
+            event.data.this.$(event.data.formElementId).dialog({
+                resize: true,
+                minHeight: 1,
+                minWidth: 1,
+                width: 'auto',
+                title: $.t('participant.update-title')
+            });
         },
         close: function() {
             this.viewHolder.closeAll();

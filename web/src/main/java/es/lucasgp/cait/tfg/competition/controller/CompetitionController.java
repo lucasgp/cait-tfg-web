@@ -107,6 +107,15 @@ public class CompetitionController extends BaseController<Competition, String, C
 
     @PreAuthorize("isFullyAuthenticated()")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/{id}/participants", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void updateParticipant(
+        @PathVariable("id") @Size(min = 1) String id, @RequestBody @Valid Participant participant) {
+        validateOwner(id);
+        getService().updateParticipant(id, participant);
+    }
+
+    @PreAuthorize("isFullyAuthenticated()")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addComments(
         @PathVariable("id") @Size(min = 1) String competitionId, @RequestBody @Valid final Comment comment) {
