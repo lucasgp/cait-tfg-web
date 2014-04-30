@@ -3,9 +3,10 @@ define([
     'underscore',
     'backbone',
     'view-holder',
+    'error-handler',
     'views/map/map',
     'text!/web/templates/participants/view.html'
-], function($, _, Backbone, ViewHolder, MapView, template) {
+], function($, _, Backbone, ViewHolder, ErrorHandler, MapView, template) {
     var ParticipantView = Backbone.View.extend({
         tagName: 'li',
         className: 'participant',
@@ -28,13 +29,17 @@ define([
             }
 
             var participantScoreElementId = "#participant-score-" + this.model.get('user').id;
-            var participantScoreFormElementId = "#participant-update-score-" + this.model.get('user').id;
+            var participantScoreFormElementId = "#participant-update-score-form-" + this.model.get('user').id;
+            var participantScoreFormSubmitElementId = "#participant-update-score-submit-" + this.model.get('user').id;
             if (this.$(participantScoreFormElementId).length > 0) {
                 this.$(participantScoreFormElementId).hide();
                 this.$el.on("click", participantScoreElementId, {
                     this: this,
                     formElementId: participantScoreFormElementId
                 }, this.renderUpdateScore, this);
+                this.$el.on("click", participantScoreFormSubmitElementId, {
+                    this: this,
+                }, this.updateScore, this);
             }
 
             return this;
@@ -71,6 +76,23 @@ define([
                 width: 'auto',
                 title: $.t('participant.update-title')
             });
+        },
+        updateScore: function(event) {
+            var user = event.data.this.model.get('user');
+            var value = event.data.this.$("#participant-new-score-" + user.id).val();
+            var participant = new ParticipantModel();
+            var toUpdate = event.data.this.$("#participant-score-" + user.id);
+            participant.save({
+                userId: event.data.this.model.get('user').id,
+                trackingId:event.data.this.model.get('tracking').id,
+                score:value
+            },{
+                wait: true,
+                success: function() {
+                    toUpdate.text(value);
+                },
+                error: ErrorHandler.onModelFetchError});
+            
         },
         close: function() {
             this.viewHolder.closeAll();

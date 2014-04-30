@@ -8,14 +8,14 @@
     <div id="map-wrapper-{{-tracking.id}}" class="tracking-map-wrapper map"><!-- Map --></div>
     {{ } }}
     <sec:authorize access="isAuthenticated()">
-        <div id="participant-update-score-{{-user.id}}" class="w100">
+        <div id="participant-update-score-form-{{-user.id}}" class="w100">
             <input type="hidden" id="userId" value="{{-user.id}}">
             <input type="hidden" id="trackingId" value="{{-tracking.id}}">
             <div class="field">
-                <input class="w100 center" type="text" id="score" value="{{-score}}">
+                <input class="w100 center" type="text" id="participant-new-score-{{-user.id}}" value="{{-score}}">
             </div>
             <div class="field">
-                <input class="w100 center" type="button" value="{{-$.t("form.save")}}">
+                <input id="participant-update-score-submit-{{-user.id}}" class="w100 center" type="button" value="{{-$.t("form.save")}}">
             </div>
         </div>
     </sec:authorize>
