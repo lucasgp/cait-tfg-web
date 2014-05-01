@@ -4,12 +4,16 @@ define([
     'backbone',
     'page',
     'view-holder',
+    'notif-handler',
+    'models/user-role',
     'collections/competitions',
     'collections/trackings',
+    'collections/role-types',
+    'views/common/combo',
     'views/competitions/list',
     'views/trackings/list',
     'text!/web/templates/users/detail.html'
-], function($, _, Backbone, Page, ViewHolder, CompetitionCollection, TrackingCollection, CompetitionListView, TrackingsListView, template) {
+], function($, _, Backbone, Page, ViewHolder, NotificationHandler, UserRoleModel, CompetitionCollection, TrackingCollection, RoleTypeCollection, ComboView, CompetitionListView, TrackingsListView, template) {
     var UserDetailView = Backbone.View.extend({
         tagName: 'div',
         className: 'user-detail',
@@ -21,6 +25,13 @@ define([
             this.renderCompetitions();
             this.renderParticipations();
             this.renderTrackings();
+            if (this.$('#role-types').length > 0) {
+                this.userRole = new UserRoleModel();
+                this.listenTo(this.userRole, 'sync', function() {
+                    this.renderRolesCombo();
+                });
+                this.userRole.getByUserId(this.model.id);
+            }
             return this;
         },
         renderCompetitions: function() {
@@ -83,6 +94,32 @@ define([
             });
             trackings.findByQuery(query);
 
+        },
+        renderRolesCombo: function() {
+            this.viewHolder.close('rolesView');
+            var roles = new RoleTypeCollection();
+            var selectedId = null;
+            if (this.userRole.get('roleTypesId') && this.userRole.get('roleTypesId').length > 0) {
+                selectedId = this.userRole.get('roleTypesId')[0];
+            }
+            var that = this;
+            this.listenTo(roles, 'sync', function() {
+                var view = new ComboView({elementId: 'user-role-roleTypeId', selectedId: selectedId, collection: roles});
+                that.viewHolder.register('rolesView', view);
+                that.$('#role-types').html(view.render().el);
+                that.$el.on('click', '#submit-role', {this: this}, this.saveUserRole, this);
+            });
+            roles.fetch();
+        },
+        saveUserRole: function(event) {
+            event.data.this.userRole.save({
+                userId: event.data.this.model.id,
+                roleTypesId: [event.data.this.$("#user-role-roleTypeId").val()]
+            }, {
+                wait: true,
+                success: NotificationHandler.onModelSaveSuccess,
+                error: NotificationHandler.onServerError}
+            );
         },
         close: function() {
             this.viewHolder.closeAll();

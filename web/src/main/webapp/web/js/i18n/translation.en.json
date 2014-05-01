@@ -60,6 +60,7 @@
         "user-competitions": "Competitions",
         "user-participations": "Participations",
         "user-trackings": "Trackings",
+        "user-role": "Role",
         "list-empty": "No users found...",
         "form": {
             "name-placeholder": "What's your name?",

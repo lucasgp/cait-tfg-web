@@ -88,7 +88,14 @@ define([
             this.view.showSignup();
         },
         showAdminUsers: function() {
-            this.view.showAdminUsers();
+            var query = new Page.Query({
+                page: page ? page : 0,
+                size: size ? size : 6,
+                sortProperty: sortProperty ? sortProperty : 'username',
+                sortOrder: sortOrder ? sortOrder : 'DESC',
+                params: {}
+            });
+            this.view.showAdminUsers(query);
         },
         showAdminUserRoles: function() {
             this.view.showAdminUserRoles();

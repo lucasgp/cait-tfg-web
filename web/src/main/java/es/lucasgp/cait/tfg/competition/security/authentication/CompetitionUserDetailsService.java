@@ -53,11 +53,12 @@ public class CompetitionUserDetailsService implements UserDetailsService {
     }
 
     private List<GrantedAuthority> getUserAuthorities(User user) {
-        return this.userRoleService.findByUserId(user.getId()).stream().map(userRole -> getGrantedAuthority(userRole)).collect(Collectors.toList());
+        return this.userRoleService.findByUserId(user.getId()).getRoleTypesId().stream()
+            .map(roleTypeId -> getGrantedAuthority(roleTypeId)).collect(Collectors.toList());
     }
 
-    private GrantedAuthority getGrantedAuthority(UserRole userRole) {
-        return new SimpleGrantedAuthority(this.roleTypeService.findById(userRole.getRoleTypeId()).getName());
+    private GrantedAuthority getGrantedAuthority(String roleTypeId) {
+        return new SimpleGrantedAuthority(this.roleTypeService.findById(roleTypeId).getName());
     }
 
 }

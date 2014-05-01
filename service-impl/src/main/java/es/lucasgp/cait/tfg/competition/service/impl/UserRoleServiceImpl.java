@@ -9,27 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserRoleServiceImpl implements UserRoleService {
+public class UserRoleServiceImpl extends BaseServiceImpl<UserRole, String> implements UserRoleService {
 
     private final UserRoleDao userRoleDao;
 
     @Autowired
     public UserRoleServiceImpl(UserRoleDao userRoleDao) {
+        super(userRoleDao);
         this.userRoleDao = userRoleDao;
     }
 
     @Override
-    public void create(final UserRole userRole) {
-        userRoleDao.create(userRole);
-    }
-
-    @Override
-    public void delete(final String id) {
-        this.userRoleDao.delete(id);
-    }
-
-    @Override
-    public List<UserRole> findByUserId(final String id) {
-        return userRoleDao.findByQuery(Query.getInstance().eq("userId", id));
+    public UserRole findByUserId(final String id) {
+        List<UserRole> userRole = userRoleDao.findByQuery(Query.getInstance().eq("userId", id));
+        return userRole.size() == 1 ? userRole.get(0) : null;
     }
 }

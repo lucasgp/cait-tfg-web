@@ -1,9 +1,12 @@
 package es.lucasgp.cait.tfg.competition.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public final class UserRole extends BaseEntity {
 
     private String userId;
-    private String roleTypeId;
+    private Collection<String> roleTypesId = new ArrayList<>();
 
     public String getUserId() {
         return this.userId;
@@ -13,12 +16,12 @@ public final class UserRole extends BaseEntity {
         this.userId = userId;
     }
 
-    public String getRoleTypeId() {
-        return this.roleTypeId;
+    public Collection<String> getRoleTypesId() {
+        return roleTypesId;
     }
 
-    public void setRoleTypeId(final String roleTypeId) {
-        this.roleTypeId = roleTypeId;
+    public void setRoleTypesId(Collection<String> roleTypesId) {
+        this.roleTypesId = roleTypesId;
     }
 
 }

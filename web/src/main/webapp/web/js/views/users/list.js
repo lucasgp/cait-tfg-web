@@ -8,9 +8,9 @@ define([
     'text!/web/templates/users/list.html'
 ], function($, _, Backbone, ViewHolder, Form, UserView, listTemplate) {
     var UsersListView = Backbone.View.extend({
+        searchPrefix: 'user-search-',
         initialize: function(options) {
             this.viewHolder = new ViewHolder();
-            this.users = options.users;
             this.query = options.query;
         },
         events: {
@@ -21,11 +21,11 @@ define([
         },
         render: function() {
             this.viewHolder.closeAll();
-            this.$el.html(_.template(listTemplate, {query: this.query, users: this.users}));
-            this.users.each(this.createUserView, this);
+            this.$el.html(_.template(listTemplate, {query: this.query, users: this.collection}));
+            this.collection.each(this.renderUserView, this);
             return this;
         },
-        createUserView: function(user, index, list) {
+        renderUserView: function(user, index, list) {
             var view = new UserView({model: user});
             this.viewHolder.register('userView' + index, view);
             this.$("#users-list").append(view.render().el);
@@ -41,13 +41,13 @@ define([
             this.findUsers();
         },
         findUsers: function() {
-            var values = Form.toObject(this, 'user-search-');
+            var values = Form.toObject(this, this.searchPrefix);
             _.each(values, function(value, key) {
                 if (value) {
                     this.query.params[key] = value;
                 }
             }, this);
-            this.users.findByQuery(this.query);
+            this.collection.findByQuery(this.query);
         },
         clearQueryParams: function() {
             this.query.params = {};

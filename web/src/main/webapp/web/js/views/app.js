@@ -77,7 +77,7 @@ define([
         showUsers: function(query) {
             var users = new UsersCollection();
             this.listenTo(users, 'sync', function() {
-                this.switchToView('usersListView', new UsersListView({query: query, users: users}));
+                this.switchToView('usersListView', new UsersListView({query: query, collection: users}));
             });
             users.findByQuery(query);
         },
@@ -94,8 +94,12 @@ define([
         showSignup: function() {
             this.switchToView('addUserView', new AddUserView());
         },
-        showAdminUsers: function() {
-            alert("TODO!!!");
+        showAdminUsers: function(query) {
+            var users = new UsersCollection();
+            this.listenTo(users, 'sync', function() {
+                this.switchToView('usersListView', new UsersListView({query: query, collection: users}));
+            });
+            users.findByQuery(query);
         },
         showAdminUserRoles: function() {
             var collection = new RoleTypesCollection();
