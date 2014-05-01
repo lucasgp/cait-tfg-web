@@ -24,7 +24,10 @@
         "create-competitions": "New competition",
         "list-competitions": "Find competitions",
         "list-users": "Find users",
-        "list-competition-types": "Competition types (admin)"
+        "admin-users": "Admin users",
+        "admin-role-types": "Admin role types",
+        "admin-competition-types": "Admin competition types",
+        "admin-competition-states": "Admin competition states"
     },
     "i18n": {
         "en": {
@@ -86,12 +89,18 @@
     "tracking": {
         "list-empty": "No trackings yet..."
     },
+    "common": {
+        "list-empty": "No results...",
+        "name-placeholder": "Name...",
+        "description-placeholder": "Description..."
+    },
     "form": {
         "submit": "Submit",
         "save": "Save",
         "search": "Search",
         "clear": "Clear",
         "reset": "Reset",
+        "delete": "Delete",
         "from": "From",
         "to": "To",
         "previous": "Previous",

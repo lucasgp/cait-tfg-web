@@ -20,10 +20,10 @@ define([
             this.listenTo(userModel, 'sync', this.renderUser, this);
             this.listenTo(trackingModel, 'sync', this.renderTracking, this);
             userModel.fetch({
-                error: NotificationHandler.onModelFetchError
+                error: NotificationHandler.onServerError
             });
             trackingModel.fetch({
-                error: NotificationHandler.onModelFetchError
+                error: NotificationHandler.onServerError
             });
         },
         render: function() {
@@ -93,7 +93,7 @@ define([
                 }, {
                     wait: true,
                     success: NotificationHandler.onModelSaveSuccess,
-                    error: NotificationHandler.onModelFetchError}
+                    error: NotificationHandler.onServerError}
                 );
             }
         },

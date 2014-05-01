@@ -31,10 +31,10 @@ define([
             var that = this;
             $.when(
                     states.fetch({
-                        error: NotificationHandler.onModelFetchError
+                        error: NotificationHandler.onServerError
                     }),
                     types.fetch({
-                        error: NotificationHandler.onModelFetchError
+                        error: NotificationHandler.onServerError
                     })
                     ).done(function() {
                 var params = that.model.toJSON();
@@ -78,7 +78,7 @@ define([
                 success: function() {
                     Channel.trigger("participant:added", {competitionId: competition.id});
                 },
-                error: NotificationHandler.onModelFetchError
+                error: NotificationHandler.onServerError
             });
         },
         deleteCompetition: function(event) {
@@ -87,7 +87,7 @@ define([
                 success: function() {
                     Channel.trigger("competition:deleted");
                 },
-                error: NotificationHandler.onModelFetchError
+                error: NotificationHandler.onServerError
             });
         },
         close: function() {

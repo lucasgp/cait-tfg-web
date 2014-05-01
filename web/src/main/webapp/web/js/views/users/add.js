@@ -33,7 +33,7 @@ define([
                 success: function() {
                     Channel.trigger("user:created");
                 },
-                error: NotificationHandler.onModelFetchError
+                error: NotificationHandler.onServerError
             });
         }
     });

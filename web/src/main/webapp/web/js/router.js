@@ -1,10 +1,13 @@
 define([
+    'jquery',
+    'underscore',
+    'backbone',
     'page',
     'events',
     'notif-handler',
     'views/app',
     'loading'
-], function(Page, Channel, NotificationHandler, AppView) {
+], function($, _, Backbone, Page, Channel, NotificationHandler, AppView) {
 
     var AppRouter = Backbone.Router.extend({
         routes: {
@@ -17,6 +20,10 @@ define([
             'users(/:page/:size/:sortProperty/:sortOrder)(/:paramName/:paramValue)(/)': 'showUsers',
             'user/:id(/)': 'showUserDetail',
             'signup(/)': 'showSignup',
+            'admin-users(/)': 'showAdminUsers',
+            'admin-user-roles(/)': 'showAdminUserRoles',
+            'admin-competition-types(/)': 'showAdminCompetitionTypes',
+            'admin-competition-states(/)': 'showAdminCompetitionStates',
             '*path(/)': 'default'
         },
         initialize: function(options) {
@@ -79,6 +86,18 @@ define([
         },
         showSignup: function() {
             this.view.showSignup();
+        },
+        showAdminUsers: function() {
+            this.view.showAdminUsers();
+        },
+        showAdminUserRoles: function() {
+            this.view.showAdminUserRoles();
+        },
+        showAdminCompetitionTypes: function() {
+            this.view.showAdminCompetitionTypes();
+        },
+        showAdminCompetitionStates: function() {
+            this.view.showAdminCompetitionStates();
         }
     });
     return AppRouter;

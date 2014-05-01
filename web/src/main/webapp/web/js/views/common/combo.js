@@ -2,15 +2,15 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!/web/templates/competition_states/combo.html'
+    'text!/web/templates/common/combo.html'
 ], function($, _, Backbone, template) {
-    var CompetitionStatesComboView = Backbone.View.extend({
+    var ComboView = Backbone.View.extend({
         initialize: function(options) {
-            this.formPrefix = options.formPrefix;
+            this.elementId = options.elementId;
             this.selectedId = options.selectedId ? options.selectedId : -1;
         },
         render: function() {
-            this.el = _.template(template, {formPrefix: this.formPrefix, selectedId: this.selectedId, competitionStates: this.collection});
+            this.el = _.template(template, {elementId: this.elementId, selectedId: this.selectedId, collection: this.collection});
             return this;
         },
         close: function() {
@@ -18,6 +18,6 @@ define([
             this.remove();
         }
     });
-    return CompetitionStatesComboView;
+    return ComboView;
 });
 

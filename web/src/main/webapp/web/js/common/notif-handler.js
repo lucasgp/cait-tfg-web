@@ -6,20 +6,25 @@ define([
 
             var message = '(';
             _.each(model.changed, function(element, index, list) {
-                message += index + ": " + element;
-                if (index < list.length - 1) {
-                    message += ', ';
+                if ('version' !== index) {
+                    message += index + ": " + element;
+                    if (index < list.length - 1) {
+                        message += ', ';
+                    }
                 }
             });
             message += ')';
 
-            NotificationHandler.notify('success', 'Updated successfully. ' + message);
+            NotificationHandler.notify('success', 'Entity updated successfully ' + message);
         },
-        onModelFetchError: function(model, response, options) {
-            NotificationHandler.notify('error', 'Error ' + response.status);
+        onModelDeleteSuccess: function(model, response, options) {
+            NotificationHandler.notify('success', 'Entity deleted successfully');
         },
         onModelValidationError: function(model, error) {
             NotificationHandler.notify('warning', error);
+        },
+        onServerError: function(entity, response, options) {
+            NotificationHandler.notify('error', 'Error ' + response.status);
         },
         onDefaultRoute: function() {
             NotificationHandler.notify('warning', "The page you requested doesn't exist");
@@ -36,7 +41,7 @@ define([
                     easing: 'swing',
                     speed: 500
                 },
-                timeout: 1000
+                timeout: 10000
             });
         }
     };

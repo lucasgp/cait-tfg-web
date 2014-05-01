@@ -21,7 +21,7 @@ define([
                         .concat("/").concat(query.sortProperty)
                         .concat("/").concat(query.sortOrder)
                         .concat("?").concat($.param(query.params ? query.params : [])),
-                error: NotificationHandler.onModelFetchError
+                error: NotificationHandler.onServerError
             });
         }
     });

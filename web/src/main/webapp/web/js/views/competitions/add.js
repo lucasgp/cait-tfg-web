@@ -10,11 +10,10 @@ define([
     'models/competitions',
     'collections/competition-types',
     'collections/competition-states',
-    'views/competition-types/combo',
-    'views/competition-states/combo',
+    'views/common/combo',
     'views/map/map',
     'text!/web/templates/competitions/add.html'
-], function($, _, Backbone, Form, Channel, DateUtils, ViewHolder, NotificationHandler, CompetitionModel, CompetitionTypeCollection, CompetitionStateCollection, CompetitionTypeComboView, CompetitionStateComboView, MapView, template) {
+], function($, _, Backbone, Form, Channel, DateUtils, ViewHolder, NotificationHandler, CompetitionModel, CompetitionTypeCollection, CompetitionStateCollection, ComboView, MapView, template) {
     var AddCompetitionView = Backbone.View.extend({
         tagName: 'div',
         className: 'add-competition',
@@ -45,7 +44,7 @@ define([
             var types = new CompetitionTypeCollection();
             var that = this;
             this.listenTo(types, 'sync', function() {
-                var view = new CompetitionTypeComboView({formPrefix: that.formPrefix, selectedId: that.model.get('typeId'), collection: types});
+                var view = new ComboView({elementId: that.formPrefix + 'typeId', selectedId: that.model.get('typeId'), collection: types});
                 that.viewHolder.register('typesView', view);
                 that.$('#competition-types').html(view.render().el);
             });
@@ -56,7 +55,7 @@ define([
             var states = new CompetitionStateCollection();
             var that = this;
             this.listenTo(states, 'sync', function() {
-                var view = new CompetitionStateComboView({formPrefix: that.formPrefix, selectedId: that.model.get('stateId'), collection: states});
+                var view = new ComboView({elementId: that.formPrefix + 'stateId', selectedId: that.model.get('stateId'), collection: states});
                 that.viewHolder.register('statesView', view);
                 that.$('#competition-states').html(view.render().el);
             });
@@ -84,7 +83,7 @@ define([
                 success: function(model, response, options) {
                     Channel.trigger("competition:added", {competitionId: model.id});
                 },
-                error: NotificationHandler.onModelFetchError
+                error: NotificationHandler.onServerError
             });
         },
         close: function() {

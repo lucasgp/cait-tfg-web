@@ -36,7 +36,7 @@ define([
                     viewHolder.register('commentView' + index, view);
                     $("#comments-list").append(view.render().el);
                 },
-                error: NotificationHandler.onModelFetchError
+                error: NotificationHandler.onServerError
             });
         },
         addComment: function(event) {
@@ -51,7 +51,7 @@ define([
                 success: function() {
                     Channel.trigger("comment:added", {competitionId: competitionId});
                 },
-                error: NotificationHandler.onModelFetchError
+                error: NotificationHandler.onServerError
             });
         },
         close: function() {
