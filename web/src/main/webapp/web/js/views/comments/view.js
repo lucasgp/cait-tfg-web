@@ -2,8 +2,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'date',
     'text!/web/templates/comments/view.html'
-], function($, _, Backbone, template) {
+], function($, _, Backbone, DateUtils, template) {
     var CommentView = Backbone.View.extend({
         tagName: 'li',
         className: 'comment',

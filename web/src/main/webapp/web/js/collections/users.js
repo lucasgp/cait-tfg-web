@@ -3,9 +3,9 @@ define([
     'underscore',
     'backbone',
     'page',
-    'error-handler',
+    'notif-handler',
     'models/users'
-], function($, _, Backbone, Page, ErrorHandler, UserModel) {
+], function($, _, Backbone, Page, NotificationHandler, UserModel) {
 
     var UsersCollection = Backbone.Collection.extend({
         model: UserModel,
@@ -21,7 +21,7 @@ define([
                         .concat("/").concat(query.sortProperty)
                         .concat("/").concat(query.sortOrder)
                         .concat("?").concat($.param(query.params ? query.params : [])),
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         }
     });

@@ -107,11 +107,14 @@ public class CompetitionController extends BaseController<Competition, String, C
 
     @PreAuthorize("isFullyAuthenticated()")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @RequestMapping(value = "/{id}/participants", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/{id}/participants/{participantId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateParticipant(
-        @PathVariable("id") @Size(min = 1) String id, @RequestBody @Valid Participant participant) {
-        validateOwner(id);
-        getService().updateParticipant(id, participant);
+        @PathVariable("id") @Size(min = 1) String competitionId, @PathVariable("participantId") @Size(min = 1) String participantId, @RequestBody @Valid Participant participant) {
+        if (!participantId.equalsIgnoreCase(participant.getUserId())) {
+            throw new WrongIdException();
+        }
+        validateOwner(competitionId);
+        getService().updateParticipant(competitionId, participant);
     }
 
     @PreAuthorize("isFullyAuthenticated()")

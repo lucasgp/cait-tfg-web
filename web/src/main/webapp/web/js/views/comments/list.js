@@ -3,14 +3,14 @@ define([
     'underscore',
     'backbone',
     'view-holder',
-    'error-handler',
+    'notif-handler',
     'form',
     'events',
     'models/comments',
     'models/users',
     'views/comments/view',
     'text!/web/templates/comments/list.html'
-], function($, _, Backbone, ViewHolder, ErrorHandler, Form, Channel, CommentModel, UserModel, CommentView, listTemplate) {
+], function($, _, Backbone, ViewHolder, NotificationHandler, Form, Channel, CommentModel, UserModel, CommentView, listTemplate) {
     var CommentsListView = Backbone.View.extend({
         events: {
             'click #submit-comment': 'addComment'
@@ -36,7 +36,7 @@ define([
                     viewHolder.register('commentView' + index, view);
                     $("#comments-list").append(view.render().el);
                 },
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         },
         addComment: function(event) {
@@ -51,7 +51,7 @@ define([
                 success: function() {
                     Channel.trigger("comment:added", {competitionId: competitionId});
                 },
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         },
         close: function() {

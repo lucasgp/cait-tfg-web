@@ -3,9 +3,9 @@ define([
     'underscore',
     'backbone',
     'page',
-    'error-handler',
+    'notif-handler',
     'models/trackings'
-], function($, _, Backbone, Page, ErrorHandler, TrackingModel) {
+], function($, _, Backbone, Page, NotificationHandler, TrackingModel) {
 
     var TrackingCollection = Backbone.Collection.extend({
         model: TrackingModel,
@@ -21,7 +21,7 @@ define([
                         .concat("/").concat(query.sortProperty)
                         .concat("/").concat(query.sortOrder)
                         .concat("?").concat($.param(query.params ? query.params : [])),
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         }
     });

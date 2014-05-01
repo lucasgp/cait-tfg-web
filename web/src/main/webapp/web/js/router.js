@@ -1,10 +1,10 @@
 define([
     'page',
     'events',
-    'error-handler',
+    'notif-handler',
     'views/app',
     'loading'
-], function(Page, Channel, ErrorHandler, AppView) {
+], function(Page, Channel, NotificationHandler, AppView) {
 
     var AppRouter = Backbone.Router.extend({
         routes: {
@@ -34,7 +34,7 @@ define([
 
         },
         default: function(path) {
-            ErrorHandler.onDefaultRoute();
+            NotificationHandler.onDefaultRoute();
             this.navigate("competitions", {trigger: true});
         },
         setLocale: function(locale) {

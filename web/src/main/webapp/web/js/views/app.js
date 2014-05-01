@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'view-holder',
-    'error-handler',
+    'notif-handler',
     'events',
     'models/competitions',
     'models/users',
@@ -16,7 +16,7 @@ define([
     'views/competitions/detail',
     'views/competitions/list',
     'text!/web/templates/app.html'
-], function($, _, Backbone, ViewHolder, ErrorHandler, Channel, CompetitionModel, UserModel, CompetitionsCollection, UsersCollection, AddUserView, UserDetailView, UsersListView, AddCompetitionView, CompetitionDetailView, CompetitionsListView, template) {
+], function($, _, Backbone, ViewHolder, NotificationHandler, Channel, CompetitionModel, UserModel, CompetitionsCollection, UsersCollection, AddUserView, UserDetailView, UsersListView, AddCompetitionView, CompetitionDetailView, CompetitionsListView, template) {
     var AppView = Backbone.View.extend({
         initialize: function() {
             this.viewHolder = new ViewHolder();
@@ -46,7 +46,7 @@ define([
 //                view.renderMap();
             });
             model.fetch({
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         },
         showCompetitionDetail: function(id) {
@@ -57,7 +57,7 @@ define([
 //                view.renderMap();
             });
             model.fetch({
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         },
         showUsers: function(query) {
@@ -74,7 +74,7 @@ define([
                 this.switchToView('userDetailView', view);
             });
             model.fetch({
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         },
         showSignup: function() {

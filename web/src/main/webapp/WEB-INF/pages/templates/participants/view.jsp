@@ -1,22 +1,16 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/pages/taglibs.jsp" %>
 <div>
-    <a id="participant-score-{{-user.id}}"><span><i class="fa fa-sort"></i>&nbsp;{{-score}}&nbsp;</span></a>
-    <a href="#user/{{- user.id }}" class="participant-user"><i class="fa fa-user"></i><span class="name">{{- user.get('username') }}</span></a>
-    {{ if(tracking && tracking.get('geoJson') && tracking.get('geoJson').features && tracking.get('geoJson').features.length > 0) { }}
-    <a id="participant-tracking-{{-tracking.id}}"><i class="fa fa-globe"></i></a>
-    <div id="map-wrapper-{{-tracking.id}}" class="tracking-map-wrapper map"><!-- Map --></div>
-    {{ } }}
     <sec:authorize access="isAuthenticated()">
-        <div id="participant-update-score-form-{{-user.id}}" class="w100">
-            <input type="hidden" id="userId" value="{{-user.id}}">
-            <input type="hidden" id="trackingId" value="{{-tracking.id}}">
-            <div class="field">
-                <input class="w100 center" type="text" id="participant-new-score-{{-user.id}}" value="{{-score}}">
-            </div>
-            <div class="field">
-                <input id="participant-update-score-submit-{{-user.id}}" class="w100 center" type="button" value="{{-$.t("form.save")}}">
-            </div>
-        </div>
+        <input id="participant-new-score-{{- userId }}" class="w25 field" type="text" value="{{- score }}">
     </sec:authorize>
+    <sec:authorize access="isAnonymous()">
+        <span><i class="fa fa-sort"></i>&nbsp;{{-score}}&nbsp;</span>
+    </sec:authorize>
+
+    <a href="#user/{{- userId }}" class="participant-user"><i class="fa fa-user mr05"></i><span id="participant-username-{{- userId }}"><!-- Participant username --></span></a>
+    <a id="participant-tracking-{{-trackingId}}"><i class="fa fa-globe"></i></a>
+    <div id="map-wrapper-{{-trackingId}}" class="tracking-map-wrapper map"><!-- Map --></div>
+</div>
+
 </div>

@@ -12,7 +12,7 @@ require.config({
         'view-holder': 'common/view-holder',
         'form': 'common/form',
         'events': 'common/events',
-        'error-handler': 'common/error-handler',
+        'notif-handler': 'common/notif-handler',
         'date': 'common/date-utils',
         'loading': 'common/loading'
     },
@@ -44,8 +44,8 @@ require.config({
         leaflet: {
             exports: 'L'
         },
-        'error-handler': {
-            exports: 'ErrorHandler',
+        'notif-handler': {
+            exports: 'NotificationHandler',
             deps: ['noty']
         }
     }

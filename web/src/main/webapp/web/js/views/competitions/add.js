@@ -6,7 +6,7 @@ define([
     'events',
     'date',
     'view-holder',
-    'error-handler',
+    'notif-handler',
     'models/competitions',
     'collections/competition-types',
     'collections/competition-states',
@@ -14,7 +14,7 @@ define([
     'views/competition-states/combo',
     'views/map/map',
     'text!/web/templates/competitions/add.html'
-], function($, _, Backbone, Form, Channel, DateUtils, ViewHolder, ErrorHandler, CompetitionModel, CompetitionTypeCollection, CompetitionStateCollection, CompetitionTypeComboView, CompetitionStateComboView, MapView, template) {
+], function($, _, Backbone, Form, Channel, DateUtils, ViewHolder, NotificationHandler, CompetitionModel, CompetitionTypeCollection, CompetitionStateCollection, CompetitionTypeComboView, CompetitionStateComboView, MapView, template) {
     var AddCompetitionView = Backbone.View.extend({
         tagName: 'div',
         className: 'add-competition',
@@ -24,7 +24,7 @@ define([
             if (!this.model) {
                 this.model = new CompetitionModel();
             }
-            this.model.on('invalid', ErrorHandler.onModelValidationError);
+            this.model.on('invalid', NotificationHandler.onModelValidationError);
             return this;
         },
         events: {
@@ -84,7 +84,7 @@ define([
                 success: function(model, response, options) {
                     Channel.trigger("competition:added", {competitionId: model.id});
                 },
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         },
         close: function() {

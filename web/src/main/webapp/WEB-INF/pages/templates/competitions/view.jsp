@@ -5,9 +5,9 @@
 </div>
 <div class="dates">
     <i class="fa fa-calendar"></i>
-    <span>{{- startDate != null ? $.datepicker.formatDate(DateUtils.getFormat()), new Date(startDate)) : '' }}</span>
+    <span>{{- startDate != null ? $.datepicker.formatDate(DateUtils.getFormat(), new Date(startDate)) : '' }}</span>
     {{ if(startDate !== finishDate) { }}
-    &nbsp;-&nbsp;<span>{{- finishDate != null ? $.datepicker.formatDate(DateUtils.getFormat()), new Date(finishDate)) : '' }}</span>
+    &nbsp;-&nbsp;<span>{{- finishDate != null ? $.datepicker.formatDate(DateUtils.getFormat(), new Date(finishDate)) : '' }}</span>
     {{ } }}
 </div>
 <div class="description">

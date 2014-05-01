@@ -3,9 +3,9 @@ define([
     'underscore',
     'backbone',
     'page',
-    'error-handler',
+    'notif-handler',
     'models/competitions'
-], function($, _, Backbone, Page, ErrorHandler, CompetitionModel) {
+], function($, _, Backbone, Page, NotificationHandler, CompetitionModel) {
 
     var CompetitionCollection = Backbone.Collection.extend({
         model: CompetitionModel,
@@ -21,7 +21,7 @@ define([
                         .concat("/").concat(query.sortProperty)
                         .concat("/").concat(query.sortOrder)
                         .concat("?").concat($.param(query.params ? query.params : [])),
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         }
     });

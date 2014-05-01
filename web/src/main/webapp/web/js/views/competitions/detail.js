@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'view-holder',
-    'error-handler',
+    'notif-handler',
     'events',
     'date',
     'models/participants',
@@ -13,7 +13,7 @@ define([
     'views/participants/list',
     'views/comments/list',
     'text!/web/templates/competitions/detail.html'
-], function($, _, Backbone, ViewHolder, ErrorHandler, Channel, DateUtils, ParticipantModel, CompetitionStateCollection, CompetitionTypeCollection, MapView, ParticipantsListView, CommentsListView, template) {
+], function($, _, Backbone, ViewHolder, NotificationHandler, Channel, DateUtils, ParticipantModel, CompetitionStateCollection, CompetitionTypeCollection, MapView, ParticipantsListView, CommentsListView, template) {
     var CompetitionDetailView = Backbone.View.extend({
         tagName: 'div',
         className: 'competition-detail',
@@ -31,10 +31,10 @@ define([
             var that = this;
             $.when(
                     states.fetch({
-                        error: ErrorHandler.onModelFetchError
+                        error: NotificationHandler.onModelFetchError
                     }),
                     types.fetch({
-                        error: ErrorHandler.onModelFetchError
+                        error: NotificationHandler.onModelFetchError
                     })
                     ).done(function() {
                 var params = that.model.toJSON();
@@ -49,7 +49,7 @@ define([
             return this;
         },
         renderParticipants: function() {
-            var view = new ParticipantsListView({participants: this.model.get('participants')});
+            var view = new ParticipantsListView({competition: this.model, collection: this.model.get('participants')});
             this.viewHolder.register('participantsView', view);
             this.$el.append(view.render().el);
         },
@@ -78,7 +78,7 @@ define([
                 success: function() {
                     Channel.trigger("participant:added", {competitionId: competition.id});
                 },
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         },
         deleteCompetition: function(event) {
@@ -87,7 +87,7 @@ define([
                 success: function() {
                     Channel.trigger("competition:deleted");
                 },
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         },
         close: function() {

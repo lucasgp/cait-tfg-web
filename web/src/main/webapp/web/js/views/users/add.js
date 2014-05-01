@@ -4,10 +4,10 @@ define([
     'backbone',
     'form',
     'events',
-    'error-handler',
+    'notif-handler',
     'models/users',
     'text!/web/templates/users/add.html'
-], function($, _, Backbone, Form, Channel, ErrorHandler, UserModel, template) {
+], function($, _, Backbone, Form, Channel, NotificationHandler, UserModel, template) {
     var AddUserView = Backbone.View.extend({
         tagName: 'div',
         className: 'add-user',
@@ -15,7 +15,7 @@ define([
             if (!this.model) {
                 this.model = new UserModel();
             }
-            this.model.on('invalid', ErrorHandler.onModelValidationError);
+            this.model.on('invalid', NotificationHandler.onModelValidationError);
             return this;
         },
         events: {
@@ -33,7 +33,7 @@ define([
                 success: function() {
                     Channel.trigger("user:created");
                 },
-                error: ErrorHandler.onModelFetchError
+                error: NotificationHandler.onModelFetchError
             });
         }
     });
