@@ -29,6 +29,9 @@ define([
         onDefaultRoute: function() {
             NotificationHandler.notify('warning', "The page you requested doesn't exist");
         },
+        onGeolocationNotSupported: function() {
+            NotificationHandler.notify('warning', "Geolocation not supported");
+        },
         notify: function(type, text) {
             noty({
                 layout: 'top',

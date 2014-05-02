@@ -8,6 +8,7 @@ require.config({
         'backbone': 'libs/backbone/backbone',
         'leaflet': 'libs/leaflet/leaflet',
         'i18n': 'libs/i18next/i18next.amd.withJQuery',
+        'geo': 'libs/geo-position/geoPosition',
         'page': 'common/page',
         'view-holder': 'common/view-holder',
         'form': 'common/form',
@@ -47,6 +48,9 @@ require.config({
         'notif-handler': {
             exports: 'NotificationHandler',
             deps: ['noty']
+        },
+        'geo': {
+            exports: 'geoPosition'
         }
     }
 });

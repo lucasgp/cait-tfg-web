@@ -6,6 +6,7 @@ define([
     'notif-handler',
     'events',
     'date',
+    'geo',
     'collections/participants',
     'collections/comments',
     'collections/competition-states',
@@ -14,13 +15,14 @@ define([
     'views/participants/list',
     'views/comments/list',
     'text!/web/templates/competitions/detail.html'
-], function($, _, Backbone, ViewHolder, NotificationHandler, Channel, DateUtils, ParticipantCollection, CommentCollection, CompetitionStateCollection, CompetitionTypeCollection, MapView, ParticipantsListView, CommentsListView, template) {
+], function($, _, Backbone, ViewHolder, NotificationHandler, Channel, DateUtils, geoPosition, ParticipantCollection, CommentCollection, CompetitionStateCollection, CompetitionTypeCollection, MapView, ParticipantsListView, CommentsListView, template) {
     var CompetitionDetailView = Backbone.View.extend({
         tagName: 'div',
         className: 'competition-detail',
         events: {
             'click .join': 'joinCompetition',
-            'click .destroy': 'deleteCompetition'
+            'click .destroy': 'deleteCompetition',
+            'click .tracking': 'startStopTracking'
         },
         initialize: function() {
             this.viewHolder = new ViewHolder();
@@ -89,6 +91,23 @@ define([
                 },
                 error: NotificationHandler.onServerError
             });
+        },
+        startStopTracking: function() {
+            if (this.geolocationIntervalId) {
+                clearInterval(this.geolocationIntervalId);
+                NotificationHandler.notify('information', 'Tracking stoped');
+            } else if (geoPosition.init()) {
+                NotificationHandler.notify('information', 'Tracking started');
+                this.geolocationIntervalId = setInterval(function() {
+                    geoPosition.getCurrentPosition(function(p) {
+                        NotificationHandler.notify('alert', p.coords.latitude + ', ' + p.coords.longitude);
+                    }, function(p) {
+                        NotificationHandler.notify('error', p.message);
+                    }, {enableHighAccuracy: true});
+                }, 10000);
+            } else {
+                NotificationHandler.onGeolocationNotSupported();
+            }
         },
         close: function() {
             this.viewHolder.closeAll();
