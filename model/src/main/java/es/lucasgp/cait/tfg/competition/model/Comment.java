@@ -8,6 +8,9 @@ public final class Comment {
 
     @Size(min = 1)
     @Indexed
+    private String id;
+    @Size(min = 1)
+    @Indexed
     private String userId;
     @Size(min = 1)
     private String title;
@@ -15,6 +18,14 @@ public final class Comment {
     private String content;
 
     private Date commentDate;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUserId() {
         return this.userId;

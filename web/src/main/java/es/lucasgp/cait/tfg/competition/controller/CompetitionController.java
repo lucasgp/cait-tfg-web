@@ -96,13 +96,13 @@ public class CompetitionController extends BaseController<Competition, String, C
     }
 
     @PreAuthorize("isFullyAuthenticated()")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{id}/participants", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addParticipant(
+    public Participant addParticipant(
         @PathVariable("id") @Size(min = 1) String competitionId) {
         Participant participant = new Participant();
         participant.setUserId(CompetitionUserDetails.class.cast(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
         getService().addParticipant(competitionId, participant);
+        return participant;
     }
 
     @PreAuthorize("isFullyAuthenticated()")
@@ -117,13 +117,27 @@ public class CompetitionController extends BaseController<Competition, String, C
         getService().updateParticipant(competitionId, participant);
     }
 
-    @PreAuthorize("isFullyAuthenticated()")
+    @PreAuthorize("isFullyAuthenticated() and (hasRole('ADMIN') or hasRole('MODERATOR'))")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/{id}/participants/{participantId}", method = RequestMethod.DELETE)
+    public void deleteParticipant(@PathVariable("id") @Size(min = 1) String competitionId, @PathVariable("participantId") @Size(min = 1) String participantId) {
+        getService().deleteParticipant(competitionId, participantId);
+    }
+
+    @PreAuthorize("isFullyAuthenticated()")
     @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addComments(
+    public Comment addComment(
         @PathVariable("id") @Size(min = 1) String competitionId, @RequestBody @Valid final Comment comment) {
         comment.setUserId(CompetitionUserDetails.class.cast(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
         getService().addComment(competitionId, comment);
+        return comment;
+    }
+
+    @PreAuthorize("isFullyAuthenticated() and (hasRole('ADMIN') or hasRole('MODERATOR'))")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RequestMapping(value = "/{id}/comments/{commentId}", method = RequestMethod.DELETE)
+    public void deleteComment(@PathVariable("id") @Size(min = 1) String competitionId, @PathVariable("commentId") @Size(min = 1) String commentId) {
+        getService().deleteComment(competitionId, commentId);
     }
 
     private void validateOwner(final String id) throws NotOwnerException {

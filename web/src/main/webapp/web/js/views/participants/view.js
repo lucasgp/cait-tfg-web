@@ -15,6 +15,7 @@ define([
         className: 'participant',
         initialize: function(options) {
             this.viewHolder = new ViewHolder();
+            this.competition = options.competition;
             var userModel = new UserModel({id: this.model.get('userId')});
             var trackingModel = new TrackingModel({id: this.model.get('trackingId')});
             this.listenTo(userModel, 'sync', this.renderUser, this);
@@ -26,9 +27,14 @@ define([
                 error: NotificationHandler.onServerError
             });
         },
+        events: {
+            'click .delete': 'removeParticipant'
+        },
         render: function() {
             this.viewHolder.close('mapView');
-            this.$el.append(_.template(template, this.model.toJSON()));
+            var params = this.model.toJSON();
+            params['ownerId'] = this.competition.get('ownerId');
+            this.$el.append(_.template(template, params));
 
             this.$("#participant-tracking-" + this.model.get('trackingId')).hide();
             this.$("#map-wrapper-" + this.model.get('trackingId')).hide();
@@ -83,19 +89,21 @@ define([
             var newValue = $(event.target).val();
             var oldValue = event.data.this.model.get('score');
             if (newValue != oldValue) {
-                var participant = new ParticipantModel({
-                    userId: event.data.this.model.get('userId'),
-                    trackingId: event.data.this.model.get('trackingId')
-                });
-                participant.urlRoot = event.data.this.model.urlRoot;
-                participant.save({
+                event.data.this.model.save({
                     score: newValue
                 }, {
                     wait: true,
                     success: NotificationHandler.onModelSaveSuccess,
-                    error: NotificationHandler.onServerError}
-                );
+                    error: NotificationHandler.onServerError
+                });
             }
+        },
+        removeParticipant: function() {
+            this.model.destroy({
+                wait: true,
+                success: NotificationHandler.onModelDeleteSuccess,
+                error: NotificationHandler.onServerError
+            });
         },
         close: function() {
             this.viewHolder.closeAll();

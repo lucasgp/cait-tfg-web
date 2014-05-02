@@ -1,13 +1,16 @@
 define([
+    'jquery',
+    'underscore',
     'backbone'
-], function(Backbone) {
+], function($, _, Backbone) {
 
     var CommentModel = Backbone.Model.extend({
-        initialize: function(options) {
-            if (options && options.competitionId) {
-                this.urlRoot = '/resources/competitions/' + options.competitionId + '/comments';
-                this.unset('competitionId', {silent: true});
-            }
+        dontSync: ['competitionId'],
+        urlRoot: function() {
+            return '/resources/competitions/' + this.get('competitionId') + '/comments';
+        },
+        toJSON: function(options) {
+            return _.omit(this.attributes, this.dontSync);
         },
         validate: function(attrs) {
             if (!attrs.title) {

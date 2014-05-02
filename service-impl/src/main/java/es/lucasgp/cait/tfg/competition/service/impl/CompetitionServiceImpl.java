@@ -79,6 +79,17 @@ public class CompetitionServiceImpl extends BaseServiceImpl<Competition, String>
     }
 
     @Override
+    public void deleteParticipant(String id, String participantId) {
+
+        Competition comp = findById(id);
+
+        if (comp.getParticipants() != null) {
+            comp.getParticipants().removeIf(p -> p.getUserId() != null && p.getUserId().equalsIgnoreCase(participantId));
+            this.update(comp);
+        }
+    }
+
+    @Override
     public Competition addComment(final String id, final Comment comment) {
 
         if (this.userService.findById(comment.getUserId()) == null) {
@@ -86,16 +97,28 @@ public class CompetitionServiceImpl extends BaseServiceImpl<Competition, String>
             throw new IllegalArgumentException();
         }
 
-        comment.setCommentDate(new Date());
-
         Competition comp = findById(id);
 
         if (comp.getComments() == null) {
             comp.setComments(new ArrayList<>());
         }
 
+        comment.setId(Integer.toString(comp.getComments().size() + 1));
+        comment.setCommentDate(new Date());
+
         comp.getComments().add(comment);
 
         return this.update(comp);
+    }
+
+    @Override
+    public void deleteComment(String id, String commentId) {
+
+        Competition comp = findById(id);
+
+        if (comp.getComments() != null) {
+            comp.getComments().removeIf(c -> c.getId() != null && c.getId().equalsIgnoreCase(commentId));
+            this.update(comp);
+        }
     }
 }

@@ -1,14 +1,17 @@
 define([
+    'jquery',
+    'underscore',
     'backbone'
-], function(Backbone) {
+], function($, _, Backbone) {
 
     var ParticipantModel = Backbone.Model.extend({
+        dontSync: ['competitionId'],
         idAttribute: "userId",
-        initialize: function(options) {
-            if (options && options.competitionId) {
-                this.urlRoot = '/resources/competitions/' + options.competitionId + '/participants';
-                this.unset('competitionId', {silent: true});
-            }
+        urlRoot: function() {
+            return '/resources/competitions/' + this.get('competitionId') + '/participants';
+        },
+        toJSON: function(options) {
+            return _.omit(this.attributes, this.dontSync);
         }
     });
 

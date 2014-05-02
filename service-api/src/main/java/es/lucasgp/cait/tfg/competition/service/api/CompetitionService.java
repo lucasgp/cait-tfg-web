@@ -10,6 +10,10 @@ public interface CompetitionService extends BaseService<Competition, String> {
 
     void updateParticipant(final String id, final Participant participant);
 
+    void deleteParticipant(String competitionId, String participantId);
+
     Competition addComment(final String id, final Comment comment);
+
+    void deleteComment(String competitionId, String commentId);
 
 }

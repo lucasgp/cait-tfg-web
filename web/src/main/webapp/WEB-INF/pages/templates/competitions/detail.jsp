@@ -3,7 +3,7 @@
 <div >
     <h2 >
         {{- name }}
-        <sec:authorize access="isAuthenticated()">
+        <sec:authorize access="isFullyAuthenticated()">
             &nbsp;<a class="join"><i class="fa fa-sign-in" title="{{-$.t('competition.join')}}"></i></a>
             </sec:authorize>
     </h2>

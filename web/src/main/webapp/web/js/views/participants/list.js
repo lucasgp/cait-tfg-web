@@ -3,28 +3,24 @@ define([
     'underscore',
     'backbone',
     'view-holder',
-    'models/participants',
     'views/participants/view',
     'text!/web/templates/participants/list.html'
-], function($, _, Backbone, ViewHolder, ParticipantModel, ParticipantView, listTemplate) {
+], function($, _, Backbone, ViewHolder, ParticipantView, template) {
     var ParticipantsListView = Backbone.View.extend({
         initialize: function(options) {
             this.viewHolder = new ViewHolder();
             this.competition = options.competition;
+            this.listenTo(this.collection, 'add remove', this.render);
         },
         render: function() {
-            this.$el.append(_.template(listTemplate, {participants: this.collection}));
-            _.each(_.sortBy(this.collection, 'score', this).reverse(), this.createParticipantView, this);
+            this.viewHolder.closeAll();
+            this.$el.html(_.template(template, {participants: this.collection}));
+            this.collection.forEach(this.renderParticipantView, this);
             return this;
         },
-        createParticipantView: function(participant, index, list) {
-            var participantModel = new ParticipantModel({
-                competitionId: this.competition.id,
-                score: participant.score,
-                userId: participant.userId,
-                trackingId: participant.trackingId}
-            );
-            var view = new ParticipantView({model: participantModel});
+        renderParticipantView: function(model, index, list) {
+            model.set({'competitionId': this.collection.competitionId});
+            var view = new ParticipantView({competition: this.competition, model: model});
             this.viewHolder.register('participantView' + index, view);
             this.$("#participants-list").append(view.render().el);
 

@@ -5,52 +5,36 @@ define([
     'view-holder',
     'notif-handler',
     'form',
-    'events',
-    'models/comments',
-    'models/users',
     'views/comments/view',
     'text!/web/templates/comments/list.html'
-], function($, _, Backbone, ViewHolder, NotificationHandler, Form, Channel, CommentModel, UserModel, CommentView, listTemplate) {
+], function($, _, Backbone, ViewHolder, NotificationHandler, Form, CommentView, listTemplate) {
     var CommentsListView = Backbone.View.extend({
         events: {
             'click #submit-comment': 'addComment'
         },
         initialize: function(options) {
             this.viewHolder = new ViewHolder();
-            this.comments = options.comments;
-            this.competitionId = options.competitionId;
+            this.listenTo(this.collection, 'add remove', this.render);
         },
         render: function() {
-            this.$el.append(_.template(listTemplate, {comments: this.comments}));
-            _.each(_.sortBy(this.comments, 'commentDate', this), this.createCommentView, this);
+            this.viewHolder.closeAll();
+            this.$el.html(_.template(listTemplate, {comments: this.collection}));
+            this.collection.forEach(this.renderCommentView, this);
             return this;
         },
-        createCommentView: function(comment, index, list) {
-            var commentModel = new CommentModel(comment);
-            var userModel = new UserModel({id: comment.userId});
-            var viewHolder = this.viewHolder;
-            userModel.fetch({
-                success: function() {
-                    commentModel.set('user', userModel);
-                    var view = new CommentView({model: commentModel});
-                    viewHolder.register('commentView' + index, view);
-                    $("#comments-list").append(view.render().el);
-                },
-                error: NotificationHandler.onServerError
-            });
+        renderCommentView: function(model, index, list) {
+            model.set({'competitionId': this.collection.competitionId});
+            var view = new CommentView({model: model});
+            this.viewHolder.register('commentView' + index, view);
+            this.$("#comments-list").append(view.render().el);
+
         },
         addComment: function(event) {
             var values = Form.toObject(this, 'comment-');
-            var comment = new CommentModel({competitionId: this.competitionId});
-            var competitionId = this.competitionId;
-            comment.on('invalid', function(model, error) {
-                alert(error);
-            });
-            comment.save(values, {
+            values['competitionId'] = this.collection.competitionId;
+            this.collection.create(values, {
                 wait: true,
-                success: function() {
-                    Channel.trigger("comment:added", {competitionId: competitionId});
-                },
+                success: NotificationHandler.onModelSaveSuccess,
                 error: NotificationHandler.onServerError
             });
         },

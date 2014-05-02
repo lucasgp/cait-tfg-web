@@ -6,14 +6,15 @@ define([
     'notif-handler',
     'events',
     'date',
-    'models/participants',
+    'collections/participants',
+    'collections/comments',
     'collections/competition-states',
     'collections/competition-types',
     'views/map/map',
     'views/participants/list',
     'views/comments/list',
     'text!/web/templates/competitions/detail.html'
-], function($, _, Backbone, ViewHolder, NotificationHandler, Channel, DateUtils, ParticipantModel, CompetitionStateCollection, CompetitionTypeCollection, MapView, ParticipantsListView, CommentsListView, template) {
+], function($, _, Backbone, ViewHolder, NotificationHandler, Channel, DateUtils, ParticipantCollection, CommentCollection, CompetitionStateCollection, CompetitionTypeCollection, MapView, ParticipantsListView, CommentsListView, template) {
     var CompetitionDetailView = Backbone.View.extend({
         tagName: 'div',
         className: 'competition-detail',
@@ -23,6 +24,8 @@ define([
         },
         initialize: function() {
             this.viewHolder = new ViewHolder();
+            this.participants = new ParticipantCollection(this.model.get('participants'), {competitionId: this.model.id});
+            this.comments = new CommentCollection(this.model.get('comments'), {competitionId: this.model.id});
             return this;
         },
         render: function() {
@@ -49,15 +52,14 @@ define([
             return this;
         },
         renderParticipants: function() {
-            var view = new ParticipantsListView({competition: this.model, collection: this.model.get('participants')});
+            this.viewHolder.close('participantsView');
+            var view = new ParticipantsListView({competition: this.model, collection: this.participants});
             this.viewHolder.register('participantsView', view);
             this.$el.append(view.render().el);
         },
         renderComments: function() {
-            var view = new CommentsListView({
-                comments: this.model.get('comments'),
-                competitionId: this.model.id
-            });
+            this.viewHolder.close('commentsView');
+            var view = new CommentsListView({competitionId: this.model.id, collection: this.comments});
             this.viewHolder.register('commentsView', view);
             this.$el.append(view.render().el);
         },
@@ -71,13 +73,11 @@ define([
             }
         },
         joinCompetition: function(event) {
-            var participant = new ParticipantModel({competitionId: this.model.id});
-            var competition = this.model;
-            participant.save({}, {
+            this.participants.create({
+                competitionId: this.model.id
+            }, {
                 wait: true,
-                success: function() {
-                    Channel.trigger("participant:added", {competitionId: competition.id});
-                },
+                success: NotificationHandler.onModelSaveSuccess,
                 error: NotificationHandler.onServerError
             });
         },
