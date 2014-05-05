@@ -58,7 +58,7 @@ define([
         },
         setGeoJsonPoint: function(feature, latlng) {
             return L.circleMarker(latlng, {
-                radius: 8,
+                radius: 6,
                 fillColor: "#ff7800",
                 color: "#000",
                 weight: 1,
@@ -78,6 +78,22 @@ define([
             };
             this.geoJson.features.push(feature);
             this.setGeoJsonPoint(feature, e.latlng).addTo(this.map);
+        },
+        addPoint: function(geoFeatureModel) {
+            var coordinates = geoFeatureModel.get('geometry').coordinates;
+            var latlng =
+                    {
+                        lat: coordinates[1],
+                        lng: coordinates[0]
+                    };
+            L.circleMarker(latlng, {
+                radius: 8,
+                fillColor: "#ff1919",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.8
+            }).addTo(this.map);
         },
         close: function() {
             this.unbind();

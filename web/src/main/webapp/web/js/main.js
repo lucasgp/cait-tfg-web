@@ -15,7 +15,8 @@ require.config({
         'events': 'common/events',
         'notif-handler': 'common/notif-handler',
         'date': 'common/date-utils',
-        'loading': 'common/loading'
+        'loading': 'common/loading',
+        'geo-tracking': 'common/geo-tracking'
     },
     shim: {
         'jqueryui': {

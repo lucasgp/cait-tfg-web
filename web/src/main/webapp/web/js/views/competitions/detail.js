@@ -6,7 +6,7 @@ define([
     'notif-handler',
     'events',
     'date',
-    'geo',
+    'geo-tracking',
     'collections/participants',
     'collections/comments',
     'collections/competition-states',
@@ -15,7 +15,9 @@ define([
     'views/participants/list',
     'views/comments/list',
     'text!/web/templates/competitions/detail.html'
-], function($, _, Backbone, ViewHolder, NotificationHandler, Channel, DateUtils, geoPosition, ParticipantCollection, CommentCollection, CompetitionStateCollection, CompetitionTypeCollection, MapView, ParticipantsListView, CommentsListView, template) {
+], function($, _, Backbone, ViewHolder, NotificationHandler, Channel, DateUtils, GeolocationTracking,
+        ParticipantCollection, CommentCollection, CompetitionStateCollection, CompetitionTypeCollection,
+        MapView, ParticipantsListView, CommentsListView, template) {
     var CompetitionDetailView = Backbone.View.extend({
         tagName: 'div',
         className: 'competition-detail',
@@ -93,20 +95,26 @@ define([
             });
         },
         startStopTracking: function() {
-            if (this.geolocationIntervalId) {
-                clearInterval(this.geolocationIntervalId);
-                NotificationHandler.notify('information', 'Tracking stoped');
-            } else if (geoPosition.init()) {
-                NotificationHandler.notify('information', 'Tracking started');
-                this.geolocationIntervalId = setInterval(function() {
-                    geoPosition.getCurrentPosition(function(p) {
-                        NotificationHandler.notify('alert', p.coords.latitude + ', ' + p.coords.longitude);
-                    }, function(p) {
-                        NotificationHandler.notify('error', p.message);
-                    }, {enableHighAccuracy: true});
-                }, 10000);
+            if (GeolocationTracking.isTracking()) {
+                GeolocationTracking.stopTracking();
             } else {
-                NotificationHandler.onGeolocationNotSupported();
+                var trackingId = null;
+                this.participants.each(function(participant, index, list) {
+                    if (participant.get('userId') === user.id) {
+                        trackingId = participant.get('trackingId');
+                    }
+                }, this);
+                var that = this;
+                GeolocationTracking.startTracking({
+                    trackingId: trackingId,
+                    interval: 15000,
+                    minDisplacement: 50,
+                    locationCallback: function(feature) {
+                        NotificationHandler.notify('alert', feature.get('geometry').coordinates.join(', '));
+                        if (that.viewHolder.get('mapView')) {
+                            that.viewHolder.get('mapView').addPoint(feature);
+                        }
+                    }});
             }
         },
         close: function() {
