@@ -8,6 +8,9 @@ import javax.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/trackings", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TrackingController extends BaseController<Tracking, String, TrackingService> {
 
+    private final SimpMessagingTemplate brokerMessagingTemplate;
+
     @Autowired
-    public TrackingController(TrackingService trackingService) {
+    public TrackingController(TrackingService trackingService, SimpMessagingTemplate brokerMessagingTemplate) {
         super(trackingService);
+        this.brokerMessagingTemplate = brokerMessagingTemplate;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -36,6 +42,8 @@ public class TrackingController extends BaseController<Tracking, String, Trackin
     @RequestMapping(value = "/{id}/features", method = RequestMethod.POST)
     public void addFeature(@PathVariable("id") final String id, @RequestBody final Feature feature) {
         getService().addFeature(id, feature);
+        Message<Feature> message = new GenericMessage<>(feature);
+        this.brokerMessagingTemplate.send("/topic/tracking/" + id, message);
     }
 
     @RequestMapping(value = "/{page}/{size}/{sortProperty}/{sortOrder}", method = RequestMethod.GET)
