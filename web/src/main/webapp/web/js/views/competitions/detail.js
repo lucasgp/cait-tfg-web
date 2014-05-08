@@ -2,11 +2,14 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'sockjs',
+    'stomp',
     'view-holder',
     'notif-handler',
     'events',
     'date',
     'geo-tracking',
+    'models/geo-features',
     'collections/participants',
     'collections/comments',
     'collections/competition-states',
@@ -15,7 +18,9 @@ define([
     'views/participants/list',
     'views/comments/list',
     'text!/web/templates/competitions/detail.html'
-], function($, _, Backbone, ViewHolder, NotificationHandler, Channel, DateUtils, GeolocationTracking,
+], function($, _, Backbone, SockJS, Stomp,
+        ViewHolder, NotificationHandler, Channel, DateUtils, GeolocationTracking,
+        GeoFeatureModel,
         ParticipantCollection, CommentCollection, CompetitionStateCollection, CompetitionTypeCollection,
         MapView, ParticipantsListView, CommentsListView, template) {
     var CompetitionDetailView = Backbone.View.extend({
@@ -74,6 +79,25 @@ define([
                 this.viewHolder.register('mapView', view);
                 $('#map-wrapper').append(view.render().el);
                 view.renderMap();
+
+                if (this.participants.length > 0) {
+
+                    var socket = new SockJS("/resources/tracking");
+                    var stompClient = this.stompClient = Stomp.over(socket);
+
+
+                    var participants = this.participants;
+                    var viewHolder = this.viewHolder;
+
+                    stompClient.connect({}, function(frame) {
+                        participants.forEach(function(participant) {
+                            stompClient.subscribe("/topic/tracking:participant/" + participant.get('trackingId'), function(message) {
+                                var feature = $.parseJSON(message.body).payload;
+                                viewHolder.get('mapView').addPoint(new GeoFeatureModel(feature));
+                            });
+                        }, this);
+                    });
+                }
             }
         },
         joinCompetition: function(event) {
@@ -118,6 +142,9 @@ define([
             }
         },
         close: function() {
+            if (this.stompClient) {
+                this.stompClient.disconnect();
+            }
             this.viewHolder.closeAll();
             this.unbind();
             this.remove();

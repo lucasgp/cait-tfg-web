@@ -13,9 +13,9 @@ define([
     'views/map/map',
     'text!/web/templates/participants/view.html'
 ], function($, _, Backbone, SockJS, Stomp,
-    ViewHolder, NotificationHandler, 
-    ParticipantModel, UserModel, TrackingModel, GeoFeatureModel,
-    MapView, template) {
+        ViewHolder, NotificationHandler,
+        ParticipantModel, UserModel, TrackingModel, GeoFeatureModel,
+        MapView, template) {
     var ParticipantView = Backbone.View.extend({
         tagName: 'li',
         className: 'participant',
@@ -71,6 +71,10 @@ define([
         renderMap: function(event) {
             var $mapElement = event.data.$mapElement;
             event.data.this.viewHolder.close('mapView');
+
+            var socket = new SockJS("/resources/tracking");
+            var stompClient = Stomp.over(socket);
+
             var view = new MapView({
                 geoJson: event.data.model.get('geoJson'),
                 suffix: event.data.model.id,
@@ -87,17 +91,15 @@ define([
                 },
                 close: function() {
                     $("#overlay").hide();
+                    stompClient.disconnect();
                 }
             });
             event.data.this.viewHolder.get('mapView').renderMap();
-            
-            var socket = new SockJS("/resources/tracking");
-            var stompClient = Stomp.over(socket);
 
             stompClient.connect({}, function(frame) {
-                stompClient.subscribe("/topic/tracking/" + event.data.model.id, function(feature){
-                    var featureAttrs = $.parseJSON(feature.body).payload;
-                    event.data.this.viewHolder.get('mapView').addPoint(new GeoFeatureModel(featureAttrs));
+                stompClient.subscribe("/topic/tracking:participant/" + event.data.model.id, function(message) {
+                    var feature = $.parseJSON(message.body).payload;
+                    event.data.this.viewHolder.get('mapView').addPoint(new GeoFeatureModel(feature));
                 });
             });
         },
