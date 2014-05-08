@@ -9,6 +9,8 @@ require.config({
         'leaflet': 'libs/leaflet/leaflet',
         'i18n': 'libs/i18next/i18next.amd.withJQuery',
         'geo': 'libs/geo-position/geoPosition',
+        'sockjs': 'libs/sockjs/sockjs',
+        'stomp': 'libs/stomp/stomp',
         'page': 'common/page',
         'view-holder': 'common/view-holder',
         'form': 'common/form',
@@ -52,6 +54,12 @@ require.config({
         },
         'geo': {
             exports: 'geoPosition'
+        },
+        'sockjs': {
+            exports: 'SockJS'
+        },
+        'stomp': {
+            exports: 'Stomp'
         }
     }
 });

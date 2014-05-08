@@ -7,3 +7,6 @@ curl -X POST -H "Content-Type: application/json" http://localhost:8084/resources
 curl -X PUT -H "Content-Type: application/json" http://localhost:8084/resources/competitions -d '{"id":"5338861c0df4ac6f4c0d0dca","version":"0","name":"Prueba PUT","description":"PUT works!!!","typeId":null,"startDate":1414195200000,"finishDate":1414195200000,"route":null,"comments":null,"participants":null}'
 
 curl -X POST -H "Content-Type: application/json" http://localhost:8084/resources/trackings/535159ecda597c978f19144d/features -d '{"type":"Feature","geometry":{"type":"Point","coordinates":["-8.420151472091675","43.37361130234503"]},"properties":{"timestamp":"1397836715634"}}'
+
+Web Sockets:
+http://localhost:8084/resources/tracking/info/

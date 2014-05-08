@@ -9,10 +9,10 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @Configuration
 @EnableWebSocketMessageBroker
 public class SpringWebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
-
+    
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.setApplicationDestinationPrefixes("/websocket").enableSimpleBroker("/topic");
+        config.enableSimpleBroker("/topic");
     }
 
     @Override

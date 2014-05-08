@@ -43,7 +43,7 @@ public class TrackingController extends BaseController<Tracking, String, Trackin
     public void addFeature(@PathVariable("id") final String id, @RequestBody final Feature feature) {
         getService().addFeature(id, feature);
         Message<Feature> message = new GenericMessage<>(feature);
-        this.brokerMessagingTemplate.send("/topic/tracking/" + id, message);
+        this.brokerMessagingTemplate.convertAndSend("/topic/tracking/" + id, message);
     }
 
     @RequestMapping(value = "/{page}/{size}/{sortProperty}/{sortOrder}", method = RequestMethod.GET)

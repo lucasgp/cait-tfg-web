@@ -2,14 +2,20 @@ define([
     'jqueryui',
     'underscore',
     'backbone',
+    'sockjs',
+    'stomp',
     'view-holder',
     'notif-handler',
     'models/participants',
     'models/users',
     'models/trackings',
+    'models/geo-features',
     'views/map/map',
     'text!/web/templates/participants/view.html'
-], function($, _, Backbone, ViewHolder, NotificationHandler, ParticipantModel, UserModel, TrackingModel, MapView, template) {
+], function($, _, Backbone, SockJS, Stomp,
+    ViewHolder, NotificationHandler, 
+    ParticipantModel, UserModel, TrackingModel, GeoFeatureModel,
+    MapView, template) {
     var ParticipantView = Backbone.View.extend({
         tagName: 'li',
         className: 'participant',
@@ -84,6 +90,16 @@ define([
                 }
             });
             event.data.this.viewHolder.get('mapView').renderMap();
+            
+            var socket = new SockJS("/resources/tracking");
+            var stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, function(frame) {
+                stompClient.subscribe("/topic/tracking/" + event.data.model.id, function(feature){
+                    var featureAttrs = $.parseJSON(feature.body).payload;
+                    event.data.this.viewHolder.get('mapView').addPoint(new GeoFeatureModel(featureAttrs));
+                });
+            });
         },
         updateScore: function(event) {
             var newValue = $(event.target).val();
