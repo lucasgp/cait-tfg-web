@@ -4,6 +4,8 @@ import es.lucasgp.cait.tfg.competition.dto.PageResult;
 import es.lucasgp.cait.tfg.competition.model.Tracking;
 import es.lucasgp.cait.tfg.competition.model.geojson.Feature;
 import es.lucasgp.cait.tfg.competition.service.api.TrackingService;
+import java.util.HashMap;
+import java.util.Map;
 import javax.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,7 +44,9 @@ public class TrackingController extends BaseController<Tracking, String, Trackin
     @RequestMapping(value = "/{id}/features", method = RequestMethod.POST)
     public void addFeature(@PathVariable("id") final String id, @RequestBody final Feature feature) {
         getService().addFeature(id, feature);
-        Message<Feature> message = new GenericMessage<>(feature);
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("trackingId", id);
+        Message<Feature> message = new GenericMessage<>(feature, headers);
         this.brokerMessagingTemplate.convertAndSend("/topic/tracking:participant/" + id, message);
     }
 

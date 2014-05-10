@@ -6,15 +6,13 @@ define([
     'stomp',
     'view-holder',
     'notif-handler',
-    'models/participants',
     'models/users',
     'models/trackings',
-    'models/geo-features',
     'views/map/map',
     'text!/web/templates/participants/view.html'
 ], function($, _, Backbone, SockJS, Stomp,
         ViewHolder, NotificationHandler,
-        ParticipantModel, UserModel, TrackingModel, GeoFeatureModel,
+        UserModel, TrackingModel,
         MapView, template) {
     var ParticipantView = Backbone.View.extend({
         tagName: 'li',
@@ -97,9 +95,17 @@ define([
             event.data.this.viewHolder.get('mapView').renderMap();
 
             stompClient.connect({}, function(frame) {
+                var trackingData = {
+                    trackingId: event.data.model.id,
+                    initTime: null,
+                    totalDistance: 0,
+                    features: [],
+                    color: '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
+                };
                 stompClient.subscribe("/topic/tracking:participant/" + event.data.model.id, function(message) {
                     var feature = $.parseJSON(message.body).payload;
-                    event.data.this.viewHolder.get('mapView').addPoint(new GeoFeatureModel(feature));
+                    trackingData.features.push(feature);
+                    event.data.this.viewHolder.get('mapView').addTrackingLocation(feature, trackingData);
                 });
             });
         },

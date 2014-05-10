@@ -9,7 +9,6 @@ define([
     'events',
     'date',
     'geo-tracking',
-    'models/geo-features',
     'collections/participants',
     'collections/comments',
     'collections/competition-states',
@@ -20,7 +19,6 @@ define([
     'text!/web/templates/competitions/detail.html'
 ], function($, _, Backbone, SockJS, Stomp,
         ViewHolder, NotificationHandler, Channel, DateUtils, GeolocationTracking,
-        GeoFeatureModel,
         ParticipantCollection, CommentCollection, CompetitionStateCollection, CompetitionTypeCollection,
         MapView, ParticipantsListView, CommentsListView, template) {
     var CompetitionDetailView = Backbone.View.extend({
@@ -91,9 +89,17 @@ define([
 
                     stompClient.connect({}, function(frame) {
                         participants.forEach(function(participant) {
-                            stompClient.subscribe("/topic/tracking:participant/" + participant.get('trackingId'), function(message) {
+                            var trackingData = {
+                                trackingId: participant.get('trackingId'),
+                                initTime: null,
+                                totalDistance: 0,
+                                features: [],
+                                color: '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
+                            };
+                            stompClient.subscribe("/topic/tracking:participant/" + trackingData.trackingId, function(message) {
                                 var feature = $.parseJSON(message.body).payload;
-                                viewHolder.get('mapView').addPoint(new GeoFeatureModel(feature));
+                                trackingData.features.push(feature);
+                                viewHolder.get('mapView').addTrackingLocation(feature, trackingData);
                             });
                         }, this);
                     });
@@ -135,9 +141,6 @@ define([
                     minDisplacement: 50,
                     locationCallback: function(feature) {
                         NotificationHandler.notify('alert', feature.get('geometry').coordinates.join(', '));
-                        if (that.viewHolder.get('mapView')) {
-                            that.viewHolder.get('mapView').addPoint(feature);
-                        }
                     }});
             }
         },
