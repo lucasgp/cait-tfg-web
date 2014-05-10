@@ -4,6 +4,8 @@
     <span><i class="fa fa-calendar"></i>&nbsp;{{-startDate}}&nbsp;</span>
     {{ if(geoJson && geoJson.features && geoJson.features.length > 0) { }}
     <a id="participant-tracking-{{-id}}"><i class="fa fa-globe"></i></a>
+    <a href="/resources/trackings/{{-id}}/geojson">GeoJSON</a>
+    <a href="/resources/trackings/{{-id}}/kml">KML</a>
     <div id="map-wrapper-{{-id}}" class="tracking-map-wrapper map"><!-- Map --></div>
     {{ } }}
 </div>

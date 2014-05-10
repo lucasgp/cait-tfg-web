@@ -25,6 +25,13 @@
             <version>${parent.version}</version>
         </dependency>
 
+        <!-- The Java API for KML -->
+        <dependency>
+            <groupId>de.micromata.jak</groupId>
+            <artifactId>JavaAPIforKml</artifactId>
+            <version>${java-kml.version}</version>
+        </dependency>
+
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
