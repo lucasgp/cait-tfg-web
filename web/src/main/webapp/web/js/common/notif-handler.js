@@ -32,7 +32,21 @@ define([
         onGeolocationNotSupported: function() {
             NotificationHandler.notify('warning', "Geolocation not supported");
         },
-        notify: function(type, text) {
+        confirmAction: function(callbackOk, context) {
+            NotificationHandler.notify('warning', 'Are you sure you want to continue?', 0, [
+                {addClass: 'btn btn-primary', text: 'Ok', onClick: function($noty) {
+                        $noty.close();
+                        callbackOk.call(context);
+                    }
+                },
+                {addClass: 'btn btn-danger', text: 'Cancel', onClick: function($noty) {
+                        $noty.close();
+                        NotificationHandler.notify('error', 'Action cancelled');
+                    }
+                }
+            ]);
+        },
+        notify: function(type, text, timeout, buttons) {
             noty({
                 layout: 'top',
                 type: type,
@@ -44,7 +58,8 @@ define([
                     easing: 'swing',
                     speed: 500
                 },
-                timeout: 10000
+                timeout: timeout || 10000,
+                buttons: buttons
             });
         }
     };

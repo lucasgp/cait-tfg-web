@@ -116,13 +116,16 @@ define([
             });
         },
         deleteCompetition: function(event) {
-            this.model.destroy({
-                wait: true,
-                success: function() {
-                    Channel.trigger("competition:deleted");
-                },
-                error: NotificationHandler.onServerError
-            });
+            NotificationHandler.confirmAction(function() {
+                this.model.destroy({
+                    wait: true,
+                    success: function() {
+                        Channel.trigger("competition:deleted");
+                    },
+                    error: NotificationHandler.onServerError
+                });
+            }, this);
+
         },
         startStopTracking: function() {
             if (GeolocationTracking.isTracking()) {

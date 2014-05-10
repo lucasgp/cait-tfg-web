@@ -30,11 +30,13 @@ define([
             return this;
         },
         removeComment: function() {
-            this.model.destroy({
-                wait: true,
-                success: NotificationHandler.onModelDeleteSuccess,
-                error: NotificationHandler.onServerError
-            });
+            NotificationHandler.confirmAction(function() {
+                this.model.destroy({
+                    wait: true,
+                    success: NotificationHandler.onModelDeleteSuccess,
+                    error: NotificationHandler.onServerError
+                });
+            }, this);
         },
         close: function() {
             this.unbind();
