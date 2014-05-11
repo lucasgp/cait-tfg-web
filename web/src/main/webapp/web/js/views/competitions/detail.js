@@ -36,6 +36,8 @@ define([
             this.participants = new ParticipantCollection(this.model.get('participants'), {competitionId: this.model.id});
             this.comments = new CommentCollection(this.model.get('comments'), {competitionId: this.model.id});
 
+            this.socket = null;
+
             var userTrackingId = this.userTrackingId = null;
             if (typeof user !== 'undefined') {
                 this.participants.each(function(participant, index, list) {
@@ -72,10 +74,26 @@ define([
                 params['competitionTypes'] = types;
                 params['DateUtils'] = DateUtils;
                 params['isTracking'] = GeolocationTracking.isTracking();
+
+                states.forEach(function(element, index, list) {
+                    if (this.model.get('stateId') === element.id) {
+                        params['currentState'] = this.currentState = element;
+                    }
+                    if (element.get('name') === 'Ongoing') {
+                        this.ongoingStateId = element.id;
+                    }
+                    if (element.get('name') === 'Finished') {
+                        this.finishedStateId = element.id;
+                    }
+                }, that);
+
                 that.$el.append(_.template(template, params));
                 that.renderParticipants();
                 that.renderComments();
                 that.renderMap();
+
+                that.subscribeToServerEvents();
+
             });
             return this;
         },
@@ -100,29 +118,6 @@ define([
                 this.viewHolder.register('mapView', view);
                 $('#map-wrapper').append(view.render().el);
                 view.renderMap();
-
-                if (this.participants.length > 0) {
-
-                    var socket = new SockJS("/resources/tracking");
-                    var stompClient = this.stompClient = Stomp.over(socket);
-
-                    var participants = this.participants;
-                    var viewHolder = this.viewHolder;
-
-                    stompClient.connect({}, function(frame) {
-                        participants.forEach(function(participant) {
-                            var trackingData = new TrackingData({
-                                trackingId: participant.get('trackingId'),
-                                color: '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
-                            });
-                            stompClient.subscribe("/topic/tracking:participant/" + trackingData.trackingId, function(message) {
-                                var feature = $.parseJSON(message.body).payload;
-                                trackingData.addFeature(feature);
-                                viewHolder.get('mapView').addTrackingLocation(feature);
-                            });
-                        }, this);
-                    });
-                }
             }
         },
         joinCompetition: function(event) {
@@ -147,11 +142,16 @@ define([
 
         },
         startStopTracking: function() {
-            if (!this.userTrackingId) {
-                NotificationHandler.notify('alert', 'Join the competition before tracking!');
+            if (GeolocationTracking.isTracking()) {
+                this.stopTracking();
             } else {
-                if (GeolocationTracking.isTracking()) {
-                    GeolocationTracking.stopTracking();
+                this.startTracking();
+            }
+        },
+        startTracking: function() {
+            if (!GeolocationTracking.isTracking()) {
+                if (!this.userTrackingId) {
+                    NotificationHandler.notify('alert', 'Join the competition before start tracking!');
                 } else {
                     GeolocationTracking.startTracking({
                         trackingId: this.userTrackingId,
@@ -161,7 +161,62 @@ define([
                             NotificationHandler.notify('alert', feature.get('geometry').coordinates.join(', '));
                         }});
                 }
-                this.$('#tracking-icon').toggleClass("fa-play fa-stop");
+                this.$('#tracking-icon').addClass("fa-stop");
+                this.$('#tracking-icon').removeClass("fa-play");
+            }
+        },
+        stopTracking: function() {
+            if (GeolocationTracking.isTracking()) {
+                GeolocationTracking.stopTracking();
+            }
+            this.$('#tracking-icon').addClass("fa-play");
+            this.$('#tracking-icon').removeClass("fa-stop");
+        },
+        subscribeToServerEvents: function() {
+
+            var isTrackingState = this.userTrackingId && this.currentState && this.currentState.get('name') !== 'Finished';
+            var isTrackParticipants = this.participants.length > 0;
+
+            if (isTrackingState || isTrackParticipants) {
+
+                var socket = new SockJS("/resources/tracking");
+                var stompClient = this.stompClient = Stomp.over(socket);
+
+                var that = this;
+
+                stompClient.connect({}, function(frame) {
+
+                    if (isTrackingState) {
+                        stompClient.subscribe("/topic/competition:state/" + that.model.id, function(message) {
+                            var competitionStateId = $.parseJSON(message.body).payload;
+                            if (that.ongoingStateId === competitionStateId) {
+                                that.startTracking();
+                            } else if (that.finishedStateId === competitionStateId) {
+                                that.stopTracking();
+                            }
+                        });
+                    }
+
+                    if (isTrackParticipants) {
+
+                        var participants = that.participants;
+                        var viewHolder = that.viewHolder;
+
+                        participants.forEach(function(participant) {
+                            var trackingData = new TrackingData({
+                                trackingId: participant.get('trackingId'),
+                                color: '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
+                            });
+                            stompClient.subscribe("/topic/tracking:participant/" + trackingData.trackingId, function(message) {
+                                var feature = $.parseJSON(message.body).payload;
+                                trackingData.addFeature(feature);
+                                if (viewHolder.get('mapView') != null) {
+                                    viewHolder.get('mapView').addTrackingLocation(feature);
+                                }
+                            });
+                        }, that);
+                    }
+                });
             }
         },
         close: function() {

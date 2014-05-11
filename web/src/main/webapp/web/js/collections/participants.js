@@ -7,7 +7,9 @@ define([
 
     var ParticipantCollection = Backbone.Collection.extend({
         model: ParticipantModel,
-        comparator: 'score',
+        comparator: function(a, b) {
+            return b.get('score') - a.get('score');
+        },
         initialize: function(models, options) {
             this.competitionId = options.competitionId;
         },

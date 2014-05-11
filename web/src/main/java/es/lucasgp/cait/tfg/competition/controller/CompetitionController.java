@@ -6,14 +6,20 @@ import es.lucasgp.cait.tfg.competition.exceptions.WrongIdException;
 import es.lucasgp.cait.tfg.competition.model.Comment;
 import es.lucasgp.cait.tfg.competition.model.Competition;
 import es.lucasgp.cait.tfg.competition.model.Participant;
+import es.lucasgp.cait.tfg.competition.model.geojson.Feature;
 import es.lucasgp.cait.tfg.competition.security.user.CompetitionUserDetails;
 import es.lucasgp.cait.tfg.competition.service.api.CompetitionService;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MultiValueMap;
@@ -29,9 +35,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/competitions", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CompetitionController extends BaseController<Competition, String, CompetitionService> {
 
+    private final SimpMessagingTemplate brokerMessagingTemplate;
+
     @Autowired
-    public CompetitionController(CompetitionService competitionService) {
+    public CompetitionController(CompetitionService competitionService, SimpMessagingTemplate brokerMessagingTemplate) {
         super(competitionService);
+        this.brokerMessagingTemplate = brokerMessagingTemplate;
     }
 
     @PreAuthorize("isFullyAuthenticated()")
@@ -50,7 +59,14 @@ public class CompetitionController extends BaseController<Competition, String, C
             throw new WrongIdException();
         }
         validateOwner(id);
-        return super.update(id, competition);
+        Competition result = super.update(id, competition);
+
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("competitionId", id);
+        Message<String> message = new GenericMessage<>(competition.getStateId(), headers);
+        this.brokerMessagingTemplate.convertAndSend("/topic/competition:state/" + id, message);
+
+        return result;
     }
 
     @PreAuthorize("isFullyAuthenticated()")

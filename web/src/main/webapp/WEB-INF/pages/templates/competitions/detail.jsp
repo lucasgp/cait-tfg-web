@@ -4,9 +4,13 @@
     <h2 >
         {{- name }}
         <sec:authorize access="isFullyAuthenticated()">
+            {{ if(currentState.get('name') === 'Open') { }}
             &nbsp;<a class="join"><i class="fa fa-sign-in" title="{{-$.t('competition.join')}}"></i></a>
+            {{ } }}
+            {{ if(currentState.get('name') === 'Ongoing') { }}
             &nbsp;<span class="tracking"><i id="tracking-icon" class="fa {{- isTracking ? 'fa-stop' : 'fa-play'}}"></i></span>
-            </sec:authorize>
+            {{ } }}
+        </sec:authorize>
     </h2>
     <div class="info">
         <span><i class="fa fa-calendar"></i>{{- $.t("competition.start-date") }}&nbsp;{{- startDate != null ? $.datepicker.formatDate(DateUtils.getFormat(), new Date(startDate)) : '' }}</span>
