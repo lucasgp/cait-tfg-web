@@ -8,9 +8,10 @@ define([
         initialize: function(options) {
             this.elementId = options.elementId;
             this.selectedId = options.selectedId ? options.selectedId : -1;
+            this.includeOptionAll = options.includeOptionAll || false;
         },
         render: function() {
-            this.el = _.template(template, {elementId: this.elementId, selectedId: this.selectedId, collection: this.collection});
+            this.el = _.template(template, {elementId: this.elementId, selectedId: this.selectedId, includeOptionAll: this.includeOptionAll, collection: this.collection});
             return this;
         },
         close: function() {

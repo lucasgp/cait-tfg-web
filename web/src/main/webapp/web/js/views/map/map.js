@@ -53,20 +53,14 @@ define([
                     pointToLayer: this.setGeoJsonPoint
                 });
                 geoLayer.addTo(this.map);
+
                 var lineString = {"type": "LineString",
                     "coordinates": []
                 };
-                var trackingData = {
-                    initTime: null,
-                    totalDistance: 0,
-                    features: []
-                };
-                var that = this;
                 _.each(this.geoJson.features, function(feature, index, features) {
                     lineString.coordinates.push(feature.geometry.coordinates);
-                    trackingData.features.push(feature);
-                    that.processTrackingData(feature, trackingData);
-                }, this);
+                });
+
                 geoLayer.addData(lineString);
                 geoLayer.addData(this.geoJson);
 
@@ -132,20 +126,7 @@ define([
             this.geoJson.features.push(feature);
             this.setGeoJsonPoint(feature, e.latlng).addTo(this.map);
         },
-        processTrackingData: function(feature, trackingData) {
-            if (trackingData.features.length < 2) {
-                trackingData.initTime = feature.properties.timestamp;
-            } else {
-                var prevFeature = trackingData.features[trackingData.features.length - 2];
-                var distance = L.latLng(prevFeature.geometry.coordinates[1], prevFeature.geometry.coordinates[0]).distanceTo(L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]));
-                trackingData.totalDistance += distance;
-                feature.properties.avgSpeed = (trackingData.totalDistance / 1000) / ((feature.properties.timestamp - trackingData.initTime) / (1000 * 60 * 60));
-            }
-            feature.properties.distance = trackingData.totalDistance;
-            feature.properties.color = trackingData.color || null;
-        },
-        addTrackingLocation: function(feature, trackingData) {
-            this.processTrackingData(feature, trackingData);
+        addTrackingLocation: function(feature) {
             this.geoLayer.addData(feature);
         },
         close: function() {

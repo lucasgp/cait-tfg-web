@@ -13,6 +13,14 @@
     <div class="field mt05">
         <label>{{-$.t('form.to')}}</label><input id="competition-search-startDate-lte" type="text" value="{{- query.params['startDate-lte'] != null ? $.datepicker.formatDate(DateUtils.getFormat(), new Date(query.params['startDate-lte'])) : '' }}">
     </div>
+    <div class="field mt05">
+        <label>{{- $.t('competition.form.type') }}</label>
+        <span id="competition-search-types" ></span>
+    </div>
+    <div class="field mt05">
+        <label>{{- $.t('competition.form.state') }}</label>
+        <span id="competition-search-states" ></span>
+    </div>
     <div class="field">
         <input id="submit-search" type="button" value="{{- $.t('form.search') }}">
     </div>

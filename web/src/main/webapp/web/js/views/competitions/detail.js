@@ -9,6 +9,7 @@ define([
     'events',
     'date',
     'geo-tracking',
+    'tracking-data',
     'collections/participants',
     'collections/comments',
     'collections/competition-states',
@@ -18,7 +19,7 @@ define([
     'views/comments/list',
     'text!/web/templates/competitions/detail.html'
 ], function($, _, Backbone, SockJS, Stomp,
-        ViewHolder, NotificationHandler, Channel, DateUtils, GeolocationTracking,
+        ViewHolder, NotificationHandler, Channel, DateUtils, GeolocationTracking, TrackingData,
         ParticipantCollection, CommentCollection, CompetitionStateCollection, CompetitionTypeCollection,
         MapView, ParticipantsListView, CommentsListView, template) {
     var CompetitionDetailView = Backbone.View.extend({
@@ -30,9 +31,28 @@ define([
             'click .tracking': 'startStopTracking'
         },
         initialize: function() {
+
             this.viewHolder = new ViewHolder();
             this.participants = new ParticipantCollection(this.model.get('participants'), {competitionId: this.model.id});
             this.comments = new CommentCollection(this.model.get('comments'), {competitionId: this.model.id});
+
+            var userTrackingId = this.userTrackingId = null;
+            if (typeof user !== 'undefined') {
+                this.participants.each(function(participant, index, list) {
+                    if (participant.get('userId') === user.id) {
+                        userTrackingId = participant.get('trackingId');
+                    }
+                }, this);
+            }
+            this.userTrackingId = userTrackingId;
+            var that = this;
+            if (!this.userTrackingId) {
+                this.listenTo(this.participants, "add", function(participant) {
+                    if (participant && participant.get('trackingId')) {
+                        that.userTrackingId = participant.get('trackingId');
+                    }
+                });
+            }
             return this;
         },
         render: function() {
@@ -51,6 +71,7 @@ define([
                 params['competitionStates'] = states;
                 params['competitionTypes'] = types;
                 params['DateUtils'] = DateUtils;
+                params['isTracking'] = GeolocationTracking.isTracking();
                 that.$el.append(_.template(template, params));
                 that.renderParticipants();
                 that.renderComments();
@@ -73,7 +94,9 @@ define([
         renderMap: function() {
             this.viewHolder.close('mapView');
             if (this.model.get('route') && this.model.get('route').geoJson.features && this.model.get('route').geoJson.features.length > 0) {
-                var view = new MapView({geoJson: this.model.get('route').geoJson});
+                var trackingData = new TrackingData();
+                trackingData.addGeoJSON(this.model.get('route').geoJson);
+                var view = new MapView({geoJson: trackingData.geoJSON});
                 this.viewHolder.register('mapView', view);
                 $('#map-wrapper').append(view.render().el);
                 view.renderMap();
@@ -83,23 +106,19 @@ define([
                     var socket = new SockJS("/resources/tracking");
                     var stompClient = this.stompClient = Stomp.over(socket);
 
-
                     var participants = this.participants;
                     var viewHolder = this.viewHolder;
 
                     stompClient.connect({}, function(frame) {
                         participants.forEach(function(participant) {
-                            var trackingData = {
+                            var trackingData = new TrackingData({
                                 trackingId: participant.get('trackingId'),
-                                initTime: null,
-                                totalDistance: 0,
-                                features: [],
                                 color: '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
-                            };
+                            });
                             stompClient.subscribe("/topic/tracking:participant/" + trackingData.trackingId, function(message) {
                                 var feature = $.parseJSON(message.body).payload;
-                                trackingData.features.push(feature);
-                                viewHolder.get('mapView').addTrackingLocation(feature, trackingData);
+                                trackingData.addFeature(feature);
+                                viewHolder.get('mapView').addTrackingLocation(feature);
                             });
                         }, this);
                     });
@@ -128,23 +147,21 @@ define([
 
         },
         startStopTracking: function() {
-            if (GeolocationTracking.isTracking()) {
-                GeolocationTracking.stopTracking();
+            if (!this.userTrackingId) {
+                NotificationHandler.notify('alert', 'Join the competition before tracking!');
             } else {
-                var trackingId = null;
-                this.participants.each(function(participant, index, list) {
-                    if (participant.get('userId') === user.id) {
-                        trackingId = participant.get('trackingId');
-                    }
-                }, this);
-                var that = this;
-                GeolocationTracking.startTracking({
-                    trackingId: trackingId,
-                    interval: 15000,
-                    minDisplacement: 50,
-                    locationCallback: function(feature) {
-                        NotificationHandler.notify('alert', feature.get('geometry').coordinates.join(', '));
-                    }});
+                if (GeolocationTracking.isTracking()) {
+                    GeolocationTracking.stopTracking();
+                } else {
+                    GeolocationTracking.startTracking({
+                        trackingId: this.userTrackingId,
+                        interval: 15000,
+                        minDisplacement: 50,
+                        locationCallback: function(feature) {
+                            NotificationHandler.notify('alert', feature.get('geometry').coordinates.join(', '));
+                        }});
+                }
+                this.$('#tracking-icon').toggleClass("fa-play fa-stop");
             }
         },
         close: function() {

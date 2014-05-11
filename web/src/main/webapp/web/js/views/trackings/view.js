@@ -2,15 +2,19 @@ define([
     'jqueryui',
     'underscore',
     'backbone',
+    'tracking-data',
     'view-holder',
     'views/map/map',
     'text!/web/templates/trackings/view.html'
-], function($, _, Backbone, ViewHolder, MapView, template) {
+], function($, _, Backbone,
+        TrackingData, ViewHolder, MapView, template) {
     var TrackingView = Backbone.View.extend({
         tagName: 'li',
         className: 'tracking',
         initialize: function() {
             this.viewHolder = new ViewHolder();
+            this.trackingData = new TrackingData();
+            this.trackingData.addGeoJSON(this.model.get('geoJson'));
         },
         render: function() {
             this.viewHolder.close('mapView');
@@ -30,7 +34,7 @@ define([
             var $mapElement = event.data.$mapElement;
             event.data.this.viewHolder.close('mapView');
             var view = new MapView({
-                geoJson: event.data.this.model.get('geoJson'),
+                geoJson: event.data.this.trackingData.geoJSON,
                 suffix: event.data.this.model.id,
                 className: 'tracking-map'
             });

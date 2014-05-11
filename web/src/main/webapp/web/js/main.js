@@ -18,7 +18,8 @@ require.config({
         'notif-handler': 'common/notif-handler',
         'date': 'common/date-utils',
         'loading': 'common/loading',
-        'geo-tracking': 'common/geo-tracking'
+        'geo-tracking': 'common/geo-tracking',
+        'tracking-data': 'common/tracking-data'
     },
     shim: {
         'jqueryui': {

@@ -6,12 +6,13 @@ define([
     'stomp',
     'view-holder',
     'notif-handler',
+    'tracking-data',
     'models/users',
     'models/trackings',
     'views/map/map',
     'text!/web/templates/participants/view.html'
 ], function($, _, Backbone, SockJS, Stomp,
-        ViewHolder, NotificationHandler,
+        ViewHolder, NotificationHandler, TrackingData,
         UserModel, TrackingModel,
         MapView, template) {
     var ParticipantView = Backbone.View.extend({
@@ -73,8 +74,13 @@ define([
             var socket = new SockJS("/resources/tracking");
             var stompClient = Stomp.over(socket);
 
+            var trackingData = new TrackingData({
+                trackingId: event.data.model.id
+            });
+            trackingData.addGeoJSON(event.data.model.get('geoJson'));
+
             var view = new MapView({
-                geoJson: event.data.model.get('geoJson'),
+                geoJson: trackingData.geoJSON,
                 suffix: event.data.model.id,
                 className: 'tracking-map'
             });
@@ -95,17 +101,10 @@ define([
             event.data.this.viewHolder.get('mapView').renderMap();
 
             stompClient.connect({}, function(frame) {
-                var trackingData = {
-                    trackingId: event.data.model.id,
-                    initTime: null,
-                    totalDistance: 0,
-                    features: [],
-                    color: '#' + (Math.random() * 0xFFFFFF << 0).toString(16)
-                };
-                stompClient.subscribe("/topic/tracking:participant/" + event.data.model.id, function(message) {
+                stompClient.subscribe("/topic/tracking:participant/" + trackingData.trackingId, function(message) {
                     var feature = $.parseJSON(message.body).payload;
-                    trackingData.features.push(feature);
-                    event.data.this.viewHolder.get('mapView').addTrackingLocation(feature, trackingData);
+                    trackingData.addFeature(feature);
+                    event.data.this.viewHolder.get('mapView').addTrackingLocation(feature);
                 });
             });
         },

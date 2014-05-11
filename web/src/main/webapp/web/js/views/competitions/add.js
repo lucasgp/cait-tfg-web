@@ -13,7 +13,10 @@ define([
     'views/common/combo',
     'views/map/map',
     'text!/web/templates/competitions/add.html'
-], function($, _, Backbone, Form, Channel, DateUtils, ViewHolder, NotificationHandler, CompetitionModel, CompetitionTypeCollection, CompetitionStateCollection, ComboView, MapView, template) {
+], function($, _, Backbone,
+        Form, Channel, DateUtils, ViewHolder, NotificationHandler,
+        CompetitionModel,
+        CompetitionTypeCollection, CompetitionStateCollection, ComboView, MapView, template) {
     var AddCompetitionView = Backbone.View.extend({
         tagName: 'div',
         className: 'add-competition',
