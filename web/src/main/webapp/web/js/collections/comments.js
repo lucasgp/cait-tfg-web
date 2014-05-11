@@ -7,7 +7,9 @@ define([
 
     var CommentCollection = Backbone.Collection.extend({
         model: CommentModel,
-        comparator: 'commentDate',
+        comparator: function(a, b) {
+            return b.get('commentDate') - a.get('commentDate');
+        },
         initialize: function(models, options) {
             this.competitionId = options.competitionId;
         },

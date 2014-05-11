@@ -35,3 +35,7 @@
 {{ if(route && route.geoJson.features && route.geoJson.features.length > 0) { }}
 <div id="map-wrapper" class="map"><!-- Map --></div>
 {{ } }}
+
+
+<div id="competition-participants"><!-- Competition participants --></div>
+<div id="competition-comments"><!-- Competition comments --></div>

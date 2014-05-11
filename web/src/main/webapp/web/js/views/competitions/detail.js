@@ -10,6 +10,7 @@ define([
     'date',
     'geo-tracking',
     'tracking-data',
+    'models/trackings',
     'collections/participants',
     'collections/comments',
     'collections/competition-states',
@@ -20,6 +21,7 @@ define([
     'text!/web/templates/competitions/detail.html'
 ], function($, _, Backbone, SockJS, Stomp,
         ViewHolder, NotificationHandler, Channel, DateUtils, GeolocationTracking, TrackingData,
+        TrackingModel,
         ParticipantCollection, CommentCollection, CompetitionStateCollection, CompetitionTypeCollection,
         MapView, ParticipantsListView, CommentsListView, template) {
     var CompetitionDetailView = Backbone.View.extend({
@@ -35,8 +37,6 @@ define([
             this.viewHolder = new ViewHolder();
             this.participants = new ParticipantCollection(this.model.get('participants'), {competitionId: this.model.id});
             this.comments = new CommentCollection(this.model.get('comments'), {competitionId: this.model.id});
-
-            this.socket = null;
 
             var userTrackingId = this.userTrackingId = null;
             if (typeof user !== 'undefined') {
@@ -99,15 +99,35 @@ define([
         },
         renderParticipants: function() {
             this.viewHolder.close('participantsView');
-            var view = new ParticipantsListView({competition: this.model, collection: this.participants});
-            this.viewHolder.register('participantsView', view);
-            this.$el.append(view.render().el);
+            this.listenTo(this.participants, 'sort', _.after(this.participants.length, function() {
+                var view = new ParticipantsListView({competition: this.model, collection: this.participants});
+                this.viewHolder.register('participantsView', view);
+                this.$('#competition-participants').html(view.render().el);
+            }), this);
+            this.participants.forEach(function(participant, index, list) {
+                var trackingModel = new TrackingModel({id: participant.get('trackingId')});
+                this.listenTo(trackingModel, 'sync', function() {
+                    var trackingData = new TrackingData({
+                        trackingId: participant.trackingId
+                    });
+                    trackingData.addGeoJSON(trackingModel.get('geoJson'));
+                    participant.set({
+                        'tracking': trackingModel,
+                        'trackingData': trackingData,
+                        'score': trackingData.totalDistance.toFixed(2)
+                    });
+                    this.participants.sort();
+                }, this);
+                trackingModel.fetch({
+                    error: NotificationHandler.onServerError
+                });
+            }, this);
         },
         renderComments: function() {
             this.viewHolder.close('commentsView');
             var view = new CommentsListView({competitionId: this.model.id, collection: this.comments});
             this.viewHolder.register('commentsView', view);
-            this.$el.append(view.render().el);
+            this.$('#competition-comments').html(view.render().el);
         },
         renderMap: function() {
             this.viewHolder.close('mapView');

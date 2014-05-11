@@ -21,16 +21,6 @@ define([
         initialize: function(options) {
             this.viewHolder = new ViewHolder();
             this.competition = options.competition;
-            var userModel = new UserModel({id: this.model.get('userId')});
-            var trackingModel = new TrackingModel({id: this.model.get('trackingId')});
-            this.listenTo(userModel, 'sync', this.renderUser, this);
-            this.listenTo(trackingModel, 'sync', this.renderTracking, this);
-            userModel.fetch({
-                error: NotificationHandler.onServerError
-            });
-            trackingModel.fetch({
-                error: NotificationHandler.onServerError
-            });
         },
         events: {
             'click .delete': 'removeParticipant'
@@ -47,6 +37,29 @@ define([
             var participantNewScoreElementId = "#participant-new-score-" + this.model.get('userId');
             if (this.$(participantNewScoreElementId).length > 0) {
                 this.$el.on("blur", participantNewScoreElementId, {this: this}, this.updateScore, this);
+            }
+
+            var userModel = new UserModel({id: this.model.get('userId')});
+            this.listenTo(userModel, 'sync', this.renderUser, this);
+            userModel.fetch({
+                error: NotificationHandler.onServerError
+            });
+
+            if (this.model.get('tracking') && this.model.get('trackingData')) {
+                this.trackingData = this.model.get('trackingData');
+                this.renderTracking(this.model.get('tracking'));
+            } else {
+                var trackingModel = new TrackingModel({id: this.model.get('trackingId')});
+                this.listenTo(trackingModel, 'sync', function(tracking) {
+                    this.trackingData = new TrackingData({
+                        trackingId: tracking.id
+                    });
+                    this.trackingData.addGeoJSON(tracking.get('geoJson'));
+                    this.renderTracking(tracking);
+                }, this);
+                trackingModel.fetch({
+                    error: NotificationHandler.onServerError
+                });
             }
 
             return this;
@@ -74,13 +87,8 @@ define([
             var socket = new SockJS("/resources/tracking");
             var stompClient = Stomp.over(socket);
 
-            var trackingData = new TrackingData({
-                trackingId: event.data.model.id
-            });
-            trackingData.addGeoJSON(event.data.model.get('geoJson'));
-
             var view = new MapView({
-                geoJson: trackingData.geoJSON,
+                geoJson: event.data.this.trackingData.geoJSON,
                 suffix: event.data.model.id,
                 className: 'tracking-map'
             });
@@ -101,9 +109,9 @@ define([
             event.data.this.viewHolder.get('mapView').renderMap();
 
             stompClient.connect({}, function(frame) {
-                stompClient.subscribe("/topic/tracking:participant/" + trackingData.trackingId, function(message) {
+                stompClient.subscribe("/topic/tracking:participant/" + event.data.this.trackingId, function(message) {
                     var feature = $.parseJSON(message.body).payload;
-                    trackingData.addFeature(feature);
+                    event.data.this.addFeature(feature);
                     event.data.this.viewHolder.get('mapView').addTrackingLocation(feature);
                 });
             });
