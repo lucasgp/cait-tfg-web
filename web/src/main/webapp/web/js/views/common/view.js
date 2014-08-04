@@ -8,6 +8,7 @@ define([
 ], function($, _, Backbone, Form, NotificationHandler, template) {
     var CommonView = Backbone.View.extend({
         tagName: 'li',
+        className: 'card',
         initialize: function(options) {
             this.prefix = options.prefix;
             this.listenTo(this.model, 'change', this.render);

@@ -8,7 +8,7 @@ define([
 ], function($, _, Backbone, DateUtils, competitionTemplate, competitionSimpleTemplate) {
     var CompetitionView = Backbone.View.extend({
         tagName: 'li',
-        className: 'competition',
+        className: 'card',
         initialize: function(options) {
             if (options && options.simple)
                 this.simple = true;

@@ -3,7 +3,7 @@
 
 {{ if(collection && collection.length > 0) { }}
 
-<ul id="{{-prefix}}list"><!-- Users --></ul>
+<ul id="{{-prefix}}list" class="card-list"><!-- Users --></ul>
 
 {{ } else { }}
 

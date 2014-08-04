@@ -4,19 +4,24 @@ html,body {
     margin: 0em;
     padding: 0em;
     height: 100%;
-    background-color: #dad7d0;
+    background-color: #669999;
     font-family: Helvetica, Arial, Verdana, Sans-serif;
     font-size: 1em;
 }
 
 h1 {
-    font-size: 1.5em;
+    font-size: 1.75em;
     margin: 0;
 }
 
 h2 {
-    font-size: 1.1em;
-    margin: 0;
+    font-size: 1.4em;
+    margin: 0 0 0.5em 0;
+}
+
+h3 {
+    font-size: 1.2em;
+    margin: 0 0 0.5em 0;
 }
 
 label {
@@ -30,11 +35,12 @@ p {
 
 a {
     text-decoration: none;
-    color: #6f8a42;
+    color: #e8e5dd;
+    font-weight: bold;
 }
 
 a:hover {
-    background-color: #e8e5dd;
+    background-color: #ff9999;
 }
 
 ul {
@@ -47,7 +53,7 @@ li {
 
 i {
     /*margin-right: 0.5em;*/
-    color: #303d65;
+    color: black;
 }
 
 .w100 {
@@ -225,8 +231,8 @@ textarea {
 }
 
 .title {
-    background: #6f8a42;
-    color: #f2efe9;
+    background: #cc3333;
+    color: white;
     width: 100%;
 }
 
@@ -254,12 +260,12 @@ textarea {
     margin-top: 1%;
 }
 
-#competition-list {
+.card-list {
     display: block;
     margin: 1% auto;
 }
 
-.competition {
+.card {
     position: relative;
     display: inline-block;
     padding: 0.5%;
@@ -268,27 +274,22 @@ textarea {
     background-color: #e8e5dd;
 }
 
-.competition:hover {
-    outline: 0.2em solid #b4bab1;
+.card:hover {
+    outline: 0.2em solid #336666;
     outline-offset: 0em;
 }
 
-.competition .dates {
-    width: 100%;
-}
-
-.competition .dates p {
-    padding: 0.5em;
-}
-
-.competition .description {
+.card-body {
     height: 10em;
     width: 100%;
-}
-
-.competition .description p {
     margin: 0;
     padding: 0.5em;
+}
+
+.separator {
+    border-bottom: 0.3em solid #e8e5dd;
+    margin: 1em 0 1em 0;
+    width: 100%;
 }
 
 .competition-detail {
@@ -298,7 +299,6 @@ textarea {
 
 #participants-list {
     width: 100%;
-    border-bottom: 0.3em solid #e8e5dd;
     padding-bottom: 1%;
 }
 

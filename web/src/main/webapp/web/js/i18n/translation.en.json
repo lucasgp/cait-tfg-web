@@ -48,6 +48,8 @@
         "join": "Join competition",
         "edit": "Edit competition",
         "delete": "Delete competition",
+        "participants": "People participating in this competition",
+        "comments": "What says the people about this competition",
         "form": {
             "name-placeholder": "What's the competition name?",
             "description-placeholder": "What's this competition about?",

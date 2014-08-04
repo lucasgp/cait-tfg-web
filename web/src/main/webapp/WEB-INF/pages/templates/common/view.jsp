@@ -9,6 +9,7 @@
         <p>{{- description }}</p>
     </div>
 </sec:authorize>
+
 <sec:authorize access="isFullyAuthenticated() and hasRole('ADMIN')">
     <div class="w100 mtLabel">
         <input class="w100" id="{{-prefix}}name" value="{{-name}}">

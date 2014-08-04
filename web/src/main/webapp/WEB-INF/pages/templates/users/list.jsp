@@ -19,7 +19,7 @@
 <div id="submit-prev" class="search-nav mt05"><i class="fa fa-chevron-left fa-3x fa-rotate-90"></i></div>
 {{ } }}
 
-<ul id="users-list"><!-- Users --></ul>
+<ul id="users-list" class="card-list"><!-- Users --></ul>
 
 
 {{ if(((query.page + 1) * query.size) < users.totalElements ) { }}

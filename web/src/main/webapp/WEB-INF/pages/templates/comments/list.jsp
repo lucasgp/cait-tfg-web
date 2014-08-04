@@ -2,9 +2,13 @@
 <%@ include file="/WEB-INF/pages/taglibs.jsp" %>
 
 {{ if(comments && comments.length > 0) {}}
+
 <ul id="comments-list"><!-- Comments --></ul>
+
 {{ } else {}}
+
 <p>{{- $.t("comment.list-empty") }}</p>
+
 {{}}}
 
 <sec:authorize access="isAuthenticated()">

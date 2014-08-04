@@ -36,7 +36,7 @@
 <div id="submit-prev" class="search-nav mt05"><i class="fa fa-chevron-left fa-3x fa-rotate-90"></i></div>
 {{ } }}
 
-<ul id="competition-list"><!-- Competitions --></ul>
+<ul id="competition-list" class="card-list"><!-- Competitions --></ul>
 
 {{ if(((query.page + 1) * query.size) < competitions.totalElements ) { }}
 <div id="submit-next" class="search-nav mt05"><i class="fa fa-chevron-right fa-3x fa-rotate-90"></i></div>

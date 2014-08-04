@@ -10,7 +10,7 @@ define([
         TrackingData, ViewHolder, MapView, template) {
     var TrackingView = Backbone.View.extend({
         tagName: 'li',
-        className: 'tracking',
+        className: 'card',
         initialize: function() {
             this.viewHolder = new ViewHolder();
             this.trackingData = new TrackingData();

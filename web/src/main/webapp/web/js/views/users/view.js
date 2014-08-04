@@ -6,7 +6,7 @@ define([
 ], function($, _, Backbone, template) {
     var UserView = Backbone.View.extend({
         tagName: 'li',
-        className: 'user',
+        className: 'card',
         initialize: function() {
         },
         render: function() {
