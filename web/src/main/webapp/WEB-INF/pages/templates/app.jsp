@@ -12,7 +12,7 @@
 
     <sec:authorize access="isFullyAuthenticated()">
         <div>
-            <span>{{-user.name}}&nbsp;{{-user.surname}}&nbsp;({{-user.username}})</span>
+            <span><a href="#user/{{- user.id }}" >{{-user.name}}&nbsp;{{-user.surname}}&nbsp;({{-user.username}})</a></span>
         </div>
         <div id="logout-button"><a href="${logoutUrl}">{{- $.t("menu.logout") }}</a></div>
     </sec:authorize>

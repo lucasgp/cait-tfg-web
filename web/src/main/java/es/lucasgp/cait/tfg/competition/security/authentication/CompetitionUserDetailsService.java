@@ -7,6 +7,7 @@ import es.lucasgp.cait.tfg.competition.security.user.CompetitionUserDetails;
 import es.lucasgp.cait.tfg.competition.service.api.RoleTypeService;
 import es.lucasgp.cait.tfg.competition.service.api.UserRoleService;
 import es.lucasgp.cait.tfg.competition.service.api.UserService;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,8 @@ public class CompetitionUserDetailsService implements UserDetailsService {
     }
 
     private List<GrantedAuthority> getUserAuthorities(User user) {
-        return this.userRoleService.findByUserId(user.getId()).getRoleTypesId().stream()
+        UserRole role = this.userRoleService.findByUserId(user.getId());
+        return role == null ? Collections.emptyList() : role.getRoleTypesId().stream()
             .map(roleTypeId -> getGrantedAuthority(roleTypeId)).collect(Collectors.toList());
     }
 
