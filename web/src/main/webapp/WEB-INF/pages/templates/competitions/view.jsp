@@ -13,6 +13,6 @@
     {{ } }}
 </div>
 
-<div class="card-body description">
-    <p>{{- description }}</p>
+<div class="card-body">
+    <p class="description">{{- description }}</p>
 </div>

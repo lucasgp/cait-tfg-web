@@ -4,7 +4,7 @@ html,body {
     margin: 0em;
     padding: 0em;
     height: 100%;
-    background-color: #669999;
+    background-color: #eee;
     font-family: Helvetica, Arial, Verdana, Sans-serif;
     font-size: 1em;
 }
@@ -17,11 +17,13 @@ h1 {
 h2 {
     font-size: 1.4em;
     margin: 0 0 0.5em 0;
+    color: #cc3333;
 }
 
 h3 {
     font-size: 1.2em;
     margin: 0 0 0.5em 0;
+    color: #cc3333;
 }
 
 label {
@@ -35,12 +37,13 @@ p {
 
 a {
     text-decoration: none;
-    color: #e8e5dd;
+    color: #729494;
     font-weight: bold;
 }
 
 a:hover {
-    background-color: #ff9999;
+    background-color: #729494;
+    color: white;
 }
 
 ul {
@@ -139,25 +142,26 @@ textarea {
 }
 
 #header,#footer {
-    color: #303d65;
     width: 100%;
 }
 
 #header {
-    margin: 0;
-    text-shadow: 2px 1px 2px #303d65;
-    color: #e8e5dd;
+    padding: 1em 0;
+    /*text-shadow: 2px 1px 2px #303d65;*/
+    color: white;
     border-bottom: 0.3em solid #e8e5dd;
+    background-color: #729494;
 }
 
 #header h1 {
-    margin: 1em;
+    margin: 0 1em;
     font-weight: 900;
-    /*opacity: 0.5;*/
+    opacity: 0.7;
 }
 
 #footer {
     clear: both;
+    color: #729494;
     text-align: right;
     margin-top: 1em;
     position: relative;
@@ -177,8 +181,9 @@ textarea {
 }
 
 #menu {
-    width: 19%;
-    float: right;
+    width: 15%;
+    position: absolute;
+    display: inline-block;
     margin: 1% 0 0 1%;
 }
 
@@ -187,7 +192,8 @@ textarea {
 }
 #main {
     width: 80%;
-    float: left;
+    position: relative;
+    display: inline-block;
 }
 
 #loading{
@@ -207,7 +213,7 @@ textarea {
 }
 
 .search-nav:hover {
-    outline: 0.2em solid #b4bab1;
+    outline: 0.2em solid #336666;
     outline-offset: 0em;
 }
 
@@ -245,9 +251,16 @@ textarea {
     padding: 0.5em;
 }
 
+.info {
+    background-color: white;
+    margin: 0.5%;
+    padding: 0.5em;
+}
+
 .description {
-    overflow: hidden;
-    text-overflow: ellipsis;
+    background-color: white;
+    margin: 0.5%;
+    padding: 0.5em;
 }
 
 .dates {
@@ -271,7 +284,7 @@ textarea {
     padding: 0.5%;
     margin: 0.5%;
     width: 31.3%;
-    background-color: #e8e5dd;
+    background-color: white;
 }
 
 .card:hover {
@@ -283,7 +296,8 @@ textarea {
     height: 10em;
     width: 100%;
     margin: 0;
-    padding: 0.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .separator {
@@ -306,6 +320,8 @@ textarea {
     display: inline-block;
     width: 24%;
     margin: 0.5%;
+    padding: 0.5em;
+    background-color: white;
 }
 
 #comments-list {
@@ -317,6 +333,8 @@ textarea {
     display: inline-block;
     width: 49%;
     margin: 0.5%;
+    padding: 0.5em;
+    background-color: white;
 }
 
 #comment-form {
