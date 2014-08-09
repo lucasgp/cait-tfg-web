@@ -1,4 +1,6 @@
 cait-tfg-web
 ============
 
-Trabajo de fin de grado del CAIT - Aplicación Web
+Trabajo de Fin de Grado del CAIT
+
+Aplicación Web para la gestión de competiciones deportivas.
