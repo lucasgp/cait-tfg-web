@@ -17,7 +17,7 @@ define([
             'click #submit-search': 'findUsers',
             'click #clear-search': 'clearQueryParams',
             'click #submit-prev': 'findPrevUsers',
-            'click #submit-next': 'findNextUsers',
+            'click #submit-next': 'findNextUsers'
         },
         render: function() {
             this.viewHolder.closeAll();

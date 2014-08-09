@@ -1,9 +1,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/pages/taglibs.jsp" %>
 
-<section id="main">
-    <!-- Main content -->
-</section>
 <section id="menu">
     <div id="locales">
         <a id="locale-en" href="#lang/en">{{- $.t("i18n.en.name") }}</a>
@@ -34,4 +31,8 @@
             <div id="admin-competition-states"><a href="#admin-competition-states">{{- $.t("menu.admin-competition-states") }}</a></div>
         </sec:authorize>
     </sec:authorize>
+</section>
+
+<section id="main">
+    <!-- Main content -->
 </section>

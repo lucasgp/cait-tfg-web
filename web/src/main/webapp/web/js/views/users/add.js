@@ -35,6 +35,10 @@ define([
                 },
                 error: NotificationHandler.onServerError
             });
+        },
+        close: function() {
+            this.unbind();
+            this.remove();
         }
     });
     return AddUserView;
