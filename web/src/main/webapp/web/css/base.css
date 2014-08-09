@@ -377,6 +377,12 @@ textarea {
     overflow: hidden;
 }
 
+#loginForm {
+    width: 350px;
+    margin: 0 auto;
+    clear: both;
+}
+
 /*
 Override Jquery styles
 */

@@ -16,6 +16,8 @@ require([
         fallbackLng: 'en'
     }, function() {
         document.title = $.t("app.title") + ' - ' + $.t("login.title");
+        $("#header-title").i18n();
+        $("#footer-content").i18n();
         $("#login-error").i18n();
         $("#login-logout").i18n();
         $("#username-label").i18n();
