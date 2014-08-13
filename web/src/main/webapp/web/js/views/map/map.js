@@ -53,17 +53,19 @@ define([
                     pointToLayer: this.setGeoJsonPoint
                 });
                 geoLayer.addTo(this.map);
-
                 var lineString = {"type": "LineString",
                     "coordinates": []
                 };
                 _.each(this.geoJson.features, function(feature, index, features) {
                     lineString.coordinates.push(feature.geometry.coordinates);
+                    if (index === 0) {
+                        feature.properties.start = true;
+                    } else if (index === features.length - 1) {
+                        feature.properties.finish = true;
+                    }
                 });
-
                 geoLayer.addData(lineString);
                 geoLayer.addData(this.geoJson);
-
                 this.map.fitBounds(geoLayer.getBounds());
             } else {
                 this.map.setZoom(this.zoom);
@@ -72,17 +74,52 @@ define([
             if (this.editable) {
                 this.map.on('click', this.setMapPoint, this);
             }
+
+            var legend = L.control({position: 'bottomright'});
+
+            legend.onAdd = function(map) {
+
+                var div = L.DomUtil.create('div', 'mapLegend');
+
+                div.innerHTML += '<i style="background:#3E87D1"></i> Start<br>'
+                        + '<i style="background:#2EB82E"></i> Finish<br>';
+
+                return div;
+            };
+
+            legend.addTo(this.map);
+
             return this;
         },
         setGeoJsonPoint: function(feature, latlng) {
-            return L.circleMarker(latlng, {
-                radius: 6,
-                fillColor: feature.properties.color || "#ff7800",
-                color: "#000",
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.8
-            });
+            if (feature.properties.start) {
+                return L.circleMarker(latlng, {
+                    radius: 10,
+                    fillColor: "#3E87D1",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 1
+                });
+            } else if (feature.properties.finish) {
+                return L.circleMarker(latlng, {
+                    radius: 10,
+                    fillColor: "#2EB82E",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 1
+                });
+            } else {
+                return L.circleMarker(latlng, {
+                    radius: 6,
+                    fillColor: feature.properties.color || "#ff7800",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                });
+            }
         },
         setGeoJsonFeature: function(feature, layer) {
             if (feature && feature.geometry && feature.geometry.type === 'Point') {
@@ -92,12 +129,10 @@ define([
                     content += 'Distance: ';
                     content += feature.properties.distance ? parseFloat(feature.properties.distance).toFixed(2) : '0';
                     content += ' meters';
-
                     if (feature.properties.order === null) {
                         content += '<br/>Avg Speed: ';
                         content += feature.properties.avgSpeed ? parseFloat(feature.properties.avgSpeed).toFixed(2) : '0';
                         content += ' km/h';
-
                         var dateTime = feature.properties.timestamp ? new Date(feature.properties.timestamp) : null;
                         if (dateTime) {
                             content += '<br/>Time: ';

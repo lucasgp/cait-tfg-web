@@ -23,6 +23,19 @@
     outline-offset: 0em;
 }
 
+.mapLegend {
+    line-height: 2em;
+    font-weight: bold;
+}
+
+.mapLegend i {
+    width: 2em;
+    height: 2em;
+    float: left;
+    margin-right: 1em;
+    opacity: 0.8;
+}
+
 /*
 Override Leaflet styles
 */
