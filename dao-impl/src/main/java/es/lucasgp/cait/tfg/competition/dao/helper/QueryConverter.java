@@ -14,8 +14,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class QueryConverter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(QueryConverter.class);
 
     private final Class<?> entityClass;
 
@@ -109,11 +113,9 @@ public class QueryConverter {
             }
 
         } catch (NoSuchMethodException ex) {
-            // TODO
-            ex.printStackTrace();
+            LOGGER.error("Wrong method", ex);
         } catch (SecurityException ex) {
-            // TODO
-            ex.printStackTrace();
+            LOGGER.error("Security violation", ex);
         }
 
         return convertedValue;
@@ -124,7 +126,7 @@ public class QueryConverter {
         Type returnType = null;
 
         if (type instanceof Class) {
-            Method method = Class.class.cast(type).getDeclaredMethod("get" + field.substring(0, 1).toUpperCase() + field.substring(1), (Class[]) null);
+            Method method = Class.class.cast(type).getMethod("get" + field.substring(0, 1).toUpperCase() + field.substring(1), (Class[]) null);
             returnType = method.getGenericReturnType();
 
             if (returnType instanceof ParameterizedType) {

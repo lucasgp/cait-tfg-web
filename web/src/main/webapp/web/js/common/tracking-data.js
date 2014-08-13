@@ -23,7 +23,10 @@ define([
                 var prevFeature = this.geoJSON.features[index - 1];
                 var distance = L.latLng(prevFeature.geometry.coordinates[1], prevFeature.geometry.coordinates[0]).distanceTo(L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]));
                 this.totalDistance += distance;
-                feature.properties.avgSpeed = (this.totalDistance / 1000) / ((feature.properties.timestamp - this.initTime) / (1000 * 60 * 60));
+                feature.properties.accumulatedTime = (feature.properties.timestamp - this.initTime);
+                feature.properties.avgSpeed = (this.totalDistance / 1000) / (feature.properties.accumulatedTime / (1000 * 60 * 60));
+                feature.properties.currentSpeed = (distance / 1000) / ((feature.properties.timestamp - prevFeature.properties.timestamp) / (1000 * 60 * 60));
+
             }
             feature.properties.distance = this.totalDistance;
             feature.properties.color = this.color || null;

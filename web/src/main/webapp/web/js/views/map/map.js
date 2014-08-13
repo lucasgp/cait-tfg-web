@@ -126,27 +126,45 @@ define([
                 var content = '';
                 if (feature.properties) {
 
-                    content += 'Distance: ';
-                    content += feature.properties.distance ? parseFloat(feature.properties.distance).toFixed(2) : '0';
+                    var dateTime = feature.properties.timestamp ? new Date(feature.properties.timestamp) : null;
+                    if (dateTime) {
+                        content += 'Timestamp: ';
+                        content += $.datepicker.formatDate(DateUtils.getFormat(), dateTime);
+                        content += ' ';
+                        content += dateTime.getHours() < 10 ? '0' : '';
+                        content += dateTime.getHours();
+                        content += ':';
+                        content += dateTime.getMinutes() < 10 ? '0' : '';
+                        content += dateTime.getMinutes();
+                        content += ':';
+                        content += dateTime.getSeconds() < 10 ? '0' : '';
+                        content += dateTime.getSeconds();
+                    }
+                    content += '<br/>Distance: ';
+                    content += feature.properties.distance ? parseFloat(feature.properties.distance).toFixed(2).toLocaleString() : '0';
                     content += ' meters';
                     if (feature.properties.order === null) {
+                        var accTime = feature.properties.accumulatedTime || null;
+                        if (accTime) {
+                            var seconds = (accTime / 1000) % 60;
+                            var minutes = (accTime / (1000 * 60)) % 60;
+                            var hours = (accTime / (1000 * 60 * 60));
+                            content += '<br/>Accumulated time: ';
+                            content += hours < 10 ? '0' : '';
+                            content += hours.toFixed(0);
+                            content += ':';
+                            content += minutes < 10 ? '0' : '';
+                            content += minutes.toFixed(0);
+                            content += ':';
+                            content += seconds < 10 ? '0' : '';
+                            content += seconds.toFixed(0);
+                        }
                         content += '<br/>Avg Speed: ';
                         content += feature.properties.avgSpeed ? parseFloat(feature.properties.avgSpeed).toFixed(2) : '0';
                         content += ' km/h';
-                        var dateTime = feature.properties.timestamp ? new Date(feature.properties.timestamp) : null;
-                        if (dateTime) {
-                            content += '<br/>Time: ';
-                            content += $.datepicker.formatDate(DateUtils.getFormat(), dateTime);
-                            content += ' ';
-                            content += dateTime.getHours() < 10 ? '0' : '';
-                            content += dateTime.getHours();
-                            content += ':';
-                            content += dateTime.getMinutes() < 10 ? '0' : '';
-                            content += dateTime.getMinutes();
-                            content += ':';
-                            content += dateTime.getSeconds() < 10 ? '0' : '';
-                            content += dateTime.getSeconds();
-                        }
+                        content += '<br/>Current Speed: ';
+                        content += feature.properties.currentSpeed ? parseFloat(feature.properties.currentSpeed).toFixed(2) : '0';
+                        content += ' km/h';
                     }
                 }
                 layer.bindPopup(content, {

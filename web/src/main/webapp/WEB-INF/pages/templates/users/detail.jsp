@@ -22,8 +22,3 @@
 <div id="user-participations">
 
 </div>
-
-<h3>{{- $.t("user.user-trackings") }}</h3>
-<div id="user-trackings">
-
-</div>

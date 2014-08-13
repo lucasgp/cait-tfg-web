@@ -7,13 +7,11 @@ define([
     'notif-handler',
     'models/user-role',
     'collections/competitions',
-    'collections/trackings',
     'collections/role-types',
     'views/common/combo',
     'views/competitions/list',
-    'views/trackings/list',
     'text!/web/templates/users/detail.html'
-], function($, _, Backbone, Page, ViewHolder, NotificationHandler, UserRoleModel, CompetitionCollection, TrackingCollection, RoleTypeCollection, ComboView, CompetitionListView, TrackingsListView, template) {
+], function($, _, Backbone, Page, ViewHolder, NotificationHandler, UserRoleModel, CompetitionCollection, RoleTypeCollection, ComboView, CompetitionListView, template) {
     var UserDetailView = Backbone.View.extend({
         tagName: 'div',
         className: 'user-detail',
@@ -24,7 +22,6 @@ define([
             this.$el.append(_.template(template, this.model.toJSON()));
             this.renderCompetitions();
             this.renderParticipations();
-            this.renderTrackings();
             if (this.$('#role-types').length > 0) {
                 this.userRole = new UserRoleModel();
                 this.listenTo(this.userRole, 'sync', function() {
@@ -73,27 +70,6 @@ define([
                 $appendTo.html(view.render().el);
             });
             competitions.findByQuery(query);
-        },
-        renderTrackings: function() {
-            var trackings = new TrackingCollection();
-            var query = new Page.Query({
-                page: 0,
-                size: 5,
-                sortProperty: 'startDate',
-                sortOrder: 'DESC',
-                params: {
-                    'userId': this.model.id
-                }
-            });
-            var viewHolder = this.viewHolder;
-            var $appendTo = this.$('#user-trackings');
-            this.listenTo(trackings, 'sync', function() {
-                var view = new TrackingsListView({query: query, collection: trackings});
-                viewHolder.register('userTrackingsView', view);
-                $appendTo.html(view.render().el);
-            });
-            trackings.findByQuery(query);
-
         },
         renderRolesCombo: function() {
             this.viewHolder.close('rolesView');

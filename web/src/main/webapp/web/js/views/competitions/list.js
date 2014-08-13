@@ -2,17 +2,19 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'page',
     'view-holder',
     'form',
     'date',
+    'collections/trackings',
     'collections/competition-types',
     'collections/competition-states',
     'views/competitions/view',
     'views/common/combo',
     'text!/web/templates/competitions/list.html'
 ], function($, _, Backbone,
-        ViewHolder, Form, DateUtils,
-        CompetitionTypeCollection, CompetitionStateCollection,
+        Page, ViewHolder, Form, DateUtils,
+        TrackingCollection, CompetitionTypeCollection, CompetitionStateCollection,
         CompetitionView, ComboView, competitionListTemplate) {
     var CompetitionsListView = Backbone.View.extend({
         initialize: function(options) {
@@ -64,7 +66,35 @@ define([
             states.fetch();
         },
         createCompetitionView: function(competition, index, list) {
-            var view = new CompetitionView({simple: this.simple, model: competition});
+
+            if (this.simple && this.query.params['participants.userId']) {
+                var participant = _.find(competition.get('participants'), function(participant) {
+                    return participant.userId === this.query.params['participants.userId'];
+                }, this);
+                if (participant) {
+                    var trackings = new TrackingCollection();
+                    var query = new Page.Query({
+                        page: 0,
+                        size: 5,
+                        sortProperty: 'startDate',
+                        sortOrder: 'DESC',
+                        params: {
+                            'id': participant.trackingId
+                        }
+                    });
+                    this.listenTo(trackings, 'sync', function() {
+                        this.renderCompetitionView(index, competition, trackings.at(0));
+                    }, this);
+                    trackings.findByQuery(query);
+                } else {
+                    this.renderCompetitionView(index, competition, null);
+                }
+            } else {
+                this.renderCompetitionView(index, competition, null);
+            }
+        },
+        renderCompetitionView: function(index, competition, tracking) {
+            var view = new CompetitionView({simple: this.simple, tracking: tracking, model: competition});
             this.viewHolder.register('compView' + index, view);
             this.$("#competition-list").append(view.render().el);
         },
