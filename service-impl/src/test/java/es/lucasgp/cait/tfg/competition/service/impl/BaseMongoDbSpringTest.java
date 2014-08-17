@@ -12,13 +12,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public abstract class BaseMongoDbSpringTest {
 
     private static final ApplicationContext CONTEXT;
-    private static final MongoDbEmbedRunner mongoRunner;
 
     static {
-        mongoRunner = new MongoDbEmbedRunner();
-        if (!mongoRunner.start()) {
-            throw new RuntimeException("An error ocurred while starting embedded MongoDB for unit testing");
-        }
         CONTEXT = new AnnotationConfigApplicationContext(ServicesSpringConfig.class);
     }
 
@@ -28,22 +23,22 @@ public abstract class BaseMongoDbSpringTest {
 
     @BeforeClass
     public static void setUpBaseContext() {
-
+        MongoDbEmbedRunner.init();
     }
 
     @Before
     public void setUpBase() {
-
+        MongoDbEmbedRunner.createDB();
     }
 
     @After
     public void tearDownBase() {
-        mongoRunner.dropDB();
+        MongoDbEmbedRunner.dropDB();
     }
 
     @AfterClass
     public static void tearDownBaseContext() {
-        mongoRunner.stop();
+
     }
 
 }

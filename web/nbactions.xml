@@ -7,4 +7,11 @@
                 <goal>tomcat:run</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-Integration Tests</actionName>
+            <displayName>Integration Tests</displayName>
+            <goals>
+                <goal>verify</goal>
+            </goals>
+        </action>
     </actions>

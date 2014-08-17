@@ -118,6 +118,48 @@ public class BaseServiceImplTest<T extends BaseEntity> extends BaseMongoDbSpring
     }
 
     @Test
+    public void testFindAllWithParams() {
+
+        T entityCreated = baseService.create(entity);
+
+        for (int i = 0; i < 10; i++) {
+            entity.setId(null);
+            entity.setVersion(0);
+            baseService.create(entity);
+        }
+
+        Map<String, String> params = new HashMap();
+        params.put("id", entityCreated.getId());
+
+        List<T> entitiesFound = baseService.findAll(params);
+
+        assertNotNull(entitiesFound);
+        assertEquals(1, entitiesFound.size());
+        assertEquals(entityCreated.getId(), entitiesFound.get(0).getId());
+    }
+
+    @Test
+    public void testFindAllWithParamAndOpConvention() {
+
+        T entityCreated = baseService.create(entity);
+
+        for (int i = 0; i < 10; i++) {
+            entity.setId(null);
+            entity.setVersion(0);
+            baseService.create(entity);
+        }
+
+        Map<String, String> params = new HashMap();
+        params.put("id-eq", entityCreated.getId());
+
+        List<T> entitiesFound = baseService.findAll(params);
+
+        assertNotNull(entitiesFound);
+        assertEquals(1, entitiesFound.size());
+        assertEquals(entityCreated.getId(), entitiesFound.get(0).getId());
+    }
+
+    @Test
     public void testFindAllPagedWithParams() {
 
         T entityCreated = baseService.create(entity);
