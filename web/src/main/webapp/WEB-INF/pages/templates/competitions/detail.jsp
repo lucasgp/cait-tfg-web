@@ -20,12 +20,20 @@
         <span>{{- $.t('competition.states.' + competitionStates.get(stateId).get('name')) }}</span>
         <span>{{- competitionTypes.get(typeId).get('name') }}</span>
         <sec:authorize access="isFullyAuthenticated()">
-            <span>
-                {{ if( user.id === ownerId ) { }}
-                <a href="#edit-competition/{{-id}}" class="edit" title="{{-$.t('competition.edit')}}"><i class="fa fa-edit"></i></a>
-                <a class="destroy" title="{{-$.t('competition.delete')}}"><i class="fa fa-trash-o"></i></a>
-                {{ } }}
-            </span>
+            <sec:authorize access="hasRole('ADMIN')">
+                <span>
+                    <a href="#edit-competition/{{-id}}" class="edit" title="{{-$.t('competition.edit')}}"><i class="fa fa-edit"></i></a>
+                    <a class="destroy" title="{{-$.t('competition.delete')}}"><i class="fa fa-trash-o"></i></a>
+                </span>
+            </sec:authorize>
+            <sec:authorize access="!hasRole('ADMIN')">
+                <span>
+                    {{ if( user.id === ownerId ) { }}
+                    <a href="#edit-competition/{{-id}}" class="edit" title="{{-$.t('competition.edit')}}"><i class="fa fa-edit"></i></a>
+                    <a class="destroy" title="{{-$.t('competition.delete')}}"><i class="fa fa-trash-o"></i></a>
+                    {{ } }}
+                </span>
+            </sec:authorize>
         </sec:authorize>
     </div>
 </div>

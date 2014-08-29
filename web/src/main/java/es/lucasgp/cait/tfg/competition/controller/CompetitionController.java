@@ -6,7 +6,6 @@ import es.lucasgp.cait.tfg.competition.exceptions.WrongIdException;
 import es.lucasgp.cait.tfg.competition.model.Comment;
 import es.lucasgp.cait.tfg.competition.model.Competition;
 import es.lucasgp.cait.tfg.competition.model.Participant;
-import es.lucasgp.cait.tfg.competition.model.geojson.Feature;
 import es.lucasgp.cait.tfg.competition.security.user.CompetitionUserDetails;
 import es.lucasgp.cait.tfg.competition.service.api.CompetitionService;
 import java.util.HashMap;
@@ -157,8 +156,11 @@ public class CompetitionController extends BaseController<Competition, String, C
     }
 
     private void validateOwner(final String id) throws NotOwnerException {
+        boolean isAdmin = false;
+        isAdmin = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+            .map((auth) -> auth.getAuthority().equalsIgnoreCase("ADMIN")).reduce(isAdmin, (accumulator, _item) -> accumulator || _item);
         String userId = CompetitionUserDetails.class.cast(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        if (!this.findById(id).getOwnerId().equalsIgnoreCase(userId)) {
+        if (!isAdmin && !this.findById(id).getOwnerId().equalsIgnoreCase(userId)) {
             throw new NotOwnerException();
         }
     }
