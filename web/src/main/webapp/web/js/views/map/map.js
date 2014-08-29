@@ -32,8 +32,13 @@ define([
                 }, {enableHighAccuracy: false});
             }
             this.zoom = 13;
-            this.tilesUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            //this.tilesUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            //this.tilesUrlHosts = ["a", "b", "c"];
+            //http://toolserver.org/tiles/hikebike/12/2213/1373.png
+            this.tilesUrl = 'http://toolserver.org/tiles/hikebike/{z}/{x}/{y}.png';
             this.tilesUrlHosts = ["a", "b", "c"];
+            //this.tilesUrl = 'http://{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png';
+            //this.tilesUrlHosts = ["otile1", "otile2", "otile3", "otile4"];
             this.geoJson = {"type": "FeatureCollection",
                 "features": []
             };
