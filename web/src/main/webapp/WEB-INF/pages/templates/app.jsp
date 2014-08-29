@@ -25,8 +25,8 @@
     <sec:authorize access="isFullyAuthenticated()">
         <div id="create-competition-button"><a href="#create-competition">{{- $.t("menu.create-competitions") }}</a></div>
         <sec:authorize access="hasRole('ADMIN')">
-            <div id="admin-users"><a href="#admin-users">{{- $.t("menu.admin-users") }}</a></div>
-            <div id="admin-role-types"><a href="#admin-user-roles">{{- $.t("menu.admin-role-types") }}</a></div>
+            <%--<div id="admin-users"><a href="#admin-users">{{- $.t("menu.admin-users") }}</a></div>--%>
+            <%--<div id="admin-role-types"><a href="#admin-user-roles">{{- $.t("menu.admin-role-types") }}</a></div>--%>
             <div id="admin-competition-types"><a href="#admin-competition-types">{{- $.t("menu.admin-competition-types") }}</a></div>
             <div id="admin-competition-states"><a href="#admin-competition-states">{{- $.t("menu.admin-competition-states") }}</a></div>
         </sec:authorize>
