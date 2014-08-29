@@ -1,13 +1,113 @@
 {
+    "app": {
+        "title": "Monitorización de Eventos Deportivos",
+        "footer": "Desarrollado por Lucas González Pascual - Trabajo de Fin de Grado - CAIT-ES. Univerdad de A Coruña."
+    },
+    "login": {
+        "title": "Autenticarse",
+        "error": "Nombre de usuario o contraseña no valido.",
+        "logout": "Has salido de la aplicación.",
+        "goto-main": "Has cambiado de idea? Ir a la página principal.",
+        "form": {
+            "username": "Nombre de usuario",
+            "password": "Contraseña",
+            "submit": "Autenticarse"
+        }
+    },
+    "signup": {
+        "title": "Registrarse"
+    },
+    "menu": {
+        "login": "Autenticarse",
+        "signup": "Registrarse",
+        "logout": "Salir",
+        "create-competitions": "Nueva competición",
+        "list-competitions": "Buscar competiciones",
+        "list-users": "Buscar usuarios",
+        "admin-users": "Gestionar usuarios",
+        "admin-role-types": "Gestionar tipos de roles",
+        "admin-competition-types": "Gestionar tipos de competiciones",
+        "admin-competition-states": "Gestionar estados de competiciones"
+    },
+    "i18n": {
+        "en": {
+            "name": "English",
+            "dateformat": "mm-dd-yy"
+        },
+        "es": {
+            "name": "Español",
+            "dateformat": "dd-mm-yy"
+        }
+    },
     "competition": {
         "name": "Nombre",
         "description": "Descripción",
+        "start-date": "Fecha de inicio",
+        "finish-date": "Fecha de fin",
+        "list-empty": "No se han encontrado competiciones...",
+        "join": "Participar en la competición",
+        "edit": "Modificar competición",
+        "delete": "Borrar competición",
+        "participants": "Participantes en esta competición",
+        "comments": "Comentarios de los usuarios",
         "form": {
-            "name-placeholder": "Nombre de la competición..."
+            "name-placeholder": "¿Cuá es el nombre de la competición?",
+            "description-placeholder": "¿Cómo es esta competición?",
+            "type": "Tipo",
+            "state": "Estado",
+            "route-map": "Mapa de la ruta"
         }
     },
+    "user": {
+        "user-competitions": "Competiciones",
+        "user-participations": "Participaciones",
+        "user-trackings": "Seguimientos",
+        "user-role": "Rol",
+        "list-empty": "No se han encontrado usuarios...",
+        "form": {
+            "name-placeholder": "¿Cúal es tu nombre?",
+            "surname-placeholder": "¿Cúales son tus apellidos?",
+            "username-placeholder": "¿Qué nombre de usuario quieres?",
+            "password-placeholder": "Introduce tu contraseña",
+            "phone-placeholder": "¿Cúal es tu número de teléfono?",
+            "email-placeholder": "tu@correoelectronico.com",
+            "submit": "Registrarse"
+        },
+        "search": {
+            "username-placeholder": "¿A quién estás buscando?"
+        }
+    },
+    "comment": {
+        "list-empty": "Todavía no hay comentarios. ¿Algún comentario que quieras compartir?",
+        "form": {
+            "title-placeholder": "¿Sobre qué vas a escribir?",
+            "content-placeholder": "Escríbelo!",
+            "submit": "Comentar"
+        }
+    },
+    "participant": {
+        "list-empty": "Todavía no hay participantes. ¿Quieres participar?",
+        "update-title": "Cambiar puntuación"
+    },
+    "tracking": {
+        "list-empty": "Todavía no hay seguimientos..."
+    },
+    "common": {
+        "list-empty": "Sin resultados...",
+        "name-placeholder": "Nombre...",
+        "description-placeholder": "Descripción..."
+    },
     "form": {
-        "submit": "Enviar"
+        "submit": "Enviar",
+        "save": "Guardar",
+        "search": "Buscar",
+        "clear": "Limpiar",
+        "reset": "Reiniciar",
+        "delete": "Borrar",
+        "from": "Desde",
+        "to": "Hasta",
+        "previous": "Anterior",
+        "next": "Siguiente",
+        "all": "Todos"
     }
-
 }
