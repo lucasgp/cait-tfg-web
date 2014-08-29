@@ -160,7 +160,7 @@
             <version>${embed.mongo.version}</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -187,29 +187,6 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
-                    <webResources>
-                        <resource>
-                            <!-- HTML -->
-                            <directory>${basedir}/src/main/webapp/web</directory>
-                            <includes>
-                                <include>main.html</include>
-                            </includes>
-                        </resource>
-                        <resource>
-                            <!-- CSS -->
-                            <directory>${basedir}/src/main/webapp/web/css</directory>
-                            <includes>
-                                <include>*.css</include>
-                            </includes>
-                        </resource>
-                        <resource>
-                            <!-- Javascript -->
-                            <directory>${basedir}/src/main/webapp/web/js</directory>
-                            <includes>
-                                <include>**/*.js</include>
-                            </includes>
-                        </resource>
-                    </webResources>
                 </configuration>
             </plugin>
             <plugin>
@@ -232,6 +209,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <skip>true</skip>
                     <container>
                         <containerId>tomcat8x</containerId>
                         <zipUrlInstaller>
