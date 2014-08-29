@@ -59,6 +59,9 @@ define([
             var states = new CompetitionStateCollection();
             var that = this;
             this.listenTo(states, 'sync', function() {
+                states.forEach(function(state, index, list) {
+                    state.set('name', $.t('competition.states.' + state.get('name')));
+                }, this);
                 var view = new ComboView({elementId: that.formPrefix + 'stateId', includeOptionAll: true, collection: states});
                 that.viewHolder.register('statesView', view);
                 that.$('#competition-search-states').html(view.render().el);

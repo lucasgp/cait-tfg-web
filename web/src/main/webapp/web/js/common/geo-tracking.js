@@ -3,8 +3,9 @@ define([
     'underscore',
     'notif-handler',
     'geo',
+    'i18n',
     'collections/geo-features'
-], function($, _, NotificationHandler, geoPosition, GeoFeatureCollection) {
+], function($, _, NotificationHandler, geoPosition, i18n, GeoFeatureCollection) {
 
     var GeolocationTracking = {
         _isTracking: false,
@@ -56,7 +57,7 @@ define([
                         }, {enableHighAccuracy: true});
                     }, this.interval);
                 }
-                NotificationHandler.notify('information', 'Tracking started');
+                NotificationHandler.notify('information', $.t('tracking.start'));
                 this._isTracking = true;
             } else {
                 NotificationHandler.onGeolocationNotSupported();
@@ -71,7 +72,7 @@ define([
                     this.geolocationIntervalId = null;
                 }
                 this._isTracking = false;
-                NotificationHandler.notify('information', 'Tracking stoped');
+                NotificationHandler.notify('information', $.t('tracking.finish'));
             }
         }
     };

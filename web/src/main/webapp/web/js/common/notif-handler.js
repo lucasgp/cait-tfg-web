@@ -1,6 +1,8 @@
 define([
-    'noty'
-], function(noty) {
+    'jquery',
+    'noty',
+    'i18n'
+], function($, noty, i18n) {
     var NotificationHandler = {
         onModelSaveSuccess: function(model, response, options) {
 
@@ -15,33 +17,33 @@ define([
             });
             message += ')';
 
-            NotificationHandler.notify('success', 'Entity updated successfully ' + message);
+            NotificationHandler.notify('success', $.t('notification.ok'));
         },
         onModelDeleteSuccess: function(model, response, options) {
-            NotificationHandler.notify('success', 'Entity deleted successfully');
+            NotificationHandler.notify('success', $.t('notification.ok'));
         },
         onModelValidationError: function(model, error) {
             NotificationHandler.notify('warning', error);
         },
         onServerError: function(entity, response, options) {
-            NotificationHandler.notify('error', 'Error ' + response.status);
+            NotificationHandler.notify('error', $.t('notification.ko'));
         },
         onDefaultRoute: function() {
-            NotificationHandler.notify('warning', "The page you requested doesn't exist");
+            NotificationHandler.notify('warning', $.t('notification.wrongPage'));
         },
         onGeolocationNotSupported: function() {
-            NotificationHandler.notify('warning', "Geolocation not supported");
+            NotificationHandler.notify('warning', $.t('notification.geoNotSupported'));
         },
         confirmAction: function(callbackOk, context) {
-            NotificationHandler.notify('warning', 'Are you sure you want to continue?', 0, [
-                {addClass: 'btn btn-primary', text: 'Ok', onClick: function($noty) {
+            NotificationHandler.notify('warning', $.t('notification.confirm'), 0, [
+                {addClass: 'btn btn-primary', text: $.t('form.ok'), onClick: function($noty) {
                         $noty.close();
                         callbackOk.call(context);
                     }
                 },
-                {addClass: 'btn btn-danger', text: 'Cancel', onClick: function($noty) {
+                {addClass: 'btn btn-danger', text: $.t('form.cancel'), onClick: function($noty) {
                         $noty.close();
-                        NotificationHandler.notify('error', 'Action cancelled');
+                        NotificationHandler.notify('warning', $.t('notification.cancel'));
                     }
                 }
             ]);

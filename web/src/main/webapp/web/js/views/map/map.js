@@ -4,9 +4,10 @@ define([
     'backbone',
     'leaflet',
     'geo',
+    'i18n',
     'date',
     'notif-handler'
-], function($, _, Backbone, L, geoPosition,
+], function($, _, Backbone, L, geoPosition, i18n,
         DateUtils, NotificationHandler) {
     var MapView = Backbone.View.extend({
         tagName: 'div',
@@ -133,7 +134,7 @@ define([
 
                     var dateTime = feature.properties.timestamp ? new Date(feature.properties.timestamp) : null;
                     if (dateTime) {
-                        content += 'Timestamp: ';
+                        content += $.t('tracking.timestamp');
                         content += $.datepicker.formatDate(DateUtils.getFormat(), dateTime);
                         content += ' ';
                         content += dateTime.getHours() < 10 ? '0' : '';
@@ -145,16 +146,16 @@ define([
                         content += dateTime.getSeconds() < 10 ? '0' : '';
                         content += dateTime.getSeconds();
                     }
-                    content += '<br/>Distance: ';
+                    content += '<br/>' + $.t('tracking.distance');
                     content += feature.properties.distance ? parseFloat(feature.properties.distance).toFixed(2).toLocaleString() : '0';
-                    content += ' meters';
+                    content += $.t('tracking.meters');
                     if (feature.properties.order === null) {
                         var accTime = feature.properties.accumulatedTime || null;
                         if (accTime) {
                             var seconds = (accTime / 1000) % 60;
                             var minutes = (accTime / (1000 * 60)) % 60;
                             var hours = (accTime / (1000 * 60 * 60));
-                            content += '<br/>Accumulated time: ';
+                            content += '<br/>' + $.t('tracking.accTime');
                             content += hours < 10 ? '0' : '';
                             content += hours.toFixed(0);
                             content += ':';
@@ -164,10 +165,10 @@ define([
                             content += seconds < 10 ? '0' : '';
                             content += seconds.toFixed(0);
                         }
-                        content += '<br/>Avg Speed: ';
+                        content += '<br/>' + $.t('tracking.avgSpeed');
                         content += feature.properties.avgSpeed ? parseFloat(feature.properties.avgSpeed).toFixed(2) : '0';
                         content += ' km/h';
-                        content += '<br/>Current Speed: ';
+                        content += '<br/>' + $.t('tracking.currSpeed');
                         content += feature.properties.currentSpeed ? parseFloat(feature.properties.currentSpeed).toFixed(2) : '0';
                         content += ' km/h';
                     }

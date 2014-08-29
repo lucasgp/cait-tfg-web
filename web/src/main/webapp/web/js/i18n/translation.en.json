@@ -56,6 +56,12 @@
             "type": "Type",
             "state": "State",
             "route-map": "Route map"
+        },
+        "states": {
+            "Open": "Open",
+            "Closed": "Closed",
+            "Ongoing": "Ongoing",
+            "Finished": "Finished"
         }
     },
     "user": {
@@ -90,7 +96,15 @@
         "update-title": "Change participant score"
     },
     "tracking": {
-        "list-empty": "No trackings yet..."
+        "list-empty": "No trackings yet...",
+        "start": "Tracking started",
+        "finish": "Tracking finished",
+        "timestamp": "Timestamp: ",
+        "distance": "Distance: ",
+        "meters": " meters",
+        "accTime": "Accumulated time: ",
+        "avgSpeed": "Average Speed: ",
+        "currSpeed": "Current Speed: "
     },
     "common": {
         "list-empty": "No results...",
@@ -108,6 +122,16 @@
         "to": "To",
         "previous": "Previous",
         "next": "Next",
-        "all": "All"
+        "all": "All",
+        "ok": "Ok",
+        "cancel": "Cancel"
+    },
+    "notification": {
+        "ok": "Action performed successfully",
+        "ko": "Can't perform the action right now. Please, try again later",
+        "wrongPage": "Requested page doesn't exist",
+        "geoNotSupported": "Geolocation not supported",
+        "confirm": "Can't undo the operation, ¿continue?Si confirmas la acción no se podrá deshacer, ¿deseas continuar?",
+        "cancel": "Action cancelled"
     }
 }

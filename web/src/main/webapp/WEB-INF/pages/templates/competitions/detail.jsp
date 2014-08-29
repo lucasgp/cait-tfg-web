@@ -17,7 +17,7 @@
         {{ if(startDate !== finishDate) { }}
         &nbsp;-&nbsp;<span>{{- $.t("competition.finish-date") }}&nbsp;{{- finishDate != null ? $.datepicker.formatDate(DateUtils.getFormat(), new Date(finishDate)) : '' }}</span>
         {{ } }}
-        <span>{{- competitionStates.get(stateId).get('name') }}</span>
+        <span>{{- $.t('competition.states.' + competitionStates.get(stateId).get('name')) }}</span>
         <span>{{- competitionTypes.get(typeId).get('name') }}</span>
         <sec:authorize access="isFullyAuthenticated()">
             <span>

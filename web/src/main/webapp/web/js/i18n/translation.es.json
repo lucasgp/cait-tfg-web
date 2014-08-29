@@ -56,6 +56,12 @@
             "type": "Tipo",
             "state": "Estado",
             "route-map": "Mapa de la ruta"
+        },
+        "states": {
+            "Open": "Abierta",
+            "Closed": "Cerrada",
+            "Ongoing": "En curso",
+            "Finished": "Finalizada"
         }
     },
     "user": {
@@ -90,7 +96,15 @@
         "update-title": "Cambiar puntuación"
     },
     "tracking": {
-        "list-empty": "Todavía no hay seguimientos..."
+        "list-empty": "Todavía no hay seguimientos...",
+        "start": "Seguimiento iniciado",
+        "finish": "Seguimiento finalizado",
+        "timestamp": "Hora: ",
+        "distance": "Distancia: ",
+        "meters": " metros",
+        "accTime": "Tiempo acumulado: ",
+        "avgSpeed": "Velocidad media: ",
+        "currSpeed": "Velocidad actual: "
     },
     "common": {
         "list-empty": "Sin resultados...",
@@ -108,6 +122,16 @@
         "to": "Hasta",
         "previous": "Anterior",
         "next": "Siguiente",
-        "all": "Todos"
+        "all": "Todos",
+        "ok": "Sí",
+        "cancel": "Cancelar"
+    },
+    "notification": {
+        "ok": "Acción realizada satisfactoriamente",
+        "ko": "No se ha podido realizar la acción. Por favor, inténtelo de nuevo más tarde",
+        "wrongPage": "La página solicitada no existe",
+        "geoNotSupported": "Geolocalización no soportada",
+        "confirm": "La acción no se puede deshacer, ¿deseas continuar?",
+        "cancel": "Acción cancelada"
     }
 }
