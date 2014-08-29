@@ -190,8 +190,14 @@ textarea {
 }
 
 #menu div {
-    margin-top: 0.5em;
+    margin: 0.5em 1em 0 0;
+    border-bottom: 0.15em solid white;
 }
+
+#menu div a {
+    margin-left: 1em;
+}
+
 #main {
     width: 80%;
     position: relative;
@@ -378,7 +384,7 @@ textarea {
 }
 
 #loginForm {
-    width: 350px;
+    width: 355px;
     margin: 0 auto;
     clear: both;
 }
