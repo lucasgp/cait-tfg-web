@@ -10,5 +10,5 @@ public interface UserService extends BaseService<User, String> {
 
     List<User> findByUsername(final String name);
 
-    public List<SecurityUser> findSecurityUserByUsername(String username);
+    List<SecurityUser> findSecurityUserByUsername(String username);
 }
